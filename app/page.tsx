@@ -2,7 +2,7 @@
 
 export default function Home() {
 	return (
-		<div className="p-2">
+		<div className="w-full md:h-full basis-full p-2">
 			test
 		</div>
 	)

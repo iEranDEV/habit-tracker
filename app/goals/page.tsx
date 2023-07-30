@@ -2,7 +2,7 @@
 
 export default function GoalsPage() {
 	return (
-		<div className="w-full md:h-full basis-full p-2">
+		<div className="h-full w-[1000px] bg-red-500">
 			goals
 		</div>
 	)

@@ -25,9 +25,3 @@ body {
 		)
 		rgb(var(--background-start-rgb));
 }*/
-
-body {
-	@apply bg-neutral-50;
-	height: 100svh;
-	width: 100svw;
-}

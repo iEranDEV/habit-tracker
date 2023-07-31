@@ -2,10 +2,9 @@
 
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import NavBar from './components/navbar/NavBar'
+import { Nunito } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Nunito({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
 	title: 'Habit tracker app',
@@ -19,7 +18,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={inter.className + ' flex justify-center items-center'}>
+			<body className={font.className + ' bg-neutral-50 flex justify-center items-center'}>
 				{children}
 			</body>
 		</html>

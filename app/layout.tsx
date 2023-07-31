@@ -19,11 +19,11 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<ModalContextProvider>
-				<body className={font.className + ' bg-neutral-50 flex justify-center items-center'}>
+			<body className={font.className + ' bg-neutral-50 flex justify-center items-center'}>
+				<ModalContextProvider>
 					{children}
-				</body>
-			</ModalContextProvider>
+				</ModalContextProvider>
+			</body>
 		</html>
 	)
 }

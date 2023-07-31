@@ -3,7 +3,7 @@ import Modal from "./Modal";
 export default function SettingsModal() {
 
     return (
-        <Modal>
+        <Modal title="Settings">
             <div>settings</div>
         </Modal>
     )

@@ -1,8 +1,12 @@
 import { ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
 import ViewModeToggler from "./ViewModeToggler";
 import IconButton from "../utils/IconButton";
+import { ModalContext } from "@/context/ModalContext";
+import { useContext } from 'react';
 
 export default function ControlPanel() {
+
+    const modalContext = useContext(ModalContext);
 
     return (
         <div className="w-full py-2 bg-neutral-50 flex justify-between items-center">
@@ -21,9 +25,12 @@ export default function ControlPanel() {
             {/* View mode, new habit button */}
             <div className="flex items-center gap-2">
                 <ViewModeToggler />
-                <div className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg">
+                <div 
+                    onClick={() => modalContext.setModal('new_habit')}
+                    className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
+                >
                     <Plus />
-                    <span>Add habit</span>
+                    <div>Add habit</div>
                 </div>
             </div>
         

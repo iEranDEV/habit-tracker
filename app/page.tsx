@@ -4,7 +4,6 @@ import HabitList from "./components/habit-list/HabitList";
 import HabitListHeader from "./components/habit-list/HabitListHeader";
 import Header from "./components/utils/Header";
 import ControlPanel from "./components/control-panel/ControlPanel";
-import ModalManager from "./components/modal/ModalManager";
 
 export default function Home() {
 
@@ -30,8 +29,6 @@ export default function Home() {
 					<HabitList />
 				</div>
 			</div>
-
-			<ModalManager />
 		</div>
 	)
 }

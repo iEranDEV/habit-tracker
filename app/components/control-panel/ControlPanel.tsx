@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
 import ViewModeToggler from "./ViewModeToggler";
+import IconButton from "../utils/IconButton";
 
 export default function ControlPanel() {
 
@@ -8,18 +9,9 @@ export default function ControlPanel() {
 							
             {/* Date & control buttons */}
             <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 text-neutral-400">
-
-                    {/* Left arrow */}
-                    <div className="h-10 w-10 flex justify-center cursor-pointer transition-all bg-neutral-200 hover:bg-purple-100 hover:text-purple-400 items-center rounded-lg">
-                        <ChevronLeft />
-                    </div>
-
-                    {/* Right arrow */}
-                    <div className="h-10 w-10 flex justify-center cursor-pointer transition-all bg-neutral-200 hover:bg-purple-100 hover:text-purple-400 items-center rounded-lg">
-                        <ChevronRight />
-                    </div>
-
+                <div className="flex items-center gap-2">
+                    <IconButton icon={<ChevronLeft />} />
+                    <IconButton icon={<ChevronRight />} />
                 </div>
                 <div className="text-lg font-semibold flex gap-2 items-center">
                     <span>Mon, 31 July</span> <MoveRight /> <span>Sun, 6 August</span>

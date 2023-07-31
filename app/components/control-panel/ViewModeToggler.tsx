@@ -8,7 +8,7 @@ export default function ViewModeToggler() {
     const options = ['day', 'week'];
 
     return (
-        <div className="rounded-lg h-10 flex justify-between bg-neutral-200 p-1">
+        <div className="select-none rounded-lg h-10 flex justify-between bg-neutral-200 p-1">
             {options.map((option) => (
                 <div key={option} className="relative w-20 cursor-pointer" onClick={() => setViewMode(option)}>
                     {viewMode === option && (

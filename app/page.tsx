@@ -4,9 +4,10 @@ import HabitList from "./components/habit-list/HabitList";
 import HabitListHeader from "./components/habit-list/HabitListHeader";
 import Header from "./components/utils/Header";
 import ControlPanel from "./components/control-panel/ControlPanel";
-
+import ModalManager from "./components/modal/ModalManager";
 
 export default function Home() {
+
 	return (
 		<div className="w-screen lg:w-[1024px] py-10 text-neutral-700">
 
@@ -29,6 +30,8 @@ export default function Home() {
 					<HabitList />
 				</div>
 			</div>
+
+			<ModalManager />
 		</div>
 	)
 }

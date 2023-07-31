@@ -1,4 +1,4 @@
-import SettingsModal from "@/app/components/modal/SettingsModal";
+import SettingsModal from "@/app/components/modal/settings-modal/SettingsModal";
 import TestModal from "@/app/components/modal/TestModal";
 import NewHabitModal from "@/app/components/modal/new-habit/NewHabitModal";
 import { AnimatePresence } from "framer-motion";
@@ -15,7 +15,7 @@ export default function ModalContextProvider({ children }: { children: React.Rea
 
     return (
         <ModalContext.Provider value={{modal, setModal}}>
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence>
                 {
                     {
                         'test': <TestModal />,

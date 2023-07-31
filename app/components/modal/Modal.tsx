@@ -6,11 +6,10 @@ import { X } from "lucide-react"
 
 type ModalProps = {
     children: JSX.Element,
-    title: string,
-    headerButtons?: JSX.Element
+    title: string
 }
 
-export default function Modal({ children, title, headerButtons }: ModalProps) {
+export default function Modal({ children, title }: ModalProps) {
 
     const modalContext = useContext(ModalContext);
 
@@ -24,7 +23,7 @@ export default function Modal({ children, title, headerButtons }: ModalProps) {
                 initial={{ x: -300, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }} 
                 exit={{ x: -300, opacity: 0 }}
-                className="bg-neutral-50 flex flex-col p-2 w-[500px] rounded-lg"
+                className="bg-neutral-50 flex flex-col p-2 w-screen lg:w-[750px] rounded-lg"
             >
                 
                 {/* Modal header */}
@@ -33,14 +32,12 @@ export default function Modal({ children, title, headerButtons }: ModalProps) {
                     {/* Modal title */}
                     <p className="font-semibold text-lg">{title}</p>
 
-                    {/* Buttons */}
-                    {headerButtons ? headerButtons : (
-                        <IconButton onClick={() => modalContext.setModal('')} icon={<X />} />
-                    )}
+                    {/* Exit button */}
+                    <IconButton onClick={() => modalContext.setModal('')} icon={<X />} />
                 </div>
 
                 {/* Modal body */}
-                <div className="p-2">
+                <div className="pt-2">
                     {children}
                 </div>
 

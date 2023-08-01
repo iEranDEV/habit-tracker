@@ -1,5 +1,3 @@
-'use client';
-
 import ModalContextProvider from '@/context/ModalContext';
 import './globals.css'
 import type { Metadata } from 'next'

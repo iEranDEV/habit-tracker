@@ -1,3 +1,5 @@
+'use client';
+
 import SettingsModal from "@/app/components/modal/settings-modal/SettingsModal";
 import TestModal from "@/app/components/modal/TestModal";
 import NewHabitModal from "@/app/components/modal/new-habit/NewHabitModal";

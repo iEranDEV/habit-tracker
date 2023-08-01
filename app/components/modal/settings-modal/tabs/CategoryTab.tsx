@@ -1,8 +1,11 @@
 import { Bike, Briefcase, GraduationCap, HeartPulse, Home, Leaf, MailQuestion, MessagesSquare, Plus, Ticket, Wallet } from "lucide-react";
 import CategoryTabItem from "./CategoryTabItem";
 import IconButton from "@/app/components/utils/IconButton";
+import dynamic from "next/dynamic";
 
 export default function CategoryTab() {
+
+    const IconPicker = dynamic(() => import('./IconPicker'));
 
     return (
         <div className="w-full h-full flex flex-col gap-4">
@@ -36,13 +39,26 @@ export default function CategoryTab() {
                         <div className="h-8 w-8 flex justify-center items-center">
                             <MailQuestion size={16} />
                         </div>
+                        
                         <input type="text" className="rounded-r-lg bg-neutral-50 px-2 placeholder-neutral-200" placeholder="Enter habit name" />
                     </div>
+
+                    
 
                     <IconButton icon={<Plus size={16} />} />
                 </form>
 
-            
+                {/* Icon picker */}
+                {/*
+                    <div className="bg-neutral-50 border rounded-lg border-neutral-200 shadow p-2 top-4 -translate-y-full left-0 gap-2 absolute w-72">
+                        <div className="w-full h-12 flex gap-2 border-b border-neutral-200">
+                            search bar  
+                        </div>
+                        <div className="grid grid-cols-8 h-60 w-full overflow-y-scroll">
+                            <IconPicker />
+                        </div>
+                    </div>
+                */}
 
             </div>
         </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "../Modal";
 import SettingsModalNav from "./SettingsModalNav";
-import CategoryTab from "./tabs/CategoryTab";
+import CategoryTab from "./tabs/category-tab/CategoryTab";
 import AccountTab from "./tabs/AccountTab";
 
 export default function SettingsModal() {

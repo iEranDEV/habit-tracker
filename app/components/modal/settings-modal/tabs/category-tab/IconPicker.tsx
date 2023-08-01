@@ -8,7 +8,11 @@ export default async function IconPicker() {
         <>
             {keys.map((key) => {
                 const LucideIcon = icons[key];
-                return <LucideIcon key={key} />
+                return (
+                    <div key={key} className="bg-neutral-50 p-1 rounded-lg hover:brightness-95">
+                        <LucideIcon />
+                    </div>
+                )
             })}
         </>
     )

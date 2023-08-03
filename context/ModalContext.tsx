@@ -13,7 +13,7 @@ export const ModalContext = createContext({
 
 export default function ModalContextProvider({ children }: { children: React.ReactNode }) {
 
-    const [modal, setModal] = useState<string>('test');
+    const [modal, setModal] = useState<string>('');
 
     return (
         <ModalContext.Provider value={{modal, setModal}}>

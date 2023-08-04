@@ -10,9 +10,7 @@ export default function SignInForm() {
     return (
         <FormProvider {...methods}>
             <form noValidate onSubmit={methods.handleSubmit(onSubmit)} className='flex flex-col justify-center items-center w-full gap-6'>
-
-                <AuthFormInput id='name' icon={<User size={20} />} name={'Name'}  />
-
+                
                 <AuthFormInput id='email' icon={<Mail size={20} />} name='Email' typeProp='email' />
 
                 <AuthFormInput id='password' icon={<KeyRound size={20} />} name='Password' typeProp='password' password />

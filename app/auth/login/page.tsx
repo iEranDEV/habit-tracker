@@ -1,9 +1,8 @@
 'use client';
 
-import { Check, KeyRound, Mail } from 'lucide-react';
 import Image from 'next/image'
 import Link from 'next/link';
-import AuthForInput from '../components/AuthFormInput';
+import SignInForm from './components/SignInForm';
 
 export default function LoginPage() {
 
@@ -40,33 +39,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* Form */}
-                <form onSubmit={(e) => e.preventDefault()} className='flex flex-col justify-center items-center w-full gap-4'>
-
-                    <AuthForInput id='mail' icon={<Mail size={20} />} name='Email' typeProp='mail' />
-
-                    <AuthForInput id='password' icon={<KeyRound size={20} />} name='Password' typeProp='password' password />
-
-                    {/* Additional options */}
-                    <div className='flex justify-between items-center w-full'>
-
-                        {/* Remember me */}
-                        <div className='flex items-center gap-2'>
-                            <div className='h-4 w-4 flex justify-center items-center rounded-[5px] bg-purple-400 text-neutral-50'>
-                                <Check size={14} strokeWidth={3} />
-                            </div>
-                            <p className='text-neutral-400 text-sm'>Remember me?</p>
-                        </div>
-
-                        {/* Forgot passowrd */}
-                        <a href="#" className='text-purple-400 text-sm font-semibold'>Forgot password?</a>
-                    </div>
-
-                    {/* Submit button */}
-                    <div className="flex cursor-pointer hover:brightness-95 transition-all justify-center w-full text-neutral-50 items-center px-4 py-2 bg-purple-400 rounded-lg">
-                        Log in
-                    </div>
-
-                </form>
+                <SignInForm />
 
                 {/* Register link */}
                 <div className='flex gap-2 items-center'>

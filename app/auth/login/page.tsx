@@ -41,7 +41,7 @@ export default function LoginPage() {
 
                 {/* Register link */}
                 <div className='flex gap-2 items-center'>
-                    <span className='text-neutral-400 text-sm'>Don't have an account?</span>
+                    <span className='text-neutral-400 text-sm'>Don&apos;t have an account?</span>
                     <Link href='/auth/signup'>
                         <p className='text-purple-400 text-sm font-semibold'>Create an account</p>
                     </Link>

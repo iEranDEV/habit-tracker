@@ -17,7 +17,7 @@ export default function SignUpForm() {
 
     const onSubmit = async (data: any) => {
         setLoading(true);
-        const { result, error } = await signUp(data.email, data.password);
+        const { result, error } = await signUp(data.name, data.email, data.password);
         setLoading(false);
 
         if(error) {

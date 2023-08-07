@@ -1,4 +1,3 @@
-import ModalContextProvider from '@/context/ModalContext';
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
@@ -20,9 +19,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={font.className + ' bg-neutral-50 flex justify-center items-center'}>
 				<AuthContextProvider>
-					<ModalContextProvider>
-						{children}
-					</ModalContextProvider>
+					{children}
 				</AuthContextProvider>
 			</body>
 		</html>

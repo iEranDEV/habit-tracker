@@ -1,14 +1,19 @@
 import { FirebaseError } from "firebase/app";
 import firebase_app from "./config";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { addUser } from "./user";
 
 const auth = getAuth(firebase_app);
 
-export async function signUp(email: string, password: string) {
-    let result = null, error = null;
-    result = await createUserWithEmailAndPassword(auth, email, password).catch((e: FirebaseError) => {
+export async function signUp(name: string, email: string, password: string) {
+    let error = null;
+    const result = await createUserWithEmailAndPassword(auth, email, password).catch((e: FirebaseError) => {
         error = e;
     });
+
+    if(result) {
+        addUser(result.user.uid, name, email)
+    }
 
     return { result, error };
 }

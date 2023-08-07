@@ -3,23 +3,25 @@
 import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
 import firebase_app from '@/firebase/config';
 import { createContext, useEffect, useState } from 'react';
-import Loader from '@/app/components/utils/Loader';
 import { Loader2 } from 'lucide-react';
 
 const auth = getAuth(firebase_app);
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext({
+    loggedUser: null as User | null
+});
 
-export const AuthContextProvider = ({ children }: { children: JSX.Element }) => {
-    const [user, setUser] = useState<User | null>(null);
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const [loggedUser, setLoggedUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setLoading(true);
             if (user) {
-                setUser(user);
+                setLoggedUser(user);
             } else {
-                setUser(null);
+                setLoggedUser(null);
             }
             setLoading(false);
         });
@@ -28,7 +30,7 @@ export const AuthContextProvider = ({ children }: { children: JSX.Element }) => 
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ loggedUser }}>
             {loading ? (
                 <div className='w-[100svw] h-[100svh] bg-neutral-50 flex justify-center items-center'>
                     <div className='animate-spin'>

@@ -14,12 +14,12 @@ export default function TestModal() {
         return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
 
-    const color = new Values('#f5ddce');
+    const color = new Values('#4d7c0f');
 
     return (
         <Modal title="Test">
             <div className="w-full h-full flex flex-col">
-                <div className="w-full h-10" style={{ backgroundColor: '#f5ddce' }}></div>
+                <div className="w-full h-10" style={{ backgroundColor: '#4d7c0f' }}></div>
                 <div className="w-full h-10" style={{ backgroundColor: color.tints(10)[7].hexString() }}></div>
 
                 <div className="mt-8 flex flex-col gap-2">

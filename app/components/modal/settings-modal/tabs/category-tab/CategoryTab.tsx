@@ -1,8 +1,11 @@
-import { Bike, Briefcase, GraduationCap, HeartPulse, Home, Leaf, MessagesSquare, Ticket, Wallet } from "lucide-react";
+import { Bike, Briefcase, GraduationCap, HeartPulse, Home, Leaf, MessagesSquare, Plus, Ticket, Wallet } from "lucide-react";
 import CategoryTabItem from "./CategoryTabItem";
-import NewCategoryForm from "./NewCategoryForm";
+import { useContext } from "react";
+import { ModalContext } from "@/context/ModalContext";
 
 export default function CategoryTab() {
+
+    const modalContext = useContext(ModalContext);
 
     return (
         <div className="w-full h-full flex flex-col gap-4">
@@ -30,9 +33,19 @@ export default function CategoryTab() {
             <div className="flex flex-col gap-2 relative">
                 <p className="text-neutral-400 text-sm">Custom categories</p>
 
-                {/* New category form */}
-                <NewCategoryForm />
+                <div className="w-full flex justify-center items-center h-20">
+                    
+                </div>
 
+                <div className="w-full flex justify-end">
+                    <div 
+                        onClick={() => modalContext.setModal('new_category')}
+                        className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
+                    >
+                        <Plus />
+                        <div>Add category</div>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -5,6 +5,7 @@ import TestModal from "@/app/components/modal/TestModal";
 import NewHabitModal from "@/app/components/modal/new-habit/NewHabitModal";
 import { AnimatePresence } from "framer-motion";
 import { createContext, useState } from "react"
+import NewCategoryModal from "@/app/components/modal/new-category/NewCategoryModal";
 
 export const ModalContext = createContext({
     modal: '',
@@ -22,7 +23,8 @@ export default function ModalContextProvider({ children }: { children: React.Rea
                     {
                         'test': <TestModal />,
                         'settings': <SettingsModal />,
-                        'new_habit': <NewHabitModal />
+                        'new_habit': <NewHabitModal />,
+                        'new_category': <NewCategoryModal />
                     }[modal]
                 }
             </AnimatePresence>

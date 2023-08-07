@@ -11,7 +11,7 @@ export default function SettingsModalNavItem({ icon, id, name, selected, setCurr
     return (
         <div
             onClick={() => setCurrentTab(id)} 
-            className={`${selected ? 'text-purple-400 bg-purple-100' : 'bg-neutral-50'} w-full px-2 py-1 cursor-pointer flex items-center gap-2 rounded-lg  hover:brightness-95`}
+            className={`${selected ? 'text-purple-400 bg-purple-100' : 'bg-neutral-50'} w-full p-2 cursor-pointer flex items-center gap-2 rounded-lg  hover:brightness-95`}
         >
             {icon}
             <span>{name}</span>

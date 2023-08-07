@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image'
 import Link from 'next/link';
 import SignInForm from './components/SignInForm';
@@ -7,9 +5,9 @@ import SignInForm from './components/SignInForm';
 export default function LoginPage() {
 
     return (
-        <div className="w-full h-[100dvh] bg-neutral-50 flex justify-center items-cente text-neutral-700">
+        <div className="w-full py-20 bg-neutral-50 flex justify-center items-cente text-neutral-700">
 
-            <div className="w-96 h-full justify-center items-center flex flex-col gap-8">
+            <div className="w-96 px-4 h-full justify-center items-center flex flex-col gap-8">
 
                 {/* Header */}
                 <p className="font-borel text-3xl">Welcome back</p>

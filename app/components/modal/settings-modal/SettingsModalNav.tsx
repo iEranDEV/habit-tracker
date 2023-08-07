@@ -1,5 +1,7 @@
-import { Folder, User2 } from "lucide-react";
+import { Folder, LogOut, User2 } from "lucide-react";
 import SettingsModalNavItem from "./SettingsModalNavItem";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/firebase/config";
 
 type SettingsModalNavProps = {
     currentTab: string,
@@ -25,6 +27,13 @@ export default function SettingsModalNav({ currentTab, setCurrentTab }: Settings
             {tabs.map((item) => (
                 <SettingsModalNavItem key={item.id} icon={item.icon} id={item.id} name={item.name} selected={currentTab === item.id} setCurrentTab={setCurrentTab} />
             ))}
+            <div
+                onClick={() => getAuth(firebase_app).signOut()} 
+                className={`bg-neutral-50 w-full px-2 py-1 text-red-400 cursor-pointer flex items-center gap-2 rounded-lg  hover:brightness-95`}
+            >
+                <LogOut size={16} />
+                <span>Log out</span>
+            </div>
         </div>
     )
 }

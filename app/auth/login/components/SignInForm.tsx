@@ -1,6 +1,8 @@
+'use client';
+
 import { useForm, FormProvider } from "react-hook-form";
 import AuthFormInput from "../../components/AuthFormInput";
-import { Check, KeyRound, Mail, User } from "lucide-react";
+import { Check, KeyRound, Mail } from "lucide-react";
 
 export default function SignInForm() {
     const methods = useForm();
@@ -11,9 +13,22 @@ export default function SignInForm() {
         <FormProvider {...methods}>
             <form noValidate onSubmit={methods.handleSubmit(onSubmit)} className='flex flex-col justify-center items-center w-full gap-6'>
                 
-                <AuthFormInput id='email' icon={<Mail size={20} />} name='Email' typeProp='email' />
+                <AuthFormInput 
+                    validate={{ required: 'This field is required', validate: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email address must be a valid address" }} 
+                    id='email' 
+                    icon={<Mail size={20} />} 
+                    name='Email' 
+                    typeProp='email'
+                />
 
-                <AuthFormInput id='password' icon={<KeyRound size={20} />} name='Password' typeProp='password' password />
+                <AuthFormInput 
+                    validate={{ required: 'This field is required' }} 
+                    id='password' 
+                    icon={<KeyRound size={20} />} 
+                    name='Password' 
+                    typeProp='password' 
+                    password
+                />
 
                 {/* Additional options */}
                 <div className='flex justify-between items-center w-full'>

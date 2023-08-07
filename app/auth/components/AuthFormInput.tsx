@@ -1,6 +1,6 @@
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { RegisterOptions, useFormContext } from "react-hook-form";
 
 type AuthFormInputProps = {
     icon: JSX.Element,
@@ -8,9 +8,10 @@ type AuthFormInputProps = {
     name: string,
     typeProp?: string,
     password?: boolean,
+    validate: RegisterOptions
 }
 
-export default function AuthFormBInput({ icon, id, name, typeProp = 'text', password = false }: AuthFormInputProps) {
+export default function AuthFormBInput({ icon, id, name, typeProp = 'text', password = false, validate }: AuthFormInputProps) {
     const [type, setType] = useState(typeProp);
     const methods = useFormContext();
 
@@ -26,7 +27,7 @@ export default function AuthFormBInput({ icon, id, name, typeProp = 'text', pass
 
             {/* Input */}
             <input 
-                {...methods.register(id, { required: 'This field is required.' })}
+                {...methods.register(id, validate)}
                 type={type} 
                 className='h-8 bg-neutral-50 grow palceholder-neutral-200 ml-2 focus:outline-none' 
                 placeholder={name}

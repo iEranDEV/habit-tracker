@@ -1,5 +1,3 @@
-'use client';
-
 import Image from 'next/image'
 import Link from 'next/link';
 import SignUpForm from './components/SignUpForm';
@@ -7,7 +5,7 @@ import SignUpForm from './components/SignUpForm';
 export default function SignupPage() {
 
     return (
-        <div className="w-full h-[100dvh] bg-neutral-50 flex justify-center items-cente text-neutral-700">
+        <div className="w-full py-20 bg-neutral-50 flex justify-center items-cente text-neutral-700">
 
             <div className="w-full px-4 md:px-0 md:w-96 h-full justify-center items-center flex flex-col gap-8">
 

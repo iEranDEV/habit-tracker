@@ -33,7 +33,13 @@ export default function SignUpForm() {
                 />
 
                 <AuthFormInput 
-                    validate={{ required: 'This field is require.', validate: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email address must be a valid address" }}
+                    validate={{ 
+                        required: 'This field is require.', 
+                        pattern: {
+                            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                            message: "Email address must be a valid address"
+                        }
+                    }}
                     id='email'
                     icon={<Mail size={20} />} 
                     name='Email'
@@ -41,7 +47,14 @@ export default function SignUpForm() {
                 />
 
                 <AuthFormInput
-                    validate={{ required: 'This field is required', validate: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email address must be a valid address" }}
+                    validate={{ 
+                        required: 'This field is required', 
+                        pattern: {
+                            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                            message: "Email address must be a valid address"
+                        },
+                        validate: value => value === methods.getValues('email') || 'Emails do not match'
+                    }}
                     id='email_confirmation'
                     icon={<Mail size={20} />}
                     name='Confirm email'

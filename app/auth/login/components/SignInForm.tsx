@@ -14,7 +14,13 @@ export default function SignInForm() {
             <form noValidate onSubmit={methods.handleSubmit(onSubmit)} className='flex flex-col justify-center items-center w-full gap-6'>
                 
                 <AuthFormInput 
-                    validate={{ required: 'This field is required', validate: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || "Email address must be a valid address" }} 
+                    validate={{ 
+                        required: 'This field is required', 
+                        pattern: {
+                            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                            message: "Email address must be a valid address"
+                        }
+                    }} 
                     id='email' 
                     icon={<Mail size={20} />} 
                     name='Email' 
@@ -47,7 +53,7 @@ export default function SignInForm() {
 
                 {/* Submit button */}
                 <button type='submit' className="flex cursor-pointer hover:brightness-95 transition-all justify-center w-full text-neutral-50 items-center px-4 py-2 bg-purple-400 rounded-lg">
-                    Sign up
+                    Sign in
                 </button>
 
             </form>

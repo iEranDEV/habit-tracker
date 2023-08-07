@@ -13,15 +13,15 @@ export default function CategoryTab() {
 
                 <div className="w-full h-full grid grid-cols-3 gap-2">
 
-                    <CategoryTabItem name={'Nature'} icon={<Leaf size={16} />} />
-                    <CategoryTabItem name={'Sport'} icon={<Bike size={16} />} />
-                    <CategoryTabItem name={'Home'} icon={<Home size={16} />} />
-                    <CategoryTabItem name={'Study'} icon={<GraduationCap size={16} />} />
-                    <CategoryTabItem name={'Finance'} icon={<Wallet size={16} />} />
-                    <CategoryTabItem name={'Work'} icon={<Briefcase size={16} />} />
-                    <CategoryTabItem name={'Health'} icon={<HeartPulse size={16} />} />
-                    <CategoryTabItem name={'Social'} icon={<MessagesSquare size={16} />} />
-                    <CategoryTabItem name={'Entertainment'} icon={<Ticket size={16} />} />
+                    <CategoryTabItem color="#22c55e" name={'Nature'} icon={<Leaf size={16} />} />
+                    <CategoryTabItem color="#ef4444" name={'Sport'} icon={<Bike size={16} />} />
+                    <CategoryTabItem color="#0891b2" name={'Home'} icon={<Home size={16} />} />
+                    <CategoryTabItem color="#ec4899" name={'Study'} icon={<GraduationCap size={16} />} />
+                    <CategoryTabItem color="#10b981" name={'Finance'} icon={<Wallet size={16} />} />
+                    <CategoryTabItem color="#f97316" name={'Work'} icon={<Briefcase size={16} />} />
+                    <CategoryTabItem color="#f43f5e" name={'Health'} icon={<HeartPulse size={16} />} />
+                    <CategoryTabItem color="#9333ea" name={'Social'} icon={<MessagesSquare size={16} />} />
+                    <CategoryTabItem color="#84cc16" name={'Entertainment'} icon={<Ticket size={16} />} />
 
                 </div>
             </div>

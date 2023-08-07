@@ -6,12 +6,14 @@ import { getUser } from "@/firebase/user";
 import { Loader2 } from "lucide-react";
 
 export const UserContext = createContext({
-    user: null as any
+    user: null as any,
+    categories: Array<Category>()
 });
 
 export const UserContextProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState(Array<Category>());
     
     const { loggedUser } = useContext(AuthContext);
 
@@ -31,7 +33,7 @@ export const UserContextProvider = ({ children }: { children: JSX.Element }) => 
     }, [loggedUser]);
 
     return (
-        <UserContext.Provider value={{ user }}>
+        <UserContext.Provider value={{ user, categories }}>
             {loading ? (
                 <div className='w-[100svw] h-[100svh] bg-neutral-50 flex justify-center items-center'>
                     <div className='animate-spin'>

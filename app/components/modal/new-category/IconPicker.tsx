@@ -11,7 +11,7 @@ export default async function IconPicker({ icon, setIcon, setPicker }: IconPicke
     const keys = Object.keys(icons) as Array<keyof typeof icons>;
 
     return (
-        <div className="bg-neutral-50 border rounded-lg border-neutral-200 shadow p-2 top-4 -translate-y-full left-0 gap-2 absolute w-72">
+        <div className="bg-neutral-50 hover:brightness-100 border rounded-lg border-neutral-200 text-neutral-700 shadow p-2 -translate-x-1/2 top-0 -translate-y-full left-1/2 gap-2 absolute w-72">
             <div className="w-full h-12 flex gap-2 border-b border-neutral-200">
                 search bar  
             </div>

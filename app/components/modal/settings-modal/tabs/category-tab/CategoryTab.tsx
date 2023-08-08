@@ -1,4 +1,4 @@
-import { Bike, Briefcase, GraduationCap, HeartPulse, Home, Leaf, MessagesSquare, Plus, Ticket, Wallet } from "lucide-react";
+import { Bike, Briefcase, Folder, GraduationCap, HeartPulse, Home, Leaf, MessagesSquare, Plus, Ticket, Wallet } from "lucide-react";
 import CategoryTabItem from "./CategoryTabItem";
 import { useContext } from "react";
 import { ModalContext } from "@/context/ModalContext";
@@ -33,8 +33,9 @@ export default function CategoryTab() {
             <div className="flex flex-col gap-2 relative">
                 <p className="text-neutral-400 text-sm">Custom categories</p>
 
-                <div className="w-full flex justify-center items-center h-20">
-                    
+                <div className="w-full flex flex-col justify-center text-neutral-400 text-sm items-center h-32">
+                    <Folder />
+                    <p>There are no custom categories</p>
                 </div>
 
                 <div className="w-full flex justify-end">

@@ -24,7 +24,7 @@ export default function Modal({ children, title, back }: ModalProps) {
                 initial={{ x: -300, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }} 
                 exit={{ x: -300, opacity: 0 }}
-                className="bg-neutral-50 h-max flex flex-col p-2 w-screen lg:w-[750px] rounded-lg"
+                className="bg-neutral-50 h-max flex flex-col p-2 w-screen lg:w-[750px] rounded-2xl"
             >
                 
                 {/* Modal header */}
@@ -40,7 +40,7 @@ export default function Modal({ children, title, back }: ModalProps) {
                 </div>
 
                 {/* Modal body */}
-                <div className="pt-2">
+                <div className="p-2">
                     {children}
                 </div>
 

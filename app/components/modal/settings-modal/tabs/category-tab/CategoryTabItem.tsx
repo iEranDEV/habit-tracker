@@ -1,21 +1,16 @@
-import Values from "values.js"
+import CategoryBadge from "@/app/components/utils/CategoryBadge"
 
 type CategoryTabItemProps = {
     name: string,
     icon: JSX.Element,
-    color?: string
+    color: string
 }
 
 export default function CategoryTabItem({ name, icon, color }: CategoryTabItemProps) {
 
     return (
         <div className="w-full flex gap-2 items-center">
-            <div 
-                className="p-2 h-8 w-8 rounded-lg" 
-                style={{ color: color, background: new Values(color).tints(10)[7].hexString() }}
-            >
-                {icon}
-            </div>
+            <CategoryBadge icon={icon} color={color} />
             <p>{name}</p>
         </div>
     )

@@ -1,7 +1,7 @@
 import { FirebaseError } from "firebase/app";
 import firebase_app from "./config";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { addUser } from "./user";
+import { addUser } from "./db/user";
 
 const auth = getAuth(firebase_app);
 

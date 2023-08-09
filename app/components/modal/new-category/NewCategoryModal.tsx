@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Modal from "../Modal";
-import { Check, MousePointerClick, TextCursorInput, icons } from "lucide-react";
+import { Check, Loader2, MousePointerClick, TextCursorInput, icons } from "lucide-react";
 import dynamic from "next/dynamic";
 import ColorPicker from "./ColorPicker";
+import { addCategory } from "@/firebase/db/category";
+import { UserContext } from "@/context/UserContext";
+import { ModalContext } from "@/context/ModalContext";
 
 export default function NewCategoryModal() {
     const [color, setColor] = useState('#8b5cf6');
@@ -10,7 +13,12 @@ export default function NewCategoryModal() {
     const [picker, setPicker] = useState(false);
     const [name, setName] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const IconPicker = dynamic(() => import('./IconPicker'));
+
+    const userContext = useContext(UserContext);
+    const modalContext = useContext(ModalContext);
 
     const getIcon = () => {
         const LucideIcon = icons[icon];
@@ -18,13 +26,29 @@ export default function NewCategoryModal() {
         return <LucideIcon />
     }
 
-    const onSubmit = () => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
+        setLoading(true);
+        const result = await addCategory(name, color, icon, userContext.user.id);
+
+        if(result) {
+            userContext.setCategories([...userContext.categories, {
+                id: result.id,
+                name,
+                color,
+                icon,
+                createdBy: userContext.user.id
+            } as Category])
+            modalContext.setModal('settings');
+        }
+
+        return setLoading(false);
     }
 
     return (
         <Modal title={'Create new category'} back="settings">
-            <form noValidate className="flex flex-col gap-4">
+            <form noValidate onSubmit={(e) => onSubmit(e)} className="flex flex-col gap-4">
 
                 <div className="flex flex-col gap-4 w-96">
                     {/* Name */}
@@ -69,7 +93,13 @@ export default function NewCategoryModal() {
                         onClick={() => {}}
                         className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
                     >
-                        <Check />
+                        {loading ? (
+                            <div className="animate-spin">
+                                <Loader2 />
+                            </div>
+                        ) : (
+                            <Check />
+                        )}
                         <div>Submit</div>
                     </button>
                 </div>

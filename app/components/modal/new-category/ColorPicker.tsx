@@ -26,7 +26,6 @@ export default function ColorPicker({ color, setColor }: ColorPickerProps) {
     return (
         <div className="w-full grid grid-cols-8 gap-2">
             {colors.map((item) => {
-                console.log(item)
                 return (
                     <div 
                         key={item} 

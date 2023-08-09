@@ -2,12 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { getUser } from "@/firebase/user";
+import { getUser } from "@/firebase/db/user";
 import { Loader2 } from "lucide-react";
+import { getCategories } from "@/firebase/db/category";
 
 export const UserContext = createContext({
     user: null as any,
-    categories: Array<Category>()
+    categories: Array<Category>(),
+    setCategories: (categories: Array<Category>) => {}
 });
 
 export const UserContextProvider = ({ children }: { children: JSX.Element }) => {
@@ -25,6 +27,9 @@ export const UserContextProvider = ({ children }: { children: JSX.Element }) => 
                 const userDocRef = await getUser(id);
                 setUser(userDocRef);
 
+                const categories = await getCategories(id);
+                setCategories(categories);
+
                 setLoading(false);
             }
 
@@ -33,7 +38,7 @@ export const UserContextProvider = ({ children }: { children: JSX.Element }) => 
     }, [loggedUser]);
 
     return (
-        <UserContext.Provider value={{ user, categories }}>
+        <UserContext.Provider value={{ user, categories, setCategories }}>
             {loading ? (
                 <div className='w-[100svw] h-[100svh] bg-neutral-50 flex justify-center items-center'>
                     <div className='animate-spin'>

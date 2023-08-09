@@ -29,7 +29,7 @@ export default function SettingsModalNav({ currentTab, setCurrentTab }: Settings
             ))}
             <div
                 onClick={() => getAuth(firebase_app).signOut()} 
-                className={`bg-neutral-50 w-full p-2 text-red-400 cursor-pointer flex items-center gap-2 rounded-lg  hover:brightness-95`}
+                className={`bg-neutral-50 w-full py-2 px-4 text-red-400 cursor-pointer flex items-center gap-2 rounded-lg  hover:brightness-95`}
             >
                 <LogOut size={16} />
                 <span>Log out</span>

@@ -1,10 +1,11 @@
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import firebase_app from "./config";
+import firebase_app from "../config";
 
 const db = getFirestore(firebase_app);
 
 export async function addUser(id: string, name: string, email: string) {
     const docRef = await setDoc(doc(db, "users", id), {
+        id: id,
         name: name,
         email: email
     });

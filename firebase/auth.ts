@@ -1,9 +1,11 @@
 import { FirebaseError } from "firebase/app";
 import firebase_app from "./config";
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, getRedirectResult, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 import { addUser } from "./db/user";
 
 const auth = getAuth(firebase_app);
+
+const googleProvider = new GoogleAuthProvider();
 
 export async function signUp(name: string, email: string, password: string) {
     let error = null;
@@ -12,7 +14,7 @@ export async function signUp(name: string, email: string, password: string) {
     });
 
     if(result) {
-        addUser(result.user.uid, name, email)
+        await addUser(result.user.uid, name, email)
     }
 
     return { result, error };
@@ -25,4 +27,20 @@ export async function signIn(email: string, password: string) {
     });
 
     return { result, error };
+}
+
+export async function signInGoogle() {
+    signInWithRedirect(auth, googleProvider);
+}
+
+export async function getRedirect() {
+    return getRedirectResult(auth).then(async (result) => {
+        if(result) {
+            const user = result.user;
+            await addUser(result.user.uid, user.displayName || '', user.email || '');
+            return { success: true }
+        }
+    }).catch((error) => {
+        return error;
+    });
 }

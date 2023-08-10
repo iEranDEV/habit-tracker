@@ -1,5 +1,3 @@
-'use client';
-
 import { useForm, FormProvider } from "react-hook-form";
 import AuthFormInput from "../../components/AuthFormInput";
 import { Check, KeyRound, Loader2, Mail, X } from "lucide-react";

@@ -3,6 +3,7 @@ import ViewModeToggler from "./ViewModeToggler";
 import IconButton from "../utils/IconButton";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from 'react';
+import DatePicker from "../utils/DatePicker";
 
 export default function ControlPanel() {
 
@@ -16,9 +17,10 @@ export default function ControlPanel() {
                 <div className="flex items-center gap-2">
                     <IconButton icon={<ChevronLeft />} />
                     <IconButton icon={<ChevronRight />} />
+                    <DatePicker />
                 </div>
                 <div className="text-lg font-semibold flex gap-2 items-center">
-                    <span>Mon, 31 July</span> <MoveRight /> <span>Sun, 6 August</span>
+                    <span>31 July</span> <MoveRight /> <span>6 August</span>
                 </div>
             </div>
 

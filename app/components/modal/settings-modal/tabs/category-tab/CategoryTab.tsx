@@ -16,7 +16,7 @@ export default function CategoryTab() {
             <div className="flex flex-col gap-2">
                 <p className="text-neutral-400 text-sm">Built-in categories</p>
 
-                <div className="w-full h-full grid grid-cols-3 gap-2">
+                <div className="w-full h-full grid grid-cols-3 gap-1">
 
                     <CategoryTabItem color="#22c55e" name={'Nature'} icon={<Leaf size={16} />} />
                     <CategoryTabItem color="#ef4444" name={'Sport'} icon={<Bike size={16} />} />
@@ -36,12 +36,12 @@ export default function CategoryTab() {
                 <p className="text-neutral-400 text-sm">Custom categories</p>
 
                 {categories.length > 0 ? (
-                    <div className="w-full grid grid-cols-3 gap-2">
+                    <div className="w-full grid grid-cols-3 gap-1">
                         {categories.map((category) => {
                             const LucideIcon = icons[category.icon as keyof typeof icons];
                             console.log(category.id)
 
-                            return <CategoryTabItem key={category.id} name={category.name} icon={<LucideIcon size={16} />} color={category.color} />
+                            return <CategoryTabItem key={category.id} id={category.id} name={category.name} icon={<LucideIcon size={16} />} color={category.color} custom />
                         })}
                     </div>
                 ): (

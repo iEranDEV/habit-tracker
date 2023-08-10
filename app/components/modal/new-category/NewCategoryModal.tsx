@@ -32,7 +32,7 @@ export default function NewCategoryModal() {
         setLoading(true);
         const result = await addCategory(name, color, icon, userContext.user.id);
 
-        if(result) {
+        if('id' in result) {
             userContext.setCategories([...userContext.categories, {
                 id: result.id,
                 name,
@@ -41,6 +41,8 @@ export default function NewCategoryModal() {
                 createdBy: userContext.user.id
             } as Category])
             modalContext.setModal('settings');
+        } else {
+            // Error
         }
 
         return setLoading(false);

@@ -1,4 +1,4 @@
-import { FirestoreError, collection, doc, getDoc, getDocs, getFirestore, or, query, setDoc, where } from "firebase/firestore";
+import { FirestoreError, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, or, query, setDoc, where } from "firebase/firestore";
 import firebase_app from "../config";
 import { v4 as uuid } from 'uuid';
 
@@ -11,12 +11,16 @@ export async function addCategory(name: string, color: string, icon: string, cre
     return await setDoc(doc(db, "categories", id), category).then(() => {
         return category;
     }).catch((e: FirestoreError) => {
-        return null;
+        return e;
     })
 }
 
 export async function deleteCategory(id: string) {
-
+    return await deleteDoc(doc(db, "categories", id)).then(() => {
+        return { id: id };
+    }).catch((e: FirestoreError) => {
+        return e;
+    });
 }
 
 export async function getCategory(id: string) {

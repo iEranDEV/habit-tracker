@@ -1,8 +1,27 @@
+'use client';
+
 import Image from 'next/image'
 import Link from 'next/link';
 import SignUpForm from './components/SignUpForm';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { getRedirect, signInGoogle } from '@/firebase/auth';
 
 export default function SignupPage() {
+
+    const router = useRouter();
+
+    useEffect(() => {
+        const socialLoginHandle = async () => {
+            const result = await getRedirect();
+
+            if(result && 'success' in result && result.success) {
+                return router.push('/');
+            }
+        }
+
+        socialLoginHandle();
+    }, []);
 
     return (
         <div className="w-full py-20 bg-neutral-50 flex justify-center items-cente text-neutral-700">
@@ -16,7 +35,7 @@ export default function SignupPage() {
                 <div className="grid grid-cols-2 gap-2 w-full">
 
                     {/* Google */}
-                    <div className="bg-neutral-50 hover:brightness-95 cursor-pointer transition-all rounded-lg border border-neutral-200 flex py-2 justify-center gap-4 items-center h-full w-full">
+                    <div onClick={() => signInGoogle()} className="bg-neutral-50 hover:brightness-95 cursor-pointer transition-all rounded-lg border border-neutral-200 flex py-2 justify-center gap-4 items-center h-full w-full">
                         <Image src={'/google.webp'} height={15} width={15} alt={'Google logo'} />
                         <p className='font-semibold'>Google</p>
                     </div>

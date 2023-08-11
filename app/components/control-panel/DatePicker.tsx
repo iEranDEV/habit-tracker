@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import IconButton from "../utils/IconButton";
@@ -103,36 +103,39 @@ export default function DatePicker() {
             </div>
 
             {/* Picker */}
-            {opened && (
-                <motion.div 
-                    id="date_dropdown"
-                    initial={{ transform: 'translateY(100%) scale(0)' }}
-                    animate={{ transform: 'translateY(100%) scale(1)'}}
-                    transition={{ duration: 0.1 }}
-                    tabIndex={-1}
-                    className="absolute focus:outline-none origin-top-left -bottom-2 rounded-lg left-0 translate-y-full bg-neutral-50 border border-neutral-200 shadow w-60 p-2"
-                >
+            <AnimatePresence>
+                {opened && (
+                    <motion.div 
+                        id="date_dropdown"
+                        initial={{ transform: 'translateY(100%) scale(0)' }}
+                        animate={{ transform: 'translateY(100%) scale(1)'}}
+                        exit={{ transform: 'translateY(100%) scale(0)' }}
+                        transition={{ duration: 0.1 }}
+                        tabIndex={-1}
+                        className="absolute focus:outline-none origin-top-left -bottom-2 rounded-lg left-0 translate-y-full bg-neutral-50 border border-neutral-200 shadow w-60 p-2"
+                    >
 
-                    {/* Month control panel */}
-                    <div className="border-b border-neutral-200 flex pb-2 justify-between items-center">
+                        {/* Month control panel */}
+                        <div className="border-b border-neutral-200 flex pb-2 justify-between items-center">
 
-                        {/* Previous month */}
-                        <IconButton onClick={() => setMonth(viewDate.month - 1)} icon={<ChevronLeft />} />
+                            {/* Previous month */}
+                            <IconButton onClick={() => setMonth(viewDate.month - 1)} icon={<ChevronLeft />} />
 
-                        <div className="flex flex-col justify-center items-center">
-                            <span className="text-sm">{viewDate.year}</span>
-                            <p className="font-semibold">{getMonthName(viewDate.month)}</p>
+                            <div className="flex flex-col justify-center items-center">
+                                <span className="text-sm">{viewDate.year}</span>
+                                <p className="font-semibold">{getMonthName(viewDate.month)}</p>
+                            </div>
+
+                            {/* Next month */}
+                            <IconButton onClick={() => setMonth(viewDate.month + 1)} icon={<ChevronRight />} />
                         </div>
 
-                        {/* Next month */}
-                        <IconButton onClick={() => setMonth(viewDate.month + 1)} icon={<ChevronRight />} />
-                    </div>
+                        {/* Calendar */}
+                        {getCalendar()}
 
-                    {/* Calendar */}
-                    {getCalendar()}
-
-                </motion.div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

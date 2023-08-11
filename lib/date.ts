@@ -45,3 +45,7 @@ export const getWeek = (date: Date) => {
 
     return { weekStart, weekEnd };
 }
+
+export const formatShortDate = (date: Date) => {
+    return `${date.getDate()} ${getMonthShort(date.getMonth())}`
+}

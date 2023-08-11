@@ -1,14 +1,17 @@
 import { motion } from "framer-motion";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import IconButton from "./IconButton";
+import { useContext, useEffect, useRef, useState } from "react";
+import IconButton from "../utils/IconButton";
 import { getMonthName, isSameDate } from "@/lib/date";
+import { CalendarContext } from "@/context/CalendarContext";
 
 export default function DatePicker() {
     const [opened, setOpened] = useState(false);
     const [viewDate, setViewDate] = useState({ month: new Date().getMonth(), year: new Date().getFullYear()});
 
     const togglerRef = useRef<HTMLDivElement>(null);
+
+    const calendarContext = useContext(CalendarContext);
 
     useEffect(() => {
         if(togglerRef.current) {
@@ -53,7 +56,11 @@ export default function DatePicker() {
         return (
             <div className="w-full grid grid-cols-7 mt-2">
                 {days.map((item) => (
-                    <div key={item.toDateString()} className="w-full aspect-square flex justify-center bg-neutral-50 cursor-pointer items-center text-sm rounded-lg hover:brightness-95">
+                    <div 
+                        onClick={() => calendarContext.setSelectedDate(item)}
+                        key={item.toDateString()} 
+                        className={`${isSameDate(item, calendarContext.selectedDate) && 'border-2 border-purple-400'} w-full aspect-square flex justify-center bg-neutral-50 cursor-pointer items-center text-sm rounded-lg hover:brightness-95`}
+                    >
                         <p className={`${item.getMonth() !== month ? 'text-neutral-300' : (isSameDate(item, new Date()) ? 'text-purple-400 font-semibold' : 'text-neutral-700')}`}>
                             {item.getDate()}
                         </p>

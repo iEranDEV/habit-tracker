@@ -1,11 +1,11 @@
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
 import ViewModeToggler from "./ViewModeToggler";
 import IconButton from "../utils/IconButton";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from 'react';
-import DatePicker from "../utils/DatePicker";
+import DatePicker from "./DatePicker";
 import { CalendarContext } from "@/context/CalendarContext";
-import { getWeek } from "@/lib/date";
+import { formatShortDate, getWeek } from "@/lib/date";
 
 export default function ControlPanel() {
 
@@ -23,8 +23,23 @@ export default function ControlPanel() {
                     <DatePicker />
                 </div>
                 <div className="text-lg font-semibold flex gap-2 items-center">
-                    {/* <span>31 July</span> <MoveRight /> <span>6 August</span> */}
-                    <span>{getWeek(calendarContext.selectedDate).weekStart.toDateString() + ' - ' + getWeek(calendarContext.selectedDate).weekEnd.toDateString()}</span>
+                    {calendarContext.viewMode === 'week' ? (
+                        <>
+                            {(() => {
+                                const { weekStart, weekEnd } = getWeek(calendarContext.selectedDate);
+
+                                return (
+                                    <p className="flex items-center gap-2">
+                                        <span>{formatShortDate(weekStart)}</span>
+                                        <MoveRight />
+                                        <span>{formatShortDate(weekEnd)}</span>
+                                    </p>
+                                )
+                            })()}
+                        </>
+                    ) : (
+                        <span>{formatShortDate(calendarContext.selectedDate)}</span>
+                    )}
                 </div>
             </div>
 

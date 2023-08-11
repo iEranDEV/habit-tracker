@@ -1,13 +1,16 @@
-import { ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import ViewModeToggler from "./ViewModeToggler";
 import IconButton from "../utils/IconButton";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from 'react';
 import DatePicker from "../utils/DatePicker";
+import { CalendarContext } from "@/context/CalendarContext";
+import { getWeek } from "@/lib/date";
 
 export default function ControlPanel() {
 
     const modalContext = useContext(ModalContext);
+    const calendarContext = useContext(CalendarContext);
 
     return (
         <div className="w-full py-2 bg-neutral-50 flex justify-between items-center">
@@ -20,7 +23,8 @@ export default function ControlPanel() {
                     <DatePicker />
                 </div>
                 <div className="text-lg font-semibold flex gap-2 items-center">
-                    <span>31 July</span> <MoveRight /> <span>6 August</span>
+                    {/* <span>31 July</span> <MoveRight /> <span>6 August</span> */}
+                    <span>{getWeek(calendarContext.selectedDate).weekStart.toDateString() + ' - ' + getWeek(calendarContext.selectedDate).weekEnd.toDateString()}</span>
                 </div>
             </div>
 

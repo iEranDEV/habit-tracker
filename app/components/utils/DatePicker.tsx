@@ -2,8 +2,7 @@ import { motion } from "framer-motion";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import IconButton from "./IconButton";
-
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+import { getMonthName, isSameDate } from "@/lib/date";
 
 export default function DatePicker() {
     const [opened, setOpened] = useState(false);
@@ -55,7 +54,7 @@ export default function DatePicker() {
             <div className="w-full grid grid-cols-7 mt-2">
                 {days.map((item) => (
                     <div key={item.toDateString()} className="w-full aspect-square flex justify-center bg-neutral-50 cursor-pointer items-center text-sm rounded-lg hover:brightness-95">
-                        <p className={`${item.getMonth() !== month ? 'text-neutral-300' : (item.getDate() === new Date().getDate() ? 'text-purple-400 font-semibold' : 'text-neutral-700')}`}>
+                        <p className={`${item.getMonth() !== month ? 'text-neutral-300' : (isSameDate(item, new Date()) ? 'text-purple-400 font-semibold' : 'text-neutral-700')}`}>
                             {item.getDate()}
                         </p>
                     </div>
@@ -64,13 +63,32 @@ export default function DatePicker() {
         )
     }
 
+    const setMonth = (value: number) => {
+        if(value > 11) {
+            setViewDate({
+                month: 0,
+                year: viewDate.year + 1
+            })
+        } else if(value < 0) {
+            setViewDate({
+                month: 11,
+                year: viewDate.year - 1
+            })
+        } else {
+            setViewDate({
+                month: value,
+                year: viewDate.year
+            })
+        }
+    }
+
     return (
         <div className="relative">
             {/* Toggler */}
             <div 
                 ref={togglerRef} 
                 tabIndex={0} 
-                onBlur={(e) => { e.relatedTarget?.id !== 'date_dropdown' && setOpened(false) }}
+                onBlur={(e) => {e.relatedTarget?.id !== 'date_dropdown' ? setOpened(false) : e.target.focus()}}
                 onClick={() => setOpened(!opened)}
                 className={`${opened && 'bg-purple-100 text-purple-400'} focus:outline-none outline-none select-none p-2 flex justify-center cursor-pointer text-neutral-400 transition-all bg-neutral-200 hover:bg-purple-100 hover:text-purple-400 items-center rounded-lg`}
             >
@@ -87,15 +105,25 @@ export default function DatePicker() {
                     tabIndex={-1}
                     className="absolute focus:outline-none origin-top-left -bottom-2 rounded-lg left-0 translate-y-full bg-neutral-50 border border-neutral-200 shadow w-60 p-2"
                 >
+
+                    {/* Month control panel */}
                     <div className="border-b border-neutral-200 flex pb-2 justify-between items-center">
-                        <IconButton icon={<ChevronLeft />} />
+
+                        {/* Previous month */}
+                        <IconButton onClick={() => setMonth(viewDate.month - 1)} icon={<ChevronLeft />} />
+
                         <div className="flex flex-col justify-center items-center">
                             <span className="text-sm">{viewDate.year}</span>
-                            <p className="font-semibold">{months[viewDate.month]}</p>
+                            <p className="font-semibold">{getMonthName(viewDate.month)}</p>
                         </div>
-                        <IconButton icon={<ChevronRight />} />
+
+                        {/* Next month */}
+                        <IconButton onClick={() => setMonth(viewDate.month + 1)} icon={<ChevronRight />} />
                     </div>
+
+                    {/* Calendar */}
                     {getCalendar()}
+
                 </motion.div>
             )}
         </div>

@@ -9,6 +9,7 @@ import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { UserContextProvider } from "@/context/UserContext";
 import ModalContextProvider from "@/context/ModalContext";
+import { CalendarContextProvider } from "@/context/CalendarContext";
 
 export default function Home() {
 
@@ -32,22 +33,24 @@ export default function Home() {
 					{/* Header */}
 					<Header />
 
-					{/* Body */}
-					<div className="w-full flex">
-						<div className="basis-full lg:basis-full flex flex-col">
+					<CalendarContextProvider>
+						{/* Body */}
+						<div className="w-full flex">
+							<div className="basis-full lg:basis-full flex flex-col">
 
-							{/* Habits control panel */}
-							<div className="w-full sticky top-0 flex flex-col">
-								<ControlPanel />
+								{/* Habits control panel */}
+								<div className="w-full sticky top-0 flex flex-col">
+									<ControlPanel />
 
-								{/* Habits table header */}
-								<HabitListHeader />
+									{/* Habits table header */}
+									<HabitListHeader />
+								</div>
+
+								{/* Habits list */}
+								<HabitList />
 							</div>
-
-							{/* Habits list */}
-							<HabitList />
 						</div>
-					</div>
+					</CalendarContextProvider>
 				</div>
 			</ModalContextProvider>
 		</UserContextProvider>

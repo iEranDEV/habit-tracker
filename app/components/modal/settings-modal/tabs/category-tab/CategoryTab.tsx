@@ -39,7 +39,6 @@ export default function CategoryTab() {
                     <div className="w-full grid grid-cols-3 gap-1">
                         {categories.map((category) => {
                             const LucideIcon = icons[category.icon as keyof typeof icons];
-                            console.log(category.id)
 
                             return <CategoryTabItem key={category.id} id={category.id} name={category.name} icon={<LucideIcon size={16} />} color={category.color} custom />
                         })}

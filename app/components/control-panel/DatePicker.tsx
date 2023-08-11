@@ -15,7 +15,13 @@ export default function DatePicker() {
 
     useEffect(() => {
         if(togglerRef.current) {
-            if(opened) togglerRef.current.focus();
+            if(opened) {
+                togglerRef.current.focus();
+                setViewDate({
+                    month: new Date().getMonth(),
+                    year: new Date().getFullYear()
+                })
+            }
             else togglerRef.current.blur();
         }
     }, [opened]);

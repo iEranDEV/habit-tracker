@@ -20,6 +20,8 @@ export default function ControlPanel() {
                 <div className="flex items-center gap-2">
                     <IconButton icon={<ChevronLeft />} />
                     <IconButton icon={<ChevronRight />} />
+
+                    {/* Date picker */}
                     <DatePicker />
                 </div>
                 <div className="text-lg font-semibold flex gap-2 items-center">

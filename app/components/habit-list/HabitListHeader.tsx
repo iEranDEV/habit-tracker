@@ -1,7 +1,7 @@
 export default function HabitListHeader() {
 
     return (
-        <div className="border-b select-none border-neutral-200 flex items-end w-full py-2 text-sm text-neutral-400">
+        <div className="border-b select-none border-neutral-200 bg-neutral-50 flex items-end w-full py-2 text-sm text-neutral-400">
 
             {/* Habit name & category */}
             <div className="basis-1/4">

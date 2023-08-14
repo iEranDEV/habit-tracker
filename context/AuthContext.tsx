@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return (
         <AuthContext.Provider value={{ loggedUser }}>
             {loading ? (
-                <div className='w-[100svw] h-[100svh] bg-neutral-50 flex justify-center items-center'>
+                <div className='w-screen h-screen bg-neutral-50 flex justify-center items-center'>
                     <div className='animate-spin'>
                         <Loader2 color='#d4d4d4' />
                     </div>

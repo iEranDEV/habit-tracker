@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import { AuthContextProvider } from '@/context/AuthContext';
+import { NotificationContextProvider } from '@/context/NotificationContext';
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -17,10 +18,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={font.className + ' bg-neutral-50 flex justify-center items-center'}>
-				<AuthContextProvider>
-					{children}
-				</AuthContextProvider>
+			<body className={font.className + ' bg-neutral-50 flex justify-center items-center relative'}>
+				<NotificationContextProvider>
+					<AuthContextProvider>
+						{children}
+					</AuthContextProvider>
+				</NotificationContextProvider>
 			</body>
 		</html>
 	)

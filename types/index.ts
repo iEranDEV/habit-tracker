@@ -6,7 +6,7 @@ interface Category {
     createdBy: string
 }
 
-type Habit = {
+interface Habit {
     id: string,
     name: string,
     category: string,
@@ -16,10 +16,17 @@ type Habit = {
     // repeat: string,
 }
 
-type CheckIn = {
+interface CheckIn {
     id: string,
     date: Date,
     habit: string,
     count?: number,
     status?: string
+}
+
+interface INotification {
+    id: string,
+    type: 'SUCCESS' | 'ERROR',
+    message: string,
+    onClick?: Function
 }

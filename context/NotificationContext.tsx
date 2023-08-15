@@ -1,11 +1,12 @@
 'use client';
 
+import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, BadgeCheck, MousePointerClick, X } from "lucide-react";
 import { createContext, useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
 
 export const NotificationContext = createContext({
-    addNotification: (message: string, type?: 'SUCCESS' | 'ERROR') => {}
+    addNotification: (message: string, type: 'SUCCESS' | 'ERROR') => {}
 });
 
 type NotificationElementProps = {
@@ -33,35 +34,36 @@ function NotificationElement({ id, message, type, onClick, removeNotification }:
     }, [time]);
 
     return (
-        <div
+        <motion.div
+            initial={{ x: -100, opacity: 0}}
+            animate={{ x: 0, opacity: 1}}
+            exit={{ x: -100, opacity: 0 }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             onClick={() => onClick ? onClick : removeNotification(id)}
             className={`w-full p-2 cursor-pointer rounded-lg flex justify-between items-center ${type === 'SUCCESS' ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-500'} `}
         >
             {hovered ? (
-                <>
+                <div className="basis-10">
                     {onClick ? (
                         <MousePointerClick size={20} />
                     ) : (
                         <X size={20} />
                     )}
-                </>
+                </div>
             ) : (
-                <>
-                    <div className="">
-                        {type === 'SUCCESS' ? (
-                            <BadgeCheck size={20} />
-                        ) : (
-                            <AlertTriangle size={20} />
-                        )}
-                    </div>
-                </>
+                <div className="basis-10">
+                    {type === 'SUCCESS' ? (
+                        <BadgeCheck size={20} />
+                    ) : (
+                        <AlertTriangle size={20} />
+                    )}
+                </div>
             )}
-            <div>
-                {time}
+            <div className="grow pl-2">
+                {message}
             </div>
-        </div>
+        </motion.div>
     )
 }
 
@@ -80,10 +82,12 @@ export function NotificationContextProvider({ children }: { children: React.Reac
         <NotificationContext.Provider value={{ addNotification }}>
             <>
                 {children}
-                <div className="fixed top-0 right-0 w-60 p-2 flex flex-col gap-2">
-                    {notifications.map((item) => (
-                        <NotificationElement key={item.id} {...item} removeNotification={removeNotification} />
-                    ))}
+                <div className="fixed top-0 right-0 w-72 p-2 flex flex-col gap-2">
+                    <AnimatePresence>
+                        {notifications.map((item) => (
+                            <NotificationElement key={item.id} {...item} removeNotification={removeNotification} />
+                        ))}
+                    </AnimatePresence>
                 </div>
             </>
         </NotificationContext.Provider>

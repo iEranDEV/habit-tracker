@@ -1,12 +1,21 @@
 import { useState } from "react";
 import Modal from "../Modal";
+import Button from "../../utils/Button";
+import { ArrowBigLeft, ArrowBigRight, Check } from "lucide-react";
+
+const titles = [
+    'Select category',
+    'Select habit type',
+    'Define your habit',
+    'How often and when do you want to do it?'
+]
 
 export default function NewHabitModal() {
 
     const [stage, setStage] = useState(1);
 
     return (
-        <Modal title={'Create new habit'}>
+        <Modal title={titles[stage - 1]}>
             <div className="w-full h-full flex flex-col gap-2">
 
                 {/* Body */}
@@ -15,19 +24,23 @@ export default function NewHabitModal() {
                 </div>
 
                 {/* Footer */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center relative">
                     {stage > 1 ? (
-                        <div>back</div>
+                        <Button onClick={() => setStage(stage - 1)} name={"Back"} icon={<ArrowBigLeft />} />
                     ) : (
                         <div></div>
                     )}
 
-                    <div>kropki</div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2">
+                        {Array.from({length: 4}).map((_, i) => (
+                            <div key={i} className={`rounded-full h-2 w-2 ${stage > i ? 'bg-purple-400' : 'bg-neutral-300' }`}></div>
+                        ))}
+                    </div>
 
                     {stage === 4 ? (
-                        <div>end</div>
+                        <Button submit name={"Submit"} icon={<Check />} />
                     ) : (
-                        <div>next</div>
+                        <Button onClick={() => setStage(stage + 1)} name={"Next"} icon={<ArrowBigRight />} />
                     )}
                 </div>
 

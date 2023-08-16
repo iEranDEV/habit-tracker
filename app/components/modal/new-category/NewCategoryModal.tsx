@@ -6,6 +6,7 @@ import ColorPicker from "./ColorPicker";
 import { addCategory } from "@/firebase/db/category";
 import { UserContext } from "@/context/UserContext";
 import { ModalContext } from "@/context/ModalContext";
+import Button from "../../utils/Button";
 
 export default function NewCategoryModal() {
     const [color, setColor] = useState('#8b5cf6');
@@ -91,19 +92,17 @@ export default function NewCategoryModal() {
 
                 {/* Footer / Submit button */}
                 <div className="w-full flex justify-end">
-                    <button type="submit" 
-                        onClick={() => {}}
-                        className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
-                    >
-                        {loading ? (
+                    <Button 
+                        name="Add habit" 
+                        icon={loading ? (
                             <div className="animate-spin">
                                 <Loader2 />
                             </div>
                         ) : (
                             <Check />
                         )}
-                        <div>Submit</div>
-                    </button>
+                        submit
+                     />
                 </div>
 
             </form>

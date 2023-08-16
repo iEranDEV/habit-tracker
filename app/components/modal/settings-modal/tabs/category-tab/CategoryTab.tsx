@@ -3,6 +3,7 @@ import CategoryTabItem from "./CategoryTabItem";
 import { useContext } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";
+import Button from "@/app/components/utils/Button";
 
 export default function CategoryTab() {
 
@@ -51,13 +52,7 @@ export default function CategoryTab() {
                 )}
 
                 <div className="w-full flex justify-end">
-                    <div 
-                        onClick={() => modalContext.setModal('new_category')}
-                        className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
-                    >
-                        <Plus />
-                        <div>Add category</div>
-                    </div>
+                    <Button name="Add category" icon={<Plus />} onClick={() => modalContext.setModal('new_category')} />
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import DatePicker from "./DatePicker";
 import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
+import Button from "../utils/Button";
 
 export default function ControlPanel() {
 
@@ -48,13 +49,7 @@ export default function ControlPanel() {
             {/* View mode, new habit button */}
             <div className="flex items-center gap-2">
                 <ViewModeToggler />
-                <div 
-                    onClick={() => modalContext.setModal('new_habit')}
-                    className="flex cursor-pointer hover:brightness-95 transition-all justify-center gap-2 text-purple-500 items-center px-4 py-2 bg-purple-200 rounded-lg"
-                >
-                    <Plus />
-                    <div>Add habit</div>
-                </div>
+                <Button name="Add habit" icon={<Plus />} onClick={() => modalContext.setModal('new_habit')} />
             </div>
         
         </div>

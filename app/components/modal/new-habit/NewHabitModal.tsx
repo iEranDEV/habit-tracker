@@ -2,6 +2,10 @@ import { useState } from "react";
 import Modal from "../Modal";
 import Button from "../../utils/Button";
 import { ArrowBigLeft, ArrowBigRight, Check } from "lucide-react";
+import FormStageOne from "./FormStageOne";
+import FormStageTwo from "./FormStageTwo";
+import FormStageThree from "./FormStageThree";
+import FormStageFour from "./FormStageFour";
 
 const titles = [
     'Select category',
@@ -16,11 +20,16 @@ export default function NewHabitModal() {
 
     return (
         <Modal title={titles[stage - 1]}>
-            <div className="w-full h-full flex flex-col gap-2">
+            <form className="w-full h-full flex flex-col gap-2">
 
                 {/* Body */}
                 <div>
-                    body
+                    {{
+                        1: <FormStageOne />,
+                        2: <FormStageTwo />,
+                        3: <FormStageThree />,
+                        4: <FormStageFour />
+                    }[stage]}
                 </div>
 
                 {/* Footer */}
@@ -44,7 +53,7 @@ export default function NewHabitModal() {
                     )}
                 </div>
 
-            </div>
+            </form>
         </Modal>
     )
 }

@@ -7,19 +7,12 @@ import FormStageTwo from "./FormStageTwo";
 import FormStageThree from "./FormStageThree";
 import FormStageFour from "./FormStageFour";
 
-const titles = [
-    'Select category',
-    'Select habit type',
-    'Define your habit',
-    'How often and when do you want to do it?'
-]
-
 export default function NewHabitModal() {
 
     const [stage, setStage] = useState(1);
 
     return (
-        <Modal title={titles[stage - 1]}>
+        <Modal title={'Add new habit'}>
             <form className="w-full h-full flex flex-col gap-2">
 
                 {/* Body */}

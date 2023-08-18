@@ -1,4 +1,14 @@
+import { CalendarContext } from "@/context/CalendarContext";
+import { getWeek, isSameDate } from "@/lib/date";
+import { useContext } from "react";
+
+const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 export default function HabitListHeader() {
+
+    const { selectedDate } = useContext(CalendarContext);
+    const { weekStart } = getWeek(selectedDate);
+    const monthDays = new Date(weekStart.getFullYear(), weekStart.getMonth(), 0).getDate();
 
     return (
         <div className="border-b select-none border-neutral-200 bg-neutral-50 flex items-end w-full py-2 text-sm text-neutral-400">
@@ -10,34 +20,21 @@ export default function HabitListHeader() {
 
             {/* Days */}
             <div className="grow px-4 flex justify-between items-center">
-                <div className="p-3 w-12 justify-center items-center rounded-lg bg-purple-100 text-purple-500 flex flex-col">
-                    <span className="text-sm">Mon</span>
-                    <p className="font-semibold text-lg">31</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Tue</span>
-                    <p className="font-semibold text-lg">01</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Wed</span>
-                    <p className="font-semibold text-lg">02</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Thu</span>
-                    <p className="font-semibold text-lg">03</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Fri</span>
-                    <p className="font-semibold text-lg">04</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Sat</span>
-                    <p className="font-semibold text-lg">05</p>
-                </div>
-                <div className="p-3 justify-center items-center rounded-lg  flex flex-col">
-                    <span className="text-sm">Sun</span>
-                    <p className="font-semibold text-lg">06</p>
-                </div>
+
+                {Array.from({length: 7}).map((_, i) => {
+                    const date = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + i);
+                    if(date.getDate() > monthDays) {
+                        date.setDate(1);
+                    }
+
+                    return (
+                        <div key={i} className={`p-3 w-12 justify-center items-center rounded-lg flex flex-col ${isSameDate(new Date(), date) && 'bg-purple-100 text-purple-500'}`}>
+                            <span className="text-sm">{weekdays[i]}</span>
+                            <p className="font-semibold text-lg">{date.getDate()}</p>
+                        </div>
+                    )
+                })}
+
             </div>
 
             {/* Blank spot for additional data */}

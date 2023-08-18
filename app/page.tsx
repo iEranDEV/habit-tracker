@@ -39,7 +39,7 @@ export default function Home() {
 							<div className="basis-full lg:basis-full flex flex-col">
 
 								{/* Habits control panel */}
-								<div className="w-full sticky top-0 flex flex-col">
+								<div className="w-full sticky top-0 flex-col">
 									<ControlPanel />
 
 									{/* Habits table header */}

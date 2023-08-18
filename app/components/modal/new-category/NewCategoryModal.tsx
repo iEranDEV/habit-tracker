@@ -55,9 +55,9 @@ export default function NewCategoryModal() {
 
                 <div className="flex flex-col gap-4 w-96">
                     {/* Name */}
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 max-w-md">
                         <p className="text-neutral-400 font-semibold text-sm">Category's name</p>
-                        <div className='w-full px-2 py-1 relative rounded-lg border gap-1 border-neutral-200 flex items-center'>
+                        <div className='w-full p-1 relative rounded-lg border gap-1 border-neutral-200 flex items-center'>
                             <div className={`border-r px-2 border-neutral-200 text-neutral-400`}>
                                 <TextCursorInput size={20} />
                             </div>

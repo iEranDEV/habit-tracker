@@ -16,11 +16,11 @@ export default function Input({ icon, id, label, placeholder, type = 'text', val
     const error = methods.formState.errors[id];
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 max-w-md">
             <p className="text-neutral-400 font-semibold text-sm">
                 {label}
             </p>
-            <div className='w-full px-2 py-1 relative rounded-lg border gap-1 border-neutral-200 flex items-center'>
+            <div className='w-full p-1 relative rounded-lg border gap-1 border-neutral-200 flex items-center'>
 
                 {/* Icon */}
                 <div className={`border-r px-2 border-neutral-200 ${error ? 'text-red-400' : 'text-neutral-400'}`}>

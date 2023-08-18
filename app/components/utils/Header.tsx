@@ -23,9 +23,13 @@ export default function Header() {
     }
 
     return (
-        <header className="pb-8 pt-6 relative">
+        <header className="pb-8 px-2 pt-6 relative w-full">
             <div className="h-full w-full flex justify-between items-center">
-                <p className="select-none font-borel text-neutral-700 text-3xl">{getWelcomeText()}, {user.name}</p>
+                <p className="select-none truncate text-neutral-700 text-xl md:text-2xl lg:text-3xl">
+                    <span className="font-borel">
+                        {getWelcomeText()}, {user.name}
+                    </span>
+                </p>
                 <IconButton onClick={() => modalContext.setModal('settings')} icon={<Settings2 />} />
             </div>
         </header>

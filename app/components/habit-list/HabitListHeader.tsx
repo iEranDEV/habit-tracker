@@ -11,15 +11,15 @@ export default function HabitListHeader() {
     const monthDays = new Date(weekStart.getFullYear(), weekStart.getMonth(), 0).getDate();
 
     return (
-        <div className="border-b select-none border-neutral-200 bg-neutral-50 flex items-end w-full py-2 text-sm text-neutral-400">
+        <div className="border-b select-none border-neutral-200 px-2 lg:px-0 bg-neutral-50 flex items-end w-full py-2 text-sm text-neutral-400">
 
             {/* Habit name & category */}
-            <div className="basis-1/4">
+            <div className="hidden md:block basis-1/4">
                 Habit name
             </div>
 
             {/* Days */}
-            <div className="grow px-4 flex justify-between items-center">
+            <div className="grow flex justify-around md:justify-between items-center">
 
                 {Array.from({length: 7}).map((_, i) => {
                     const date = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + i);
@@ -38,7 +38,7 @@ export default function HabitListHeader() {
             </div>
 
             {/* Blank spot for additional data */}
-            <div className="basis-20"></div>
+            <div className="basis-20 hidden md:block"></div>
 
         </div>
     )

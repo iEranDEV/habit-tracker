@@ -2,7 +2,7 @@
 
 import HabitList from "./components/habit-list/HabitList";
 import HabitListHeader from "./components/habit-list/HabitListHeader";
-import Header from "./components/utils/Header";
+import Header from "./components/utils/layout/Header";
 import ControlPanel from "./components/control-panel/ControlPanel";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";

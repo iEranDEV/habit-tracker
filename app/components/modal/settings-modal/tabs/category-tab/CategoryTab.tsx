@@ -3,7 +3,7 @@ import CategoryTabItem from "./CategoryTabItem";
 import { useContext } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";
-import Button from "@/app/components/utils/Button";
+import Button from "@/app/components/utils/general/Button";
 
 export default function CategoryTab() {
 
@@ -19,15 +19,11 @@ export default function CategoryTab() {
 
                 <div className="w-full h-full grid grid-cols-3 gap-1">
 
-                    <CategoryTabItem color="#22c55e" name={'Nature'} icon={<Leaf size={16} />} />
-                    <CategoryTabItem color="#ef4444" name={'Sport'} icon={<Bike size={16} />} />
-                    <CategoryTabItem color="#0891b2" name={'Home'} icon={<Home size={16} />} />
-                    <CategoryTabItem color="#ec4899" name={'Study'} icon={<GraduationCap size={16} />} />
-                    <CategoryTabItem color="#10b981" name={'Finance'} icon={<Wallet size={16} />} />
-                    <CategoryTabItem color="#f97316" name={'Work'} icon={<Briefcase size={16} />} />
-                    <CategoryTabItem color="#f43f5e" name={'Health'} icon={<HeartPulse size={16} />} />
-                    <CategoryTabItem color="#9333ea" name={'Social'} icon={<MessagesSquare size={16} />} />
-                    <CategoryTabItem color="#84cc16" name={'Entertainment'} icon={<Ticket size={16} />} />
+                    {categories.filter((item) => item.id.includes('default_')).map((category) => {
+                        const LucideIcon = icons[category.icon as keyof typeof icons];
+
+                        return <CategoryTabItem key={category.id} id={category.id} name={category.name} icon={<LucideIcon size={16} />} color={category.color} />
+                    })}
 
                 </div>
             </div>
@@ -38,7 +34,7 @@ export default function CategoryTab() {
 
                 {categories.length > 0 ? (
                     <div className="w-full grid grid-cols-3 gap-1">
-                        {categories.map((category) => {
+                        {categories.filter((item) => !item.id.includes('default_')).map((category) => {
                             const LucideIcon = icons[category.icon as keyof typeof icons];
 
                             return <CategoryTabItem key={category.id} id={category.id} name={category.name} icon={<LucideIcon size={16} />} color={category.color} custom />

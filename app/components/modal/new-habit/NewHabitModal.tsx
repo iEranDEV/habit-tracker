@@ -1,11 +1,17 @@
 import { useState } from "react";
 import Modal from "../Modal";
-import Button from "../../utils/Button";
+import Button from "../../utils/general/Button";
 import { ArrowBigLeft, ArrowBigRight, Check } from "lucide-react";
 import FormStageOne from "./FormStageOne";
 import FormStageTwo from "./FormStageTwo";
 import FormStageThree from "./FormStageThree";
 import { FormProvider, useForm } from "react-hook-form";
+
+const titles = [
+    'Select category',
+    'Provide habit details',
+    'Select habit time'
+]
 
 export default function NewHabitModal() {
 
@@ -19,9 +25,9 @@ export default function NewHabitModal() {
     }
 
     return (
-        <Modal title={'Add new habit'}>
+        <Modal title={titles[stage - 1]}>
             <FormProvider {...methods}>
-                <form noValidate onSubmit={methods.handleSubmit(onSubmit)} className="w-full h-full flex pt-2 flex-col gap-2">
+                <form noValidate onSubmit={methods.handleSubmit(onSubmit)} className="w-full h-full justify-center flex pt-2 flex-col gap-2">
 
                     {/* Body */}
                     <div>

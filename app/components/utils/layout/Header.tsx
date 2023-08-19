@@ -1,5 +1,5 @@
 import { Settings2 } from "lucide-react";
-import IconButton from "./IconButton";
+import IconButton from "../general/IconButton";
 import { useContext } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";

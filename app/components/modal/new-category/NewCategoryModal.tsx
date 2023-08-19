@@ -6,7 +6,7 @@ import ColorPicker from "./ColorPicker";
 import { addCategory } from "@/firebase/db/category";
 import { UserContext } from "@/context/UserContext";
 import { ModalContext } from "@/context/ModalContext";
-import Button from "../../utils/Button";
+import Button from "../../utils/general/Button";
 
 export default function NewCategoryModal() {
     const [color, setColor] = useState('#8b5cf6');

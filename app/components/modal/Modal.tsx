@@ -1,7 +1,7 @@
 import { ModalContext } from "@/context/ModalContext"
 import { motion } from "framer-motion"
 import { useContext } from "react"
-import IconButton from "../utils/IconButton"
+import IconButton from "../utils/general/IconButton"
 import { ArrowBigLeft, X } from "lucide-react"
 
 type ModalProps = {
@@ -17,7 +17,7 @@ export default function Modal({ children, title, back }: ModalProps) {
     return (
         <div
             onClick={() => modalContext.setModal('')}
-            className="backdrop-blur-[2px] flex justify-center pt-20 lg:pt-40 text-neutral-700 bg-neutral-300/50 fixed top-0 left-0 z-50 w-full h-full"
+            className="backdrop-blur-[2px] flex justify-center py-20 overflow-auto lg:py-40 text-neutral-700 bg-neutral-300/50 fixed top-0 left-0 z-50 w-full h-full"
         >            
             <motion.div 
                 onClick={(e) => e.stopPropagation()} 

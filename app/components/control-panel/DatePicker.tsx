@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { CalendarDays, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useRef, useState } from "react";
-import IconButton from "../utils/IconButton";
+import IconButton from "../utils/general/IconButton";
 import { getMonthName, isSameDate } from "@/lib/date";
 import { CalendarContext } from "@/context/CalendarContext";
 

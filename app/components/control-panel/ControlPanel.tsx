@@ -1,12 +1,12 @@
 import { ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
 import ViewModeToggler from "./ViewModeToggler";
-import IconButton from "../utils/IconButton";
+import IconButton from "../utils/general/IconButton";
 import { ModalContext } from "@/context/ModalContext";
 import { useContext } from 'react';
 import DatePicker from "./DatePicker";
 import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
-import Button from "../utils/Button";
+import Button from "../utils/general/Button";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function ControlPanel() {

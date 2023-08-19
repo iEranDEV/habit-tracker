@@ -7,6 +7,7 @@ import DatePicker from "./DatePicker";
 import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
 import Button from "../utils/Button";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ControlPanel() {
 
@@ -26,26 +27,37 @@ export default function ControlPanel() {
                     <DatePicker />
                 </div>
                 <div className="md:flex text-lg font-semibold hidden gap-2 items-center">
-                    {calendarContext.viewMode === 'week' ? (
-                        <>
-                            {(() => {
-                                const { weekStart, weekEnd } = getWeek(calendarContext.selectedDate);
+                    <AnimatePresence>
+                        {calendarContext.viewMode === 'week' ? (
+                            <>
+                                {(() => {
+                                    const { weekStart, weekEnd } = getWeek(calendarContext.selectedDate);
 
-                                return (
-                                    <p className="flex items-center gap-2">
-                                        <span>{formatShortDate(weekStart)}</span>
-                                        <MoveRight />
-                                        <span>{formatShortDate(weekEnd)}</span>
-                                    </p>
-                                )
-                            })()}
-                        </>
-                    ) : (
-                        <span>{formatShortDate(calendarContext.selectedDate)}</span>
-                    )}
+                                    return (
+                                        <motion.p
+                                            initial={{ y: -20 }}
+                                            animate={{ y: 0}}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <span>{formatShortDate(weekStart)}</span>
+                                            <MoveRight />
+                                            <span>{formatShortDate(weekEnd)}</span>
+                                        </motion.p>
+                                    )
+                                })()}
+                            </>
+                        ) : (
+                            <motion.span
+                                initial={{ y: -20 }}
+                                animate={{ y: 0}}
+                            >
+                                {formatShortDate(calendarContext.selectedDate)}
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
                 </div>
                 <div className="block md:hidden">
-                    <ViewModeToggler />
+                    <ViewModeToggler key={'large'} />
                 </div>
             </div>
 

@@ -2,7 +2,6 @@ import { AlertCircle, } from "lucide-react";
 import { RegisterOptions, useFormContext } from "react-hook-form";
 
 type InputProps = {
-    icon: JSX.Element,
     id: string,
     label: string,
     placeholder: string,
@@ -10,28 +9,23 @@ type InputProps = {
     validate?: RegisterOptions
 }
 
-export default function Input({ icon, id, label, placeholder, type = 'text', validate = {} }: InputProps) {
+export default function Input({ id, label, placeholder, type = 'text', validate = {} }: InputProps) {
     const methods = useFormContext();
 
     const error = methods.formState.errors[id];
 
     return (
         <div className="flex flex-col gap-1 max-w-md">
-            <p className="text-neutral-400 font-semibold text-sm">
+            <p className="text-neutral-700 font-semibold text-sm">
                 {label}
             </p>
-            <div className='w-full p-1 relative rounded-lg border gap-1 border-neutral-200 flex items-center'>
-
-                {/* Icon */}
-                <div className={`border-r px-2 border-neutral-200 ${error ? 'text-red-400' : 'text-neutral-400'}`}>
-                    {icon}
-                </div>
+            <div className='w-full relative rounded-lg bg-neutral-50 flex items-center'>
 
                 {/* Input */}
                 <input 
                     {...methods.register(id, validate)}
                     type={type} 
-                    className='h-8 bg-neutral-50 grow palceholder-neutral-200 ml-2 focus:outline-none' 
+                    className='h-full bg-neutral-50 rounded-lg border-neutral-200 border p-2 grow placeholder-neutral-300 focus:outline-purple-400' 
                     placeholder={placeholder}
                 />
 

@@ -2,9 +2,9 @@ import { useState } from "react";
 import Modal from "../Modal";
 import Button from "../../utils/general/Button";
 import { ArrowBigLeft, ArrowBigRight, Check } from "lucide-react";
-import FormStageOne from "./FormStageOne";
-import FormStageTwo from "./FormStageTwo";
-import FormStageThree from "./FormStageThree";
+import FormStageOne from "./stage_one/FormStageOne";
+import FormStageTwo from "./stage_two/FormStageTwo";
+import FormStageThree from "./stage_three/FormStageThree";
 import { FormProvider, useForm } from "react-hook-form";
 
 const titles = [
@@ -20,7 +20,6 @@ export default function NewHabitModal() {
     const methods = useForm();
 
     const onSubmit = async (data: any) => {
-        console.log(stage);
         console.log(data);
     }
 

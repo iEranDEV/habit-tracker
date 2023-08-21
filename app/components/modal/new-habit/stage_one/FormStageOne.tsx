@@ -1,6 +1,6 @@
 import { UserContext } from "@/context/UserContext";
 import { useContext, useEffect, useState } from "react";
-import CategoryBadge from "../../utils/CategoryBadge";
+import CategoryBadge from "../../../utils/CategoryBadge";
 import { Check, icons } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 
@@ -8,7 +8,7 @@ export default function FormStageOne() {
 
     const methods = useFormContext();
 
-    const [selected, setSelected] = useState(methods.getValues('category') !== undefined ? methods.getValues('category') : 'default_other')
+    const [selected, setSelected] = useState(methods.getValues('category') !== undefined ? methods.getValues('category') : 'default_other');
     const { categories } = useContext(UserContext);
 
     useEffect(() => {

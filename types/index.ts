@@ -9,11 +9,12 @@ interface Category {
 interface Habit {
     id: string,
     name: string,
+    description: string,
     category: string,
-    // type: string,
+    type: 'default' | 'counter' | 'checklist',
     createdAt: Date,
     startAt: Date,
-    // repeat: string,
+    details: any,
 }
 
 interface CheckIn {

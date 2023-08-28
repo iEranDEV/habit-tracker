@@ -1,14 +1,23 @@
+import Input from "@/app/components/utils/general/Input";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
 export default function ChecklistTypeDetails(){
+
+    const methods = useFormContext();
+
+    useEffect(() => {
+        methods.unregister('details');
+    }, []);
 
     return (
         <motion.div 
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="w-full mt-3 h-10 border-t pt-3 border-neutral-200"
+            className="w-full mt-3 border-t flex flex-col gap-4 pt-3 border-neutral-200"
         >
-            checklist
+            <Input id={"details.checklist"} label={"Checklist"} placeholder={"Task"} />
         </motion.div>
     )
 }

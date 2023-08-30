@@ -1,8 +1,7 @@
-import { Settings2 } from "lucide-react";
-import IconButton from "../general/IconButton";
 import { useContext } from "react";
 import { ModalContext } from "@/context/ModalContext";
 import { UserContext } from "@/context/UserContext";
+import SettingsModal from "./modal/SettingsModal";
 
 export default function Header() {
 
@@ -30,7 +29,7 @@ export default function Header() {
                         {getWelcomeText()}, {user.name}
                     </span>
                 </p>
-                <IconButton onClick={() => modalContext.setModal('settings')} icon={<Settings2 />} />
+                <SettingsModal />
             </div>
         </header>
     )

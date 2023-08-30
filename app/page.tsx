@@ -2,14 +2,14 @@
 
 import HabitList from "./components/habit-list/HabitList";
 import HabitListHeader from "./components/habit-list/HabitListHeader";
-import Header from "./components/utils/layout/Header";
-import ControlPanel from "./components/control-panel/ControlPanel";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { UserContextProvider } from "@/context/UserContext";
 import ModalContextProvider from "@/context/ModalContext";
 import { CalendarContextProvider } from "@/context/CalendarContext";
+import ControlPanel from "@/components/ControlPanel";
+import Header from "@/components/Header";
 
 export default function Home() {
 
@@ -43,11 +43,11 @@ export default function Home() {
 									<ControlPanel />
 
 									{/* Habits table header */}
-									<HabitListHeader />
+									{/* <HabitListHeader /> */}
 								</div>
 
 								{/* Habits list */}
-								<HabitList />
+								{/* <HabitList /> */}
 							</div>
 						</div>
 					</CalendarContextProvider>

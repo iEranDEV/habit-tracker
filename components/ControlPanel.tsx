@@ -4,7 +4,7 @@ import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import { TooltipProvider } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 
@@ -18,37 +18,57 @@ export default function ControlPanel() {
 
             {/* Date & control buttons */}
             <div className="flex items-center w-full lg:w-auto gap-2">
-                <div className="space-x-2">
-                    <TooltipProvider>
+                <div className="flex gap-2">
 
-                        {/* Previous day / week */}
-                        <Button variant="outline" size="icon" tooltip="Previous">
-                            <ChevronLeft size={20} />
-                        </Button>
+                    {/* Previous day / week */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="outline" size="icon">
+                                    <ChevronLeft size={20} />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Previous</p>
+                            </TooltipContent>
+                        </Tooltip>
 
                         {/* Next day / week */}
-                        <Button variant="outline" size="icon" tooltip="Next">
-                            <ChevronRight size={20} />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="outline" size="icon">
+                                    <ChevronRight size={20} />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Next</p>
+                            </TooltipContent>
+                        </Tooltip>
 
                         {/* Date picker */}
                         <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant={"outline"} size={'icon'} tooltip="Calendar">
-                                    <CalendarIcon size={20} />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    required
-                                    selected={selectedDate}
-                                    onSelect={(date: Date | undefined) => date && setSelectedDate(date)}
-                                    initialFocus
-                                />
-                            </PopoverContent>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <PopoverTrigger asChild>
+                                        <Button variant={"outline"} size={'icon'}>
+                                            <CalendarIcon size={20} />
+                                        </Button>
+                                    </PopoverTrigger>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Calendar</p>
+                                </TooltipContent>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        required
+                                        selected={selectedDate}
+                                        onSelect={(date: Date | undefined) => date && setSelectedDate(date)}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Tooltip>
                         </Popover>
-
                     </TooltipProvider>
                 </div>
 
@@ -92,6 +112,6 @@ export default function ControlPanel() {
                 </Button>
             </div>
 
-        </div>
+        </div >
     )
 }

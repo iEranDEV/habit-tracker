@@ -2,7 +2,8 @@ import { Separator } from "@/components/ui/separator"
 import SidebarNav from "./components/SidebarNav"
 import { ChevronLeft, Home, Shapes, Star, User } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
+import Link from "next/link"
 
 const sidebarNavItems = [
     {
@@ -41,9 +42,9 @@ export default function SettingsLayout({ children }: { children: JSX.Element }) 
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant={"outline"} size="icon">
-                                <Home size={20} />
-                            </Button>
+                            <Link className={buttonVariants({ variant: "outline", size: "icon" })} href={"/"}>
+                                <ChevronLeft size={20} />
+                            </Link>
                         </TooltipTrigger>
                         <TooltipContent>
                             <p>Home page</p>

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { LogOut, Settings2 } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
@@ -29,26 +29,24 @@ export default function Header() {
                 </h1>
                 <div className="space-x-2">
                     <TooltipProvider>
+
+                        {/* Settings link */}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant={"outline"} size="icon">
+                                <Link className={buttonVariants({ variant: "outline", size: "icon" })} href={"/settings"}>
                                     <Settings2 size={20} />
-                                </Button>
+                                </Link>
                             </TooltipTrigger>
                             <TooltipContent>
                                 <p>Settings</p>
                             </TooltipContent>
                         </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button variant={"outline"} size="icon">
-                                    <LogOut size={20} />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Log out</p>
-                            </TooltipContent>
-                        </Tooltip>
+
+                        {/* Log out */}
+                        <Button variant={"outline"} size="icon" tooltip="Log out">
+                            <LogOut size={20} />
+                        </Button>
+
                     </TooltipProvider>
                 </div>
             </div>

@@ -1,26 +1,29 @@
 import { Separator } from "@/components/ui/separator"
 import SidebarNav from "./components/SidebarNav"
+import { ChevronLeft, Home, Shapes, Star, User } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Button } from "@/components/ui/button"
 
 const sidebarNavItems = [
     {
-        title: "Profile",
-        href: "/examples/forms",
+        title: "Back to home page",
+        href: "/",
+        icon: <ChevronLeft strokeWidth={1.5} size={20} />
     },
     {
         title: "Account",
-        href: "/examples/forms/account",
+        href: "/settings",
+        icon: <User strokeWidth={1.5} size={20} />
     },
     {
-        title: "Appearance",
-        href: "/examples/forms/appearance",
+        title: "Categories",
+        href: "/settings/categories",
+        icon: <Shapes strokeWidth={1.5} size={20} />
     },
     {
-        title: "Notifications",
-        href: "/examples/forms/notifications",
-    },
-    {
-        title: "Display",
-        href: "/examples/forms/display",
+        title: "Premium",
+        href: "/settings/premium",
+        icon: <Star strokeWidth={1.5} size={20} />
     },
 ]
 
@@ -28,11 +31,25 @@ export default function SettingsLayout({ children }: { children: JSX.Element }) 
 
     return (
         <div className="hidden space-y-6 p-10 pb-16 md:block">
-            <div className="space-y-0.5">
-                <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
-                <p className="text-muted-foreground">
-                    Manage your account settings and set e-mail preferences.
-                </p>
+            <div className="flex justify-between items-center">
+                <div className="space-y-0.5">
+                    <h1 className="text-header">Settings</h1>
+                    <p className="text-muted-foreground">
+                        Manage your account settings and set e-mail preferences.
+                    </p>
+                </div>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant={"outline"} size="icon">
+                                <Home size={20} />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Home page</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             </div>
             <Separator className="my-6" />
             <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">

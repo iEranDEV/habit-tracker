@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={font.className + ' flex justify-center items-center relative'}>
+			<body className={font.className}>
 				<NotificationContextProvider>
 					<AuthContextProvider>
 						{children}

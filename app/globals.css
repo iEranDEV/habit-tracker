@@ -80,14 +80,6 @@
 	}
 }
 
-h1 {
+.text-header {
 	@apply text-3xl font-handwrite;
-}
-
-h2 {
-	@apply text-2xl font-bold tracking-tight;
-}
-
-h3 {
-	@apply text-lg font-medium
 }

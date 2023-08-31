@@ -20,37 +20,38 @@ export default function Home() {
 
 	useEffect(() => {
 		setAuth(false);
-		if(loggedUser === null) {
+		if (loggedUser === null) {
 			router.push('/auth/login')
 		} else setAuth(true)
 	}, [loggedUser])
 
-	if(auth) return (
+	if (auth) return (
 		<UserContextProvider>
 			<ModalContextProvider>
-				<div className="w-screen lg:w-[1024px] py-10 text-neutral-700">
+				<div className="w-full flex justify-center">
+					<div className="w-full max-w-[1024px] py-10 text-neutral-700">
+						{/* Header */}
+						<Header />
 
-					{/* Header */}
-					<Header />
+						<CalendarContextProvider>
+							{/* Body */}
+							<div className="w-full flex">
+								<div className="basis-full lg:basis-full flex flex-col">
 
-					<CalendarContextProvider>
-						{/* Body */}
-						<div className="w-full flex">
-							<div className="basis-full lg:basis-full flex flex-col">
+									{/* Habits control panel */}
+									<div className="w-full sticky top-0 flex-col">
+										<ControlPanel />
 
-								{/* Habits control panel */}
-								<div className="w-full sticky top-0 flex-col">
-									<ControlPanel />
+										{/* Habits table header */}
+										{/* <HabitListHeader /> */}
+									</div>
 
-									{/* Habits table header */}
-									{/* <HabitListHeader /> */}
+									{/* Habits list */}
+									{/* <HabitList /> */}
 								</div>
-
-								{/* Habits list */}
-								{/* <HabitList /> */}
 							</div>
-						</div>
-					</CalendarContextProvider>
+						</CalendarContextProvider>
+					</div>
 				</div>
 			</ModalContextProvider>
 		</UserContextProvider>

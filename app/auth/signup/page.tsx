@@ -57,7 +57,7 @@ export default function SignupPage() {
             <div className="w-full px-4 md:px-0 md:w-96 h-full justify-center items-center flex flex-col space-y-8">
 
                 {/* Header */}
-                <h1>Create an account</h1>
+                <h1 className='text-header'>Create an account</h1>
 
                 {/* Social login */}
                 <div className="grid grid-cols-2 gap-2 w-full">

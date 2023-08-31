@@ -5,12 +5,12 @@ import { createContext, useState } from "react";
 export const CalendarContext = createContext({
     viewMode: 'week',
     selectedDate: new Date(),
-    setViewMode: (viewMode: 'day' | 'week') => { },
+    setViewMode: (viewMode: 'day' | 'week' | 'month') => { },
     setSelectedDate: (selectedDate: Date) => { }
 });
 
 export function CalendarContextProvider({ children }: { children: React.ReactNode }) {
-    const [viewMode, setViewMode] = useState<'day' | 'week'>('week');
+    const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('week');
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
     return (

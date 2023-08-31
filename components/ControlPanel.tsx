@@ -7,6 +7,20 @@ import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
+
+const viewOptions = [
+    {
+        title: 'Day',
+        id: 'day'
+    }, {
+        title: 'Week',
+        id: 'week'
+    }, {
+        title: 'Month',
+        id: 'month'
+    }
+]
 
 export default function ControlPanel() {
     const calendarContext = useContext(CalendarContext);
@@ -105,8 +119,19 @@ export default function ControlPanel() {
 
             {/* View mode, new habit button */}
             <div className="w-full md:w-auto flex items-center gap-2">
-                {/*<ViewModeToggler />
-                <Button name="Add habit" icon={<Plus />} onClick={() => modalContext.setModal('new_habit')} />*/}
+                <Select onValueChange={(value: 'day' | 'week' | 'month') => calendarContext.setViewMode(value)} defaultValue={calendarContext.viewMode}>
+                    <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Select view mode" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Select view mode</SelectLabel>
+                            {viewOptions.map((item) => (
+                                <SelectItem key={item.id} value={item.id}>{item.title}</SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 <Button>
                     <Plus size={20} className="mr-2" /> Add new habit
                 </Button>

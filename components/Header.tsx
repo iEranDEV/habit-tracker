@@ -11,10 +11,10 @@ export default function Header() {
     const getWelcomeText = () => {
         const date = new Date();
         const hour = date.getHours();
-    
-        if(hour >= 5 && hour < 12) {
+
+        if (hour >= 5 && hour < 12) {
             return 'Good morning'
-        } else if(hour >= 12 && hour < 18) {
+        } else if (hour >= 12 && hour < 18) {
             return 'Good afternoon'
         } else {
             return 'Good evening'
@@ -24,11 +24,9 @@ export default function Header() {
     return (
         <header className="pb-8 px-2 pt-6 relative w-full">
             <div className="h-full w-full flex justify-between items-center">
-                <p className="select-none truncate text-neutral-700 text-xl md:text-2xl lg:text-3xl">
-                    <span className="font-borel">
-                        {getWelcomeText()}, {user.name}
-                    </span>
-                </p>
+                <h1 className="select-none truncate">
+                    {getWelcomeText()}, {user.name}
+                </h1>
                 <SettingsModal />
             </div>
         </header>

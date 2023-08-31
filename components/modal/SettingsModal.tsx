@@ -11,7 +11,7 @@ export default function SettingsModal() {
                     <Settings2 size={20} />
                 </Button>
             </SheetTrigger>
-            <SheetContent side={'left'}>
+            <SheetContent className="!w-[1000px]" side={'left'}>
                 <SheetHeader>
                     <SheetTitle>Edit profile</SheetTitle>
                     <SheetDescription>

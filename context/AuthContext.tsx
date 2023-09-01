@@ -4,6 +4,7 @@ import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
 import firebase_app from '@/firebase/config';
 import { createContext, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const auth = getAuth(firebase_app);
 
@@ -32,11 +33,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     return (
         <AuthContext.Provider value={{ loggedUser }}>
             {loading ? (
-                <div className='w-screen h-screen bg-neutral-50 flex justify-center items-center'>
-                    <div className='animate-spin'>
-                        <Loader2 color='#d4d4d4' />
-                    </div>
-                </div>
+                <LoadingScreen />
             ) : children}
         </AuthContext.Provider>
     );

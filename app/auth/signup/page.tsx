@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { getRedirect, signInGoogle } from '@/firebase/auth';
+import { getRedirect, signInGoogle, signUp } from '@/firebase/auth';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,26 +12,28 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
 
 export default function SignupPage() {
 
     // Form schema
     const formSchema = z.object({
-        name: z.string(),
+        name: z.string().trim().min(1, { message: 'This field is required' }),
         email: z.string().email({ message: "Invalid email address" }),
-        password: z.string(),
-        confirmPassword: z.string(),
-    })
+        password: z.string().trim().min(6, { message: 'Password should be at least 6 characters' }),
+        confirmPassword: z.string().trim().min(1, { message: 'This field is required' }),
+    }).refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+    });
 
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
         },
     })
 
@@ -47,8 +49,12 @@ export default function SignupPage() {
         socialLoginHandle();
     }, []);
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const { result, error } = await signUp(values.name, values.email, values.password);
+
+        if (result) {
+            router.push('/');
+        }
     }
 
     return (

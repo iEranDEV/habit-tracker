@@ -4,9 +4,13 @@ import { Button, buttonVariants } from "./ui/button";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import { useRouter } from "next/navigation";
+import firebase_app from "@/firebase/config";
+import { logOut } from "@/firebase/auth";
 export default function Header() {
 
     const { user } = useContext(UserContext);
+    const router = useRouter();
 
     const getWelcomeText = () => {
         const date = new Date();
@@ -45,7 +49,10 @@ export default function Header() {
                         {/* Log out */}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant={"outline"} size="icon">
+                                <Button onClick={() => {
+                                    logOut();
+                                    router.push('/auth/login')
+                                }} variant={"outline"} size="icon">
                                     <LogOut size={20} />
                                 </Button>
                             </TooltipTrigger>

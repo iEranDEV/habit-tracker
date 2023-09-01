@@ -1,9 +1,9 @@
 'use client';
 
-import { getRedirect, signInGoogle } from '@/firebase/auth';
+import { getRedirect, signIn, signInGoogle } from '@/firebase/auth';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useForm, DefaultValues } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -17,17 +17,17 @@ export default function LoginPage() {
 
     // Form schema
     const formSchema = z.object({
-        email: z.string().email({ message: "Invalid email address" }),
-        password: z.string(),
+        email: z.string().email(),
+        password: z.string().trim().min(1, { message: 'This field is required' }),
     })
 
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: '',
-            password: ''
-        },
+            email: "",
+            password: ""
+        }
     })
 
     useEffect(() => {
@@ -42,8 +42,12 @@ export default function LoginPage() {
         socialLoginHandle();
     }, []);
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const { result, error } = await signIn(values.email, values.password);
+
+        if (result) {
+            router.push('/');
+        }
     }
 
     return (

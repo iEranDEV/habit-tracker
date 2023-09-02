@@ -23,32 +23,30 @@ export default function Home() {
 	}, [loggedUser])
 
 	if (auth) return (
-		<UserContextProvider>
-			<div className="w-full flex justify-center">
-				<div className="w-full max-w-[1024px] py-10 text-neutral-700">
-					{/* Header */}
-					<Header />
+		<div className="w-full flex justify-center">
+			<div className="w-full max-w-[1024px] py-10 text-neutral-700">
+				{/* Header */}
+				<Header />
 
-					<CalendarContextProvider>
-						{/* Body */}
-						<div className="w-full flex">
-							<div className="basis-full lg:basis-full flex flex-col">
+				<CalendarContextProvider>
+					{/* Body */}
+					<div className="w-full flex">
+						<div className="basis-full lg:basis-full flex flex-col">
 
-								{/* Habits control panel */}
-								<div className="w-full sticky top-0 flex-col">
-									<ControlPanel />
+							{/* Habits control panel */}
+							<div className="w-full sticky top-0 flex-col">
+								<ControlPanel />
 
-									{/* Habits table header */}
-									{/* <HabitListHeader /> */}
-								</div>
-
-								{/* Habits list */}
-								{/* <HabitList /> */}
+								{/* Habits table header */}
+								{/* <HabitListHeader /> */}
 							</div>
+
+							{/* Habits list */}
+							{/* <HabitList /> */}
 						</div>
-					</CalendarContextProvider>
-				</div>
+					</div>
+				</CalendarContextProvider>
 			</div>
-		</UserContextProvider>
+		</div>
 	)
 }

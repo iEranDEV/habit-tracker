@@ -3,7 +3,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { getUser } from "@/firebase/db/user";
-import { Loader2 } from "lucide-react";
 import { getCategories } from "@/firebase/db/category";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -13,9 +12,9 @@ export const UserContext = createContext({
     setCategories: (categories: Array<Category>) => { }
 });
 
-export const UserContextProvider = ({ children }: { children: JSX.Element }) => {
+export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState(Array<Category>());
 
     const { loggedUser } = useContext(AuthContext);

@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import NewCategoryForm from "../forms/NewCategoryForm";
 
 export default function NewCategoryDialog() {
 
@@ -13,12 +14,11 @@ export default function NewCategoryDialog() {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
-                    </DialogDescription>
+                    <DialogTitle>Create new category</DialogTitle>
+                    <DialogDescription>Submit form below to create new category</DialogDescription>
                 </DialogHeader>
+
+                <NewCategoryForm />
             </DialogContent>
         </Dialog>
     )

@@ -20,7 +20,7 @@ export default function SettingsCategories() {
                 </p>
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2">
                 {categories.filter((item) => item.createdBy === '').map((item) => {
                     const Icon = icons[item.icon as keyof typeof icons];
 
@@ -40,7 +40,7 @@ export default function SettingsCategories() {
                 <NewCategoryDialog />
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-2">
                 {categories.filter((item) => item.createdBy !== '').map((item) => {
                     const Icon = icons[item.icon as keyof typeof icons];
 

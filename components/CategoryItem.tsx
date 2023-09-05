@@ -20,13 +20,13 @@ export default function CategoryItem({ item, custom, icon }: CategoryItemProps) 
             </div>
 
             {custom && (
-                <div className="hidden group-hover:flex">
-                    <Button variant="ghost" size={'icon'} className="h-8 w-8 hover:text-primary">
+                <div className="hidden group-hover:flex items-center gap-1">
+                    <div className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
                         <Pencil size={16} />
-                    </Button>
-                    <Button variant="ghost" size={'icon'} className="h-8 w-8 hover:text-primary">
+                    </div>
+                    <div className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
                         <Trash size={16} />
-                    </Button>
+                    </div>
                 </div>
             )}
         </div>

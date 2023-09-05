@@ -7,6 +7,8 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
+import ColorPicker from "../ColorPicker";
+import IconPicker from "../IconPicker";
 
 export default function NewCategoryForm() {
 
@@ -20,7 +22,7 @@ export default function NewCategoryForm() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            color: "#FF0000",
+            color: "#ef4444",
             icon: "X"
         }
     })
@@ -54,6 +56,12 @@ export default function NewCategoryForm() {
                         </FormItem>
                     )}
                 />
+
+                {/* Color picker */}
+                <ColorPicker />
+
+                {/* Icon picker */}
+                <IconPicker />
 
                 {/* Footer */}
                 <DialogFooter>

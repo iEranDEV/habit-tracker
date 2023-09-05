@@ -1,33 +1,57 @@
-import { FirestoreError, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, or, query, setDoc, where } from "firebase/firestore";
+import { FirestoreError, Timestamp, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, or, query, setDoc, updateDoc, where } from "firebase/firestore";
 import firebase_app from "../config";
 import { v4 as uuid } from 'uuid';
+import { Category } from "@/types";
 
 const db = getFirestore(firebase_app);
 
 export async function addCategory(name: string, color: string, icon: string, createdBy: string) {
     const id = uuid();
-    const category: Category = { id, name, color, icon, createdBy };
+    const category: Category = { id, name, color, icon, createdBy, createdAt: Timestamp.now() };
+    let result: Category | null = null, error: FirestoreError | null = null;
 
-    return await setDoc(doc(db, "categories", id), category).then(() => {
-        return category;
+    await setDoc(doc(db, "categories", id), category).then(() => {
+        result = category;
     }).catch((e: FirestoreError) => {
-        return e;
+        error = e;
     })
+
+    return { result, error }
+}
+
+export async function updateCategory(id: string, category: Category) {
+    let result: Category | null = null, error: FirestoreError | null = null;
+
+    await updateDoc(doc(db, "categories", id), {
+        name: category.name,
+        icon: category.icon,
+        color: category.color
+    }).then(() => {
+        result = category;
+    }).catch((e: FirestoreError) => {
+        error = e;
+    });
+
+    return { result, error }
 }
 
 export async function deleteCategory(id: string) {
-    return await deleteDoc(doc(db, "categories", id)).then(() => {
-        return { id: id };
+    let result: string | null = null, error: FirestoreError | null = null;
+
+    await deleteDoc(doc(db, "categories", id)).then(() => {
+        result = id;
     }).catch((e: FirestoreError) => {
-        return e;
+        error = e;
     });
+
+    return { result, error }
 }
 
 export async function getCategory(id: string) {
     const docRef = await getDoc(doc(db, "users", id));
-    if(docRef.exists()) {
+    if (docRef.exists()) {
         return docRef.data();
-    } 
+    }
     return null;
 }
 

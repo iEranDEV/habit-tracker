@@ -11,15 +11,17 @@ import ColorPicker from "../ColorPicker";
 import IconPicker from "../IconPicker";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
-import { addCategory } from "@/firebase/db/category";
+import { updateCategory } from "@/firebase/db/category";
+import { Category } from "@/types";
 
-interface NewCategoryFormProps {
-    setOpen: Function
+interface EditCategoryFormProps {
+    setOpen: Function,
+    category: Category
 }
 
-export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
+export default function EditCategoryForm({ setOpen, category }: EditCategoryFormProps) {
 
-    const { user, categories, setCategories } = useContext(UserContext);
+    const { categories, setCategories } = useContext(UserContext);
 
     const formSchema = z.object({
         name: z.string().trim().min(1, { message: 'This field is required' }),
@@ -30,18 +32,25 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            color: "#ef4444",
-            icon: "Shapes"
+            name: category.name,
+            color: category.color,
+            icon: category.icon
         }
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await addCategory(values.name, values.color, values.icon, user.id);
+        const { result, error } = await updateCategory(category.id, {
+            id: category.id,
+            createdBy: category.createdBy,
+            name: values.name,
+            color: values.color,
+            icon: values.icon,
+            createdAt: category.createdAt
+        });
 
         if (result) {
             setOpen(false);
-            setCategories([...categories, result]);
+            setCategories([...categories.filter((item) => item.id !== category.id), result]);
         }
     }
 
@@ -71,10 +80,10 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
                 />
 
                 {/* Color picker */}
-                <ColorPicker />
+                <ColorPicker defaultColor={category.color} />
 
                 {/* Icon picker */}
-                <IconPicker />
+                <IconPicker defaultIcon={category.icon} />
 
                 {/* Footer */}
                 <DialogFooter>

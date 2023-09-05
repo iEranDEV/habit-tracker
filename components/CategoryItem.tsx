@@ -1,6 +1,7 @@
 import Values from "values.js"
-import { Button } from "./ui/button"
-import { Pencil, Trash } from "lucide-react"
+import { Trash } from "lucide-react"
+import EditCategoryDialog from "./dialog/EditCategory"
+import { Category } from "@/types"
 
 interface CategoryItemProps {
     item: Category,
@@ -9,6 +10,10 @@ interface CategoryItemProps {
 }
 
 export default function CategoryItem({ item, custom, icon }: CategoryItemProps) {
+
+    const deleteItem = async () => {
+
+    }
 
     return (
         <div className="flex group justify-between items-center hover:bg-accent p-1 rounded-lg">
@@ -21,10 +26,8 @@ export default function CategoryItem({ item, custom, icon }: CategoryItemProps) 
 
             {custom && (
                 <div className="hidden group-hover:flex items-center gap-1">
-                    <div className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
-                        <Pencil size={16} />
-                    </div>
-                    <div className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
+                    <EditCategoryDialog category={item} />
+                    <div onClick={() => deleteItem()} className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
                         <Trash size={16} />
                     </div>
                 </div>

@@ -41,7 +41,7 @@ export default function SettingsCategories() {
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {categories.filter((item) => item.createdBy !== '').map((item) => {
+                {categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()).map((item) => {
                     const Icon = icons[item.icon as keyof typeof icons];
 
                     return (

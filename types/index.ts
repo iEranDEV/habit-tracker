@@ -1,12 +1,15 @@
-interface Category {
+import { Timestamp } from "firebase/firestore"
+
+export interface Category {
     id: string,
     name: string,
     color: string,
     icon: string,
-    createdBy: string
+    createdBy: string,
+    createdAt: Timestamp
 }
 
-interface Habit {
+export interface Habit {
     id: string,
     name: string,
     description: string,
@@ -17,7 +20,7 @@ interface Habit {
     details: any,
 }
 
-interface CheckIn {
+export interface CheckIn {
     id: string,
     date: Date,
     habit: string,
@@ -25,7 +28,7 @@ interface CheckIn {
     status?: string
 }
 
-interface INotification {
+export interface INotification {
     id: string,
     type: 'SUCCESS' | 'ERROR',
     message: string,

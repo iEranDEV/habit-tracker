@@ -5,6 +5,7 @@ import { AuthContext } from "./AuthContext";
 import { getUser } from "@/firebase/db/user";
 import { getCategories } from "@/firebase/db/category";
 import LoadingScreen from "@/components/LoadingScreen";
+import { Category } from "@/types";
 
 export const UserContext = createContext({
     user: null as any,

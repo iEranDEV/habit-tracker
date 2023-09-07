@@ -14,7 +14,7 @@ export default function EditCategoryDialog({ category }: EditCategoryDialogProps
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <div className="bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
+                <div className="hover:bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
                     <Pencil size={16} />
                 </div>
             </DialogTrigger>

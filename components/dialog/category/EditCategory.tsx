@@ -1,8 +1,8 @@
 import { Pencil } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
-import EditCategoryForm from "../forms/EditCategoryForm";
 import { Category } from "@/types";
+import EditCategoryForm from "@/components/forms/EditCategoryForm";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface EditCategoryDialogProps {
     category: Category,

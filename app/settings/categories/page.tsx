@@ -1,15 +1,17 @@
 'use client';
 
 import CategoryItem from "@/components/CategoryItem";
-import NewCategoryDialog from "@/components/dialog/NewCategory";
+import NewCategoryDialog from "@/components/dialog/category/NewCategory";
 import { Separator } from "@/components/ui/separator";
 import { UserContext } from "@/context/UserContext";
-import { icons } from "lucide-react";
+import { Shapes, icons } from "lucide-react";
 import { useContext } from "react";
 
 export default function SettingsCategories() {
 
     const { categories } = useContext(UserContext);
+
+    const customCategories = categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime());
 
     return (
         <div className="space-y-6">
@@ -41,13 +43,18 @@ export default function SettingsCategories() {
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()).map((item) => {
+                {customCategories.length > 0 ? customCategories.map((item) => {
                     const Icon = icons[item.icon as keyof typeof icons];
 
                     return (
                         <CategoryItem key={item.id} item={item} custom icon={<Icon size={20} />} />
                     )
-                })}
+                }) : (
+                    <div className="w-full col-span-2 flex items-center flex-col text-sm text-muted-foreground">
+                        <Shapes size={20} />
+                        <span>There are no custom categories</span>
+                    </div>
+                )}
             </div>
         </div >
     )

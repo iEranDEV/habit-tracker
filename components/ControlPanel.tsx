@@ -1,4 +1,4 @@
-import { CalendarIcon, ChevronLeft, ChevronRight, MoveRight, Plus } from "lucide-react";
+import { CalendarIcon, ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
 import { useContext } from 'react';
 import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/t
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
+import NewHabitDialog from "./dialog/habit/NewHabit";
 
 const viewOptions = [
     {
@@ -132,9 +133,7 @@ export default function ControlPanel() {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                <Button>
-                    <Plus size={20} className="mr-2" /> Add new habit
-                </Button>
+                <NewHabitDialog />
             </div>
 
         </div >

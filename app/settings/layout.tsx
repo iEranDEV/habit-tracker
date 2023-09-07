@@ -1,8 +1,8 @@
 import { Separator } from "@/components/ui/separator"
 import SidebarNav from "../../components/SidebarNav"
-import { ChevronLeft, Home, Shapes, Star, User } from "lucide-react"
+import { ChevronLeft, CopyCheck, Shapes, Star, User } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
 
 const sidebarNavItems = [
@@ -15,6 +15,11 @@ const sidebarNavItems = [
         title: "Account",
         href: "/settings",
         icon: <User strokeWidth={1.5} size={20} />
+    },
+    {
+        title: 'Habits',
+        href: '/settings/habits',
+        icon: <CopyCheck strokeWidth={1.5} size={20} />
     },
     {
         title: "Categories",

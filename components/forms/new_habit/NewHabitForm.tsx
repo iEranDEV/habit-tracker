@@ -1,41 +1,43 @@
-import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { createContext, useState } from "react";
+import NewHabitCategoryForm from "./NewHabitCategory";
+import NewHabitTypeForm from "./NewHabitType";
+import NewHabitDetailsForm from "./NewHabitDetails";
+import { Habit } from "@/types";
 
-interface NewHabitFormProps {
-    children: JSX.Element
-}
+export const NewHabitFormContext = createContext({
+    stage: 0,
+    setStage: (stage: number) => { },
+    data: {} as Partial<Habit>,
+    setData: (data: any) => { }
+});
 
-export default function NewHabitForm({ children }: NewHabitFormProps) {
-
-    const formSchema = z.object({
-        category: z.string()
-    })
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            category: 'default_other'
-        }
-    })
-
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-    }
+export default function NewHabitForm() {
+    const [stage, setStage] = useState(0);
+    const [data, setData] = useState<Partial<Habit>>({})
 
     return (
-        <Form {...form}>
+        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData }}>
+            <div className="relative">
 
-            <form
-                noValidate
-                onSubmit={form.handleSubmit(onSubmit)}
-            >
+                {
+                    {
+                        0: <NewHabitCategoryForm />,
+                        1: <NewHabitTypeForm />,
+                        2: <NewHabitDetailsForm />
+                    }[stage] || <p>loading</p>
+                }
 
-                {children}
+                <div className="absolute bottom-4 flex gap-2 left-1/2 -translate-x-1/2">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div
+                            onClick={() => setStage(i)}
+                            key={i}
+                            className={`rounded-full transition-all h-2 ${stage > i ? 'bg-primary w-2' : (stage === i ? 'bg-primary w-4' : 'bg-border w-2')}`}
+                        ></div>
+                    ))}
+                </div>
 
-            </form>
-
-        </Form>
+            </div>
+        </NewHabitFormContext.Provider >
     )
 }

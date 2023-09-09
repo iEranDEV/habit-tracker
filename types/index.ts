@@ -9,25 +9,17 @@ export interface Category {
     createdAt: Timestamp
 }
 
-type HabitTypeMap = {
-    'default': string,
-    'counter': string,
-    'checklist': string,
-    'timer': string
-}
+export type HabitType = 'default' | 'counter' | 'checklist' | 'timer';
 
-export interface Habit<T extends HabitType> {
+export interface Habit {
     id: string,
     name: string,
+    type: HabitType,
     description: string,
     category: string,
-    type: T,
     createdAt: Timestamp,
     startAt: Timestamp,
-    details: HabitTypeMap[T],
 }
-
-export type HabitType = keyof HabitTypeMap;
 
 export interface CheckIn {
     id: string,
@@ -35,11 +27,4 @@ export interface CheckIn {
     habit: string,
     count?: number,
     status?: string
-}
-
-export interface INotification {
-    id: string,
-    type: 'SUCCESS' | 'ERROR',
-    message: string,
-    onClick?: Function
 }

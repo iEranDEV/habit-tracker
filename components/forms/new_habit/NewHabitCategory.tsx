@@ -7,8 +7,12 @@ import { Category } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, icons } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Values from "values.js";
+import { NewHabitFormContext } from "./NewHabitForm";
+import { Form } from "@/components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const selectedElement = (
     <motion.div
@@ -43,44 +47,68 @@ function NewHabitCategoryFormItem({ item, selected, setSelected }: { item: Categ
     )
 }
 
-export default function NewHabitCategoryForm({ stage, setStage }: { stage: number, setStage: Function }) {
-    const methods = useFormContext();
+export default function NewHabitCategoryForm() {
 
-    const [selected, setSelected] = useState(methods.getValues('category') || 'default_other')
+    const { data, setData, stage, setStage } = useContext(NewHabitFormContext);
+
+    const formSchema = z.object({
+        category: z.string()
+    });
+
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            category: data.category || 'default_other'
+        }
+    });
+
+    const [selected, setSelected] = useState(data.category || 'default_other')
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setData({ ...data, ...values });
+        setStage(stage + 1);
+    }
 
     useEffect(() => {
         if (selected) {
-            methods.setValue('category', selected);
+            form.setValue('category', selected);
         }
-    }, [selected, methods])
+    }, [selected, form])
 
     const { categories } = useContext(UserContext);
 
     const customCategories = categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime());
 
     return (
-        <div className="space-y-6">
-            <div className="space-y-2" >
-                <Label>Select category</Label>
-                <div className="grid grid-cols-2 gap-2">
-                    {categories.filter((item) => item.createdBy === '').map((item) => (
-                        <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
-                    ))}
-                </div>
-                {customCategories.length > 0 && <Separator />}
-                <div className="grid grid-cols-2 gap-2">
-                    {customCategories.map((item) => (
-                        <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
-                    ))}
-                </div>
-            </div >
+        <Form {...form}>
 
-            <DialogFooter >
-                <Button type="button" onClick={(e) => {
-                    e.preventDefault();
-                    setStage(stage + 1);
-                }}>Continue</Button>
-            </DialogFooter >
-        </div>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+            >
+
+                <div className="space-y-2" >
+                    <Label>Select category</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                        {categories.filter((item) => item.createdBy === '').map((item) => (
+                            <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
+                        ))}
+                    </div>
+                    {customCategories.length > 0 && <Separator />}
+                    <div className="grid grid-cols-2 gap-2">
+                        {customCategories.map((item) => (
+                            <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
+                        ))}
+                    </div>
+                </div >
+
+                <DialogFooter >
+                    <Button type="submit">Continue</Button>
+                </DialogFooter >
+
+            </form>
+
+        </Form>
     )
 }

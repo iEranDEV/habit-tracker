@@ -9,16 +9,25 @@ export interface Category {
     createdAt: Timestamp
 }
 
-export interface Habit {
+type HabitTypeMap = {
+    'default': string,
+    'counter': string,
+    'checklist': string,
+    'timer': string
+}
+
+export interface Habit<T extends HabitType> {
     id: string,
     name: string,
     description: string,
     category: string,
-    type: 'default' | 'counter' | 'checklist',
-    createdAt: Date,
-    startAt: Date,
-    details: any,
+    type: T,
+    createdAt: Timestamp,
+    startAt: Timestamp,
+    details: HabitTypeMap[T],
 }
+
+export type HabitType = keyof HabitTypeMap;
 
 export interface CheckIn {
     id: string,

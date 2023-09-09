@@ -12,7 +12,7 @@ import EditCategoryDialog from "./dialog/category/EditCategory"
 interface CategoryItemProps {
     item: Category,
     custom?: boolean,
-    icon: JSX.Element
+    icon: JSX.Element,
 }
 
 export default function CategoryItem({ item, custom, icon }: CategoryItemProps) {

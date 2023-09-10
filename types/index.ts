@@ -10,6 +10,7 @@ export interface Category {
 }
 
 export type HabitType = 'default' | 'counter' | 'checklist' | 'timer';
+export type CounterType = 'AtLeast' | 'LessThan' | 'Exactly'
 
 export interface Habit {
     id: string,
@@ -19,6 +20,11 @@ export interface Habit {
     category: string,
     createdAt: Timestamp,
     startAt: Timestamp,
+    details: undefined | {
+        amount: number,
+        unit?: string,
+        counterType: CounterType
+    }
 }
 
 export interface CheckIn {

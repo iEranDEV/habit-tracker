@@ -1,23 +1,57 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import NewHabitCategoryForm from "./NewHabitCategory";
 import NewHabitTypeForm from "./NewHabitType";
 import NewHabitDetailsForm from "./NewHabitDetails";
 import { Habit } from "@/types";
 import NewHabitTimeForm from "./NewHabitTime";
+import { Timestamp } from "firebase/firestore";
+import { addHabit } from "@/firebase/db/habit";
+import { UserContext } from "@/context/UserContext";
+
+const defaultHabit: Habit = {
+    id: '',
+    name: '',
+    type: 'default',
+    description: '',
+    category: 'default_other',
+    createdAt: Timestamp.now(),
+    frequency: [],
+    startDate: new Date(),
+    endDate: undefined,
+    details: undefined
+};
 
 export const NewHabitFormContext = createContext({
     stage: 0,
     setStage: (stage: number) => { },
-    data: {} as Partial<Habit>,
-    setData: (data: any) => { }
+    data: defaultHabit,
+    setData: (data: any) => { },
+    submit: (habit: Habit) => { }
 });
 
-export default function NewHabitForm() {
+type NewHabitFormProps = {
+    setOpen: Function
+}
+
+export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
     const [stage, setStage] = useState(0);
-    const [data, setData] = useState<Partial<Habit>>({})
+    const [data, setData] = useState<Habit>(defaultHabit);
+
+    const { user } = useContext(UserContext);
+
+    const submit = async (habit: Habit) => {
+        setData(habit);
+
+        const { result, error } = await addHabit(user.id, habit);
+
+        if (result) {
+            console.log(result);
+            setOpen(false);
+        }
+    }
 
     return (
-        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData }}>
+        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData, submit }}>
             <div className="relative">
 
                 {

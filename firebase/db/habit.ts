@@ -1,15 +1,15 @@
 import { FirestoreError, Timestamp, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, or, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from "../config";
 import { v4 as uuid } from 'uuid';
-import { Category } from "@/types";
+import { Habit } from "@/types";
 
-export async function addCategory(name: string, color: string, icon: string, createdBy: string) {
+export async function addHabit(userId: string, data: Habit) {
     const id = uuid();
-    const category: Category = { id, name, color, icon, createdBy, createdAt: Timestamp.now() };
-    let result: Category | null = null, error: FirestoreError | null = null;
+    const habit: Habit = { ...data, id };
+    let result: Habit | null = null, error: FirestoreError | null = null;
 
-    await setDoc(doc(db, "categories", id), category).then(() => {
-        result = category;
+    await setDoc(doc(db, "users", userId, "habits", id), habit).then(() => {
+        result = habit;
     }).catch((e: FirestoreError) => {
         error = e;
     })
@@ -17,7 +17,7 @@ export async function addCategory(name: string, color: string, icon: string, cre
     return { result, error }
 }
 
-export async function updateCategory(id: string, category: Category) {
+/*export async function updateCategory(id: string, category: Category) {
     let result: Category | null = null, error: FirestoreError | null = null;
 
     await updateDoc(doc(db, "categories", id), {
@@ -62,4 +62,4 @@ export async function getCategories(userID: string) {
     })
 
     return categories;
-}
+}*/

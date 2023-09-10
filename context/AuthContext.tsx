@@ -3,8 +3,7 @@
 import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
 import firebase_app from '@/firebase/config';
 import { createContext, useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import LoadingScreen from '@/components/LoadingScreen';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 const auth = getAuth(firebase_app);
 

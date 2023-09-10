@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { getUser } from "@/firebase/db/user";
 import { getCategories } from "@/firebase/db/category";
-import LoadingScreen from "@/components/LoadingScreen";
+import LoadingScreen from "@/components/layout/LoadingScreen";
 import { Category } from "@/types";
 
 export const UserContext = createContext({

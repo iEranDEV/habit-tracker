@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
-import { Button, buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { useRouter } from "next/navigation";
-import firebase_app from "@/firebase/config";
 import { logOut } from "@/firebase/auth";
 export default function Header() {
 

@@ -1,7 +1,5 @@
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import firebase_app from "../config";
-
-const db = getFirestore(firebase_app);
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../config";
 
 export async function addUser(id: string, name: string, email: string) {
     const docRef = await setDoc(doc(db, "users", id), {
@@ -15,8 +13,8 @@ export async function addUser(id: string, name: string, email: string) {
 
 export async function getUser(id: string) {
     const docRef = await getDoc(doc(db, "users", id));
-    if(docRef.exists()) {
+    if (docRef.exists()) {
         return docRef.data();
-    } 
+    }
     return null;
 }

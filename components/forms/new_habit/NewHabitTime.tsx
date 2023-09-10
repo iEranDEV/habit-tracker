@@ -2,11 +2,10 @@ import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { NewHabitFormContext } from "./NewHabitForm";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FrequencyPicker from "@/components/FrequencyPicker";
-import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
@@ -15,7 +14,7 @@ import { Calendar } from "@/components/ui/calendar";
 
 export default function NewHabitTimeForm() {
 
-    const { data, setData, stage, setStage } = useContext(NewHabitFormContext);
+    const { submit, data, setData, stage, setStage } = useContext(NewHabitFormContext);
 
     const formSchema = z.object({
         frequency: z.array(z.number()),
@@ -33,8 +32,7 @@ export default function NewHabitTimeForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        setData({ ...data, ...values });
-        console.log({ ...data, ...values });
+        submit({ ...data, ...values });
     }
 
     return (

@@ -20,7 +20,7 @@ export default function NewHabitDialog() {
                     <DialogDescription>Submit form below to create new habit</DialogDescription>
                 </DialogHeader>
 
-                <NewHabitForm />
+                <NewHabitForm setOpen={setOpen} />
 
             </DialogContent>
         </Dialog>

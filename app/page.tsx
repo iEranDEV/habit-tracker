@@ -3,10 +3,9 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { UserContextProvider } from "@/context/UserContext";
 import { CalendarContextProvider } from "@/context/CalendarContext";
-import ControlPanel from "@/components/ControlPanel";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
+import ControlPanel from "@/components/layout/ControlPanel";
 
 export default function Home() {
 

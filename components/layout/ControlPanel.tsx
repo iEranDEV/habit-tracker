@@ -3,12 +3,12 @@ import { useContext } from 'react';
 import { CalendarContext } from "@/context/CalendarContext";
 import { formatShortDate, getWeek } from "@/lib/date";
 import { motion } from "framer-motion";
-import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar } from "./ui/calendar";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
-import NewHabitDialog from "./dialog/habit/NewHabit";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Calendar } from "../ui/calendar";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+import NewHabitDialog from "../dialog/habit/NewHabit";
 
 const viewOptions = [
     {

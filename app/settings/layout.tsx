@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator"
-import SidebarNav from "../../components/SidebarNav"
 import { ChevronLeft, CopyCheck, Shapes, Star, User } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
+import SidebarNav from "@/components/layout/settings/SidebarNav"
 
 const sidebarNavItems = [
     {

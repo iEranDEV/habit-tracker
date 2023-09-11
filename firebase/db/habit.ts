@@ -31,9 +31,9 @@ export async function addHabit(userId: string, data: Habit) {
     });
 
     return { result, error }
-}
+}*/
 
-export async function deleteCategory(id: string) {
+/*export async function deleteCategory(id: string) {
     let result: string | null = null, error: FirestoreError | null = null;
 
     await deleteDoc(doc(db, "categories", id)).then(() => {
@@ -43,23 +43,23 @@ export async function deleteCategory(id: string) {
     });
 
     return { result, error }
-}
+}*/
 
-export async function getCategory(id: string) {
+/*export async function getCategory(id: string) {
     const docRef = await getDoc(doc(db, "users", id));
     if (docRef.exists()) {
         return docRef.data();
     }
     return null;
-}
+}*/
 
-export async function getCategories(userID: string) {
-    const q = query(collection(db, "categories"), or(where('createdBy', '==', userID), where('createdBy', '==', '')));
+export async function getHabits(userID: string) {
+    const q = query(collection(db, "users", userID, "habits"));
     const querySnapshot = await getDocs(q);
-    const categories = Array<Category>();
+    const habits = Array<Habit>();
     querySnapshot.forEach((doc) => {
-        categories.push(doc.data() as Category);
+        habits.push(doc.data() as Habit);
     })
 
-    return categories;
-}*/
+    return habits;
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Label } from "./ui/label";
+import { Label } from "../../ui/label";
 import { useFormContext } from "react-hook-form";
-import { Toggle } from "./ui/toggle";
+import { Toggle } from "../../ui/toggle";
 import { WEEKDAYS_SHORT } from "@/lib/date";
 
 export default function FrequencyPicker() {

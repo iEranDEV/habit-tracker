@@ -1,6 +1,6 @@
 'use client';
 
-import CategoryItem from "@/components/CategoryItem";
+import CategoryItem from "@/components/layout/settings/CategoryItem";
 import NewCategoryDialog from "@/components/dialog/category/NewCategory";
 import { Separator } from "@/components/ui/separator";
 import { UserContext } from "@/context/UserContext";

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import Header from "@/components/layout/Header";
 import ControlPanel from "@/components/layout/ControlPanel";
+import HabitList from "@/components/layout/habit_list/HabitList";
 
 export default function Home() {
 
@@ -30,18 +31,15 @@ export default function Home() {
 				<CalendarContextProvider>
 					{/* Body */}
 					<div className="w-full flex">
-						<div className="basis-full lg:basis-full flex flex-col">
+						<div className="basis-full space-y-4 lg:basis-full flex flex-col">
 
 							{/* Habits control panel */}
-							<div className="w-full sticky top-0 flex-col">
+							<div className="w-full sticky top-0">
 								<ControlPanel />
-
-								{/* Habits table header */}
-								{/* <HabitListHeader /> */}
 							</div>
 
 							{/* Habits list */}
-							{/* <HabitList /> */}
+							<HabitList />
 						</div>
 					</div>
 				</CalendarContextProvider>

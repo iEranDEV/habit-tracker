@@ -1,13 +1,13 @@
 import Values from "values.js"
 import { Trash } from "lucide-react"
 import { Category } from "@/types"
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
-import { Button } from "./ui/button"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog"
+import { Button } from "../../ui/button"
 import { deleteCategory } from "@/firebase/db/category"
 import { useContext, useState } from "react"
 import { UserContext } from "@/context/UserContext"
-import { useToast } from "./ui/use-toast"
-import EditCategoryDialog from "./dialog/category/EditCategory"
+import { useToast } from "../../ui/use-toast"
+import EditCategoryDialog from "../../dialog/category/EditCategory"
 
 interface CategoryItemProps {
     item: Category,

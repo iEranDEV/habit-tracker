@@ -1,7 +1,7 @@
 import { CalendarContext } from "@/context/CalendarContext"
 import { UserContext } from "@/context/UserContext"
 import { addCheckInDB, deleteCheckInDB, updateCheckInDB } from "@/firebase/db/checkin"
-import { isSameDate } from "@/lib/date"
+import { isSameDate, weekdays } from "@/lib/date"
 import { CheckIn, Habit } from "@/types"
 import { startOfDay } from "date-fns"
 import { Timestamp } from "firebase/firestore"
@@ -32,8 +32,8 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
     const { categories } = useContext(UserContext);
 
     // Check if user can change checkIn value this day
-    const isAvailable = (day: number) => {
-        return habit.frequency.includes(day);
+    const isAvailable = () => {
+        return habit.frequency.includes(weekdays.indexOf(date.getDay())) && (habit.endDate ? habit.endDate?.toDate() >= date : true) && habit.startDate.toDate() <= date;
     }
 
     // Create new checkIn
@@ -92,7 +92,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
 
     // Get style variant for checkIn
     const getVariant = () => {
-        if (isAvailable(date.getDay())) {
+        if (isAvailable()) {
             if (!checkIn) return variants.available;
 
             switch (habit.type) {
@@ -127,10 +127,10 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
     return (
         <div className="w-full flex justify-center">
             <div
-                onClick={() => isAvailable(date.getDay()) && handleClick(date)}
+                onClick={() => isAvailable() && handleClick(date)}
                 className={`${variants.util} ${getVariant()}`}
             >
-                {!isAvailable(date.getDay()) && <Lock size={16} />}
+                {!isAvailable() && <Lock size={16} />}
                 {content()}
             </div>
         </div>

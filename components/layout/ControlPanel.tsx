@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import NewHabitDialog from "../dialog/habit/NewHabit";
+import { UserContext } from "@/context/UserContext";
 
 const viewOptions = [
     {
@@ -26,6 +27,7 @@ const viewOptions = [
 export default function ControlPanel() {
     const calendarContext = useContext(CalendarContext);
 
+    const { user } = useContext(UserContext);
     const { selectedDate, setSelectedDate } = calendarContext;
 
     return (
@@ -78,7 +80,7 @@ export default function ControlPanel() {
                                         mode="single"
                                         required
                                         selected={selectedDate}
-                                        weekStartsOn={1}
+                                        weekStartsOn={user?.settings.firstDayOfWeek as 0 | 1}
                                         onSelect={(date: Date | undefined) => date && setSelectedDate(date)}
                                         initialFocus
                                     />

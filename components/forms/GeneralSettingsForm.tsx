@@ -3,15 +3,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Switch } from "../ui/switch";
+import { updateUser } from "@/firebase/db/user";
+import { useContext } from "react";
+import { UserContext } from "@/context/UserContext";
+import { toast } from "../ui/use-toast";
 
 export default function GeneralSettingsForm() {
+
+    const { user, setUser } = useContext(UserContext);
 
     const formSchema = z.object({
         firstDayOfWeek: z.number(),
@@ -23,15 +28,23 @@ export default function GeneralSettingsForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            firstDayOfWeek: 1,
-            language: 'en',
-            modifyDaysPast: true,
-            modifyDaysFuture: true
+            firstDayOfWeek: user?.settings.firstDayOfWeek,
+            language: user?.settings.language,
+            modifyDaysPast: user?.settings.modifyDaysPast,
+            modifyDaysFuture: user?.settings.modifyDaysFuture
         }
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        const { result, error } = await updateUser(user!, values);
+
+        if (result) {
+            setUser(result);
+            toast({
+                title: "Updated settings",
+                description: "Successfully updated settings",
+            })
+        }
     }
 
     return (

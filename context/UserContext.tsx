@@ -14,6 +14,9 @@ const defaultUser: User = {
     email: "",
     settings: {
         firstDayOfWeek: 1,
+        language: 'en',
+        modifyDaysPast: true,
+        modifyDaysFuture: true
     }
 }
 
@@ -28,7 +31,7 @@ export const UserContext = createContext({
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | undefined>(undefined);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState(Array<Category>());
     const [habits, setHabits] = useState(Array<Habit>());
 

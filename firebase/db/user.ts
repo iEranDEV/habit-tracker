@@ -1,6 +1,6 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { FirestoreError, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../config";
-import { User } from "@/types";
+import { User, UserSettings } from "@/types";
 
 export async function addUser(id: string, name: string, email: string) {
     const user: User = {
@@ -17,6 +17,20 @@ export async function addUser(id: string, name: string, email: string) {
     const docRef = await setDoc(doc(db, "users", id), user);
 
     return docRef;
+}
+
+export async function updateUser(user: User, settings: UserSettings) {
+    let result: User | null = null, error: FirestoreError | null = null;
+
+    await updateDoc(doc(db, 'users', user.id), {
+        settings: settings
+    }).then(() => {
+        result = { ...user, settings: settings };
+    }).catch((e: FirestoreError) => {
+        error = e;
+    });
+
+    return { result, error }
 }
 
 export async function getUser(id: string) {

@@ -1,20 +1,48 @@
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { CalendarContext } from "@/context/CalendarContext";
 import { UserContext } from "@/context/UserContext";
-import { Habit } from "@/types";
+import { addCheckInDB, deleteCheckInDB, getCheckInsBetweenDates, updateCheckInDB } from "@/firebase/db/checkin";
+import { isSameDate } from "@/lib/date";
+import { CheckIn, Habit } from "@/types";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { icons } from "lucide-react";
-import { useContext } from "react";
+import { addDays, endOfWeek, startOfDay, startOfWeek } from "date-fns";
+import { icons, Lock, X } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import Values from "values.js";
+import HabitListCheckIn from "./HabitListCheckIn";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type HabitListItemProps = {
     habit: Habit
 }
 
 export default function HabitListItem({ habit }: HabitListItemProps) {
+    const [checkIns, setCheckIns] = useState<Array<CheckIn> | CheckIn | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
 
-    const { viewMode } = useContext(CalendarContext);
+    const { viewMode, selectedDate } = useContext(CalendarContext);
     const { categories } = useContext(UserContext);
+    const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+
+    useEffect(() => {
+
+        const syncCheckIns = async () => {
+            setLoading(true);
+            // Check value of checkIns depending on current view mode
+            if (viewMode === 'day') {
+                setCheckIns(undefined);
+            }
+            else if (viewMode === 'week') {
+                const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+                const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
+                const temp = await getCheckInsBetweenDates(habit.id, weekStart, weekEnd)
+                setCheckIns(temp);
+            }
+            setLoading(false);
+        }
+
+        syncCheckIns();
+    }, [viewMode, selectedDate]);
 
     const category = categories.find((item) => item.id === habit.category);
     const CategoryIcon = icons[category?.icon as keyof typeof icons];
@@ -41,14 +69,24 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                             </Tooltip>
                         </div>
 
-                        {/* Check ins */}
-                        {Array.from({ length: 7 }).map((_, i) => (
-                            <div key={i} className="w-full flex justify-center">
-                                <div className="w-10 h-10 rounded-md bg-muted">
-
+                        {!loading ? <>
+                            {/* Check ins */}
+                            {Array.from({ length: 7 }).map((_, i) => (
+                                <HabitListCheckIn
+                                    key={i}
+                                    habit={habit}
+                                    checkIns={checkIns}
+                                    setCheckIns={setCheckIns}
+                                    date={addDays(weekStart, i)}
+                                />
+                            ))}
+                        </> : <>
+                            {Array.from({ length: 7 }).map((_, i) => (
+                                <div key={i} className="w-full flex justify-center">
+                                    <Skeleton className="h-10 w-10"></Skeleton>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </>}
                     </div>
                 ),
                 'month': <p>to do (month)</p>

@@ -26,15 +26,14 @@ export interface Habit {
     createdAt: Timestamp,
     createdBy: string,
     frequency: Array<number>,
-    startDate: Date,
-    endDate: Date | undefined,
+    startDate: Timestamp,
+    endDate: Timestamp | undefined,
     details: HabitDetails
 }
 
 export interface CheckIn {
     id: string,
-    date: Date,
+    date: Timestamp,
     habit: string,
-    count?: number,
-    status?: string
+    value: boolean | number,
 }

@@ -8,7 +8,7 @@ export async function addHabit(data: Habit) {
     const habit: Habit = { ...data, id };
     let result: Habit | null = null, error: FirestoreError | null = null;
 
-    await setDoc(doc(db, "users", habit.createdBy, "habits", id), habit).then(() => {
+    await setDoc(doc(db, "habits", id), habit).then(() => {
         result = habit;
     }).catch((e: FirestoreError) => {
         error = e;
@@ -54,7 +54,7 @@ export async function addHabit(data: Habit) {
 }*/
 
 export async function getHabits(userID: string) {
-    const q = query(collection(db, "users", userID, "habits"));
+    const q = query(collection(db, "habits"), where('createdBy', '==', userID));
     const querySnapshot = await getDocs(q);
     const habits = Array<Habit>();
     querySnapshot.forEach((doc) => {

@@ -9,8 +9,9 @@ import FrequencyPicker from "@/components/forms/utils/FrequencyPicker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { endOfDay, format, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { Timestamp } from "firebase/firestore";
 
 export default function NewHabitTimeForm() {
 
@@ -32,7 +33,12 @@ export default function NewHabitTimeForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        submit({ ...data, ...values });
+        submit({
+            ...data,
+            frequency: values.frequency,
+            startDate: Timestamp.fromDate(startOfDay(values.startDate)),
+            endDate: values.endDate ? Timestamp.fromDate(endOfDay(values.endDate)) : undefined
+        });
     }
 
     return (

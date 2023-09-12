@@ -16,6 +16,9 @@ module.exports = {
 			},
 		},
 		extend: {
+			gridTemplateColumns: {
+				'31': 'repeat(31, minmax(0, 1fr))'
+			},
 			colors: {
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",

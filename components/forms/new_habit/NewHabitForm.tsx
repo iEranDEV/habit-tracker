@@ -16,7 +16,7 @@ const defaultHabit: Habit = {
     category: 'default_other',
     createdAt: Timestamp.now(),
     frequency: [],
-    startDate: new Date(),
+    startDate: Timestamp.fromDate(new Date()),
     endDate: undefined,
     details: undefined,
     createdBy: ''

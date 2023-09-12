@@ -1,7 +1,7 @@
+import { Label } from "@/components/ui/label";
 import { icons } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { Label } from "./ui/label";
 
 const iconPickerIcons = [
     'Ban',

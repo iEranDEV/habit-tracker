@@ -1,8 +1,8 @@
+import { Label } from "@/components/ui/label";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Label } from "./ui/label";
 
 const colors = [
     '#ef4444', // Red

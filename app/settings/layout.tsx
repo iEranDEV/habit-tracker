@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator"
-import { ChevronLeft, CopyCheck, Shapes, Star, User } from "lucide-react"
+import { ChevronLeft, CopyCheck, Settings, Shapes, Star, User } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
@@ -12,8 +12,13 @@ const sidebarNavItems = [
         icon: <ChevronLeft strokeWidth={1.5} size={20} />
     },
     {
-        title: "Account",
+        title: "General",
         href: "/settings",
+        icon: <Settings strokeWidth={1.5} size={20} />
+    },
+    {
+        title: "Account",
+        href: "/settings/account",
         icon: <User strokeWidth={1.5} size={20} />
     },
     {

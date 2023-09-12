@@ -97,7 +97,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
 
             switch (habit.type) {
                 case 'default':
-                    if (checkIn?.value) {
+                    if (checkIn.value) {
                         return variants.completed;
                     } else {
                         return variants.failed;

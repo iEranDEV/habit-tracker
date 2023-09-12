@@ -7,11 +7,11 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
-import ColorPicker from "../ColorPicker";
-import IconPicker from "../IconPicker";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
 import { addCategory } from "@/firebase/db/category";
+import ColorPicker from "./utils/ColorPicker";
+import IconPicker from "./utils/IconPicker";
 
 interface NewCategoryFormProps {
     setOpen: Function

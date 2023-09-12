@@ -31,6 +31,18 @@ export interface Habit {
     details: HabitDetails
 }
 
+export interface User {
+    id: string,
+    name: string,
+    email: string,
+    settings: {
+        firstDayOfWeek: number,
+        language: string,
+        modifyDaysPast: boolean,
+        modifyDaysFuture: boolean
+    }
+}
+
 export interface CheckIn {
     id: string,
     date: Timestamp,

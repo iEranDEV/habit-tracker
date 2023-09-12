@@ -18,7 +18,8 @@ const defaultHabit: Habit = {
     frequency: [],
     startDate: new Date(),
     endDate: undefined,
-    details: undefined
+    details: undefined,
+    createdBy: ''
 };
 
 export const NewHabitFormContext = createContext({
@@ -35,17 +36,18 @@ type NewHabitFormProps = {
 
 export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
     const [stage, setStage] = useState(0);
-    const [data, setData] = useState<Habit>(defaultHabit);
 
-    const { user } = useContext(UserContext);
+    const { user, habits, setHabits } = useContext(UserContext);
+
+    const [data, setData] = useState<Habit>({ ...defaultHabit, createdBy: user.id });
 
     const submit = async (habit: Habit) => {
         setData(habit);
 
-        const { result, error } = await addHabit(user.id, habit);
+        const { result, error } = await addHabit(habit);
 
         if (result) {
-            console.log(result);
+            setHabits([...habits, result]);
             setOpen(false);
         }
     }

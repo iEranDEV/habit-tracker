@@ -24,6 +24,7 @@ export interface Habit {
     description: string,
     category: string,
     createdAt: Timestamp,
+    createdBy: string,
     frequency: Array<number>,
     startDate: Date,
     endDate: Date | undefined,

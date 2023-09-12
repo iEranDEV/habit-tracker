@@ -78,6 +78,7 @@ export default function ControlPanel() {
                                         mode="single"
                                         required
                                         selected={selectedDate}
+                                        weekStartsOn={1}
                                         onSelect={(date: Date | undefined) => date && setSelectedDate(date)}
                                         initialFocus
                                     />

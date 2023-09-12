@@ -3,12 +3,12 @@ import { db } from "../config";
 import { v4 as uuid } from 'uuid';
 import { Habit } from "@/types";
 
-export async function addHabit(userId: string, data: Habit) {
+export async function addHabit(data: Habit) {
     const id = uuid();
     const habit: Habit = { ...data, id };
     let result: Habit | null = null, error: FirestoreError | null = null;
 
-    await setDoc(doc(db, "users", userId, "habits", id), habit).then(() => {
+    await setDoc(doc(db, "users", habit.createdBy, "habits", id), habit).then(() => {
         result = habit;
     }).catch((e: FirestoreError) => {
         error = e;

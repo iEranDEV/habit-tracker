@@ -36,7 +36,7 @@ export default function HabitListHeader() {
                                 </div>
 
                                 {isToday(val) && (
-                                    <div className="absolute h-2 w-10 bg-primary rounded-full -bottom-3"></div>
+                                    <div className="absolute h-2 w-10 bg-primary rounded-full -bottom-5"></div>
                                 )}
                             </div>
                         ))}

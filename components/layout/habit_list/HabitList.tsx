@@ -19,7 +19,7 @@ export default function HabitList() {
                 <TooltipProvider>
                     {habits.length > 0 ? (
                         <>
-                            {habits.map((item) => (
+                            {habits.sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()).map((item) => (
                                 <HabitListItem key={item.id} habit={item} />
                             ))}
                         </>

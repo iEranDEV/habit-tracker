@@ -5,11 +5,14 @@ import { isSameDate, weekdays } from "@/lib/date"
 import { CheckIn, Habit } from "@/types"
 import { startOfDay } from "date-fns"
 import { Timestamp } from "firebase/firestore"
-import { useContext } from "react"
-import { Check, Heart, Lock, X } from 'lucide-react';
+import { useContext, useState } from "react"
+import { Check, Lock, X } from 'lucide-react';
+import { motion } from "framer-motion"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 const variants = {
-    'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-all',
+    'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
     'available': 'bg-muted cursor-pointer',
     'noAvailable': 'bg-border text-neutral-400',
     'inProgress': 'bg-red-500 cursor-pointer',
@@ -27,13 +30,20 @@ type HabitListCheckInProps = {
 export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }: HabitListCheckInProps) {
 
     const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date.toDate(), date)) : undefined;
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
-    const { categories } = useContext(UserContext);
+    const { user, categories } = useContext(UserContext);
 
     // Check if user can change checkIn value this day
     const isAvailable = () => {
-        return habit.frequency.includes(weekdays.indexOf(date.getDay())) && (habit.endDate ? habit.endDate?.toDate() >= date : true) && habit.startDate.toDate() <= date;
+        return (
+            habit.frequency.includes(weekdays.indexOf(date.getDay())) &&
+            (habit.endDate ? habit.endDate?.toDate() >= date : true) &&
+            habit.startDate.toDate() <= date &&
+            (user?.settings.modifyDaysPast ? true : (startOfDay(new Date()) > date ? false : true)) &&
+            (user?.settings.modifyDaysFuture ? true : (startOfDay(new Date()) < date ? false : true))
+        )
     }
 
     // Create new checkIn
@@ -71,10 +81,9 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
 
     // Handle user click event
     const handleClick = (date: Date) => {
-        const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date.toDate(), date)) : undefined;
 
-        switch (viewMode) {
-            case 'week':
+        switch (habit.type) {
+            case 'default':
                 if (checkIn) {
                     if (checkIn.value === false) {
                         // Delete checkIn
@@ -87,26 +96,32 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                     // Change checkIn value to true
                     addCheckIn(true, date);
                 }
+                break;
+            case 'counter':
+                if (checkIn) {
+
+                } else {
+                    setDialogOpen(true);
+                }
+                break;
         }
     }
 
     // Get style variant for checkIn
     const getVariant = () => {
-        if (isAvailable()) {
-            if (!checkIn) return variants.available;
+        if (!isAvailable() && !checkIn) return variants.noAvailable;
+        if (!checkIn) return variants.available;
 
-            switch (habit.type) {
-                case 'default':
-                    if (checkIn.value) {
-                        return variants.completed;
-                    } else {
-                        return variants.failed;
-                    }
-            }
+        switch (habit.type) {
+            case 'default':
+                if (checkIn.value) {
+                    return variants.completed;
+                } else {
+                    return variants.failed;
+                }
         }
-
-        return variants.noAvailable;
     }
+
 
     // Get inside content icon for checkIn
     const content = (): JSX.Element => {
@@ -121,7 +136,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
             }
         }
 
-        return <></>
+        return <></>;
     }
 
     return (
@@ -130,9 +145,28 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                 onClick={() => isAvailable() && handleClick(date)}
                 className={`${variants.util} ${getVariant()}`}
             >
-                {!isAvailable() && <Lock size={16} />}
-                {content()}
+                {(!isAvailable() && !checkIn) && <Lock size={16} />}
+                <motion.div
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                >
+                    {content()}
+                </motion.div>
             </div>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogDescription>
+                            Make changes to your profile here. Click save when you're done.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <p>test</p>
+                    <DialogFooter>
+                        <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

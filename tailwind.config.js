@@ -16,6 +16,9 @@ module.exports = {
 			},
 		},
 		extend: {
+			transitionProperty: {
+				'bg': 'background-color'
+			},
 			gridTemplateColumns: {
 				'31': 'repeat(31, minmax(0, 1fr))'
 			},

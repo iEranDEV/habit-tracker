@@ -1,22 +1,18 @@
 import { CalendarContext } from "@/context/CalendarContext";
-import { WEEKDAYS_SHORT, getWeek, weekdays } from "@/lib/date";
-import { endOfMonth, isToday } from "date-fns";
+import { UserContext } from "@/context/UserContext";
+import { WEEKDAYS_SHORT, weekdays } from "@/lib/date";
+import { addDays, isToday, startOfWeek } from "date-fns";
 import { useContext } from "react";
 
 export default function HabitListHeader() {
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
+    const { user } = useContext(UserContext);
 
-    const { weekStart, weekEnd } = getWeek(selectedDate);
-    const lastDayOfMonth = endOfMonth(weekStart);
+    const weekStart = startOfWeek(selectedDate, { weekStartsOn: user?.settings.firstDayOfWeek });
 
     const week = Array.from({ length: 7 }, (_, i) => {
-        const temp = new Date(weekStart);
-        temp.setDate(weekStart.getDate() + i);
-        if (temp.getDate() > lastDayOfMonth.getDate()) {
-            temp.setDate(1 + i);
-        }
-        return temp;
+        return addDays(weekStart, i);
     });
 
     return (

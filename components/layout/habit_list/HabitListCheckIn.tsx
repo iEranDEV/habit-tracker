@@ -10,6 +10,7 @@ import { Check, Lock, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 
 const variants = {
     'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
@@ -153,20 +154,9 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                     {content()}
                 </motion.div>
             </div>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
-                            Make changes to your profile here. Click save when you're done.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <p>test</p>
-                    <DialogFooter>
-                        <Button type="submit">Save changes</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            {habit.type === 'counter' && (
+                <CheckInCounterDialog open={dialogOpen} setOpen={setDialogOpen} />
+            )}
         </div>
     )
 }

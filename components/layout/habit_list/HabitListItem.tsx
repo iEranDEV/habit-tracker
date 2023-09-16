@@ -5,8 +5,8 @@ import { addCheckInDB, deleteCheckInDB, getCheckInsBetweenDates, updateCheckInDB
 import { isSameDate } from "@/lib/date";
 import { CheckIn, Habit } from "@/types";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { addDays, endOfWeek, startOfDay, startOfWeek } from "date-fns";
-import { icons, Lock, X } from "lucide-react";
+import { addDays, endOfWeek, startOfWeek } from "date-fns";
+import { icons } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import Values from "values.js";
 import HabitListCheckIn from "./HabitListCheckIn";
@@ -21,8 +21,8 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
     const [loading, setLoading] = useState(true);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
-    const { categories } = useContext(UserContext);
-    const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+    const { categories, user } = useContext(UserContext);
+    const weekStart = startOfWeek(selectedDate, { weekStartsOn: user?.settings.firstDayOfWeek });
 
     useEffect(() => {
 
@@ -33,8 +33,8 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                 setCheckIns(undefined);
             }
             else if (viewMode === 'week') {
-                const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
-                const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
+                const weekStart = startOfWeek(selectedDate, { weekStartsOn: user?.settings.firstDayOfWeek });
+                const weekEnd = endOfWeek(selectedDate, { weekStartsOn: user?.settings.firstDayOfWeek });
                 const temp = await getCheckInsBetweenDates(habit.id, weekStart, weekEnd)
                 setCheckIns(temp);
             }

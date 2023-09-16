@@ -32,7 +32,7 @@ export interface Habit {
 }
 
 export type UserSettings = {
-    firstDayOfWeek: number,
+    firstDayOfWeek: 0 | 1,
     language: string,
     modifyDaysPast: boolean,
     modifyDaysFuture: boolean

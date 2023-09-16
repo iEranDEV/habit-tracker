@@ -1,49 +1,37 @@
 'use client';
 
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import Header from "@/components/layout/Header";
 import ControlPanel from "@/components/layout/ControlPanel";
 import HabitList from "@/components/layout/habit_list/HabitList";
+import { ProtectedRoute } from "@/context/UserContext";
 
 export default function Home() {
 
-	const [auth, setAuth] = useState(false);
+    return (
+        <ProtectedRoute>
+            <div className="w-full flex justify-center">
+                <div className="w-full max-w-[1024px] py-10 text-neutral-700">
+                    {/* Header */}
+                    <Header />
 
-	const { loggedUser } = useContext(AuthContext);
-	const router = useRouter();
+                    <CalendarContextProvider>
+                        {/* Body */}
+                        <div className="w-full flex">
+                            <div className="basis-full space-y-4 lg:basis-full flex flex-col">
 
-	useEffect(() => {
-		setAuth(false);
-		if (loggedUser === null) {
-			router.push('/auth/login')
-		} else setAuth(true)
-	}, [loggedUser])
+                                {/* Habits control panel */}
+                                <div className="w-full sticky top-0">
+                                    <ControlPanel />
+                                </div>
 
-	if (auth) return (
-		<div className="w-full flex justify-center">
-			<div className="w-full max-w-[1024px] py-10 text-neutral-700">
-				{/* Header */}
-				<Header />
-
-				<CalendarContextProvider>
-					{/* Body */}
-					<div className="w-full flex">
-						<div className="basis-full space-y-4 lg:basis-full flex flex-col">
-
-							{/* Habits control panel */}
-							<div className="w-full sticky top-0">
-								<ControlPanel />
-							</div>
-
-							{/* Habits list */}
-							<HabitList />
-						</div>
-					</div>
-				</CalendarContextProvider>
-			</div>
-		</div>
-	)
+                                {/* Habits list */}
+                                <HabitList />
+                            </div>
+                        </div>
+                    </CalendarContextProvider>
+                </div >
+            </div >
+        </ProtectedRoute>
+    )
 }

@@ -6,7 +6,7 @@ import { CheckIn, Habit } from "@/types"
 import { startOfDay } from "date-fns"
 import { Timestamp } from "firebase/firestore"
 import { useContext, useState } from "react"
-import { Check, Lock, X } from 'lucide-react';
+import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 
@@ -14,7 +14,7 @@ const variants = {
     'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
     'available': 'bg-muted cursor-pointer',
     'noAvailable': 'bg-border text-neutral-400',
-    'inProgress': 'bg-red-500 cursor-pointer',
+    'inProgress': 'bg-orange-200 text-orange-400 cursor-pointer',
     'completed': 'bg-green-200 text-green-400 cursor-pointer',
     'failed': 'bg-red-200 text-red-400 cursor-pointer'
 }
@@ -86,63 +86,64 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
             case 'default':
                 if (checkIn) {
                     if (checkIn.value === false) {
-                        if (isPast) {
-                            updateCheckIn(checkIn, true);
-                        } else {
-                            deleteCheckIn(checkIn);
-                        }
-                    } else if (checkIn.value === true) {
-                        // Change checkIn value to false
+                        if (isPast) updateCheckIn(checkIn, true);
+                        else deleteCheckIn(checkIn);
+                    } else {
                         updateCheckIn(checkIn, false);
                     }
                 } else {
-                    // Change checkIn value to true
                     addCheckIn(true, date);
                 }
                 break;
             case 'counter':
-                if (checkIn) {
-
-                } else {
-                    setDialogOpen(true);
-                }
+                setDialogOpen(true);
                 break;
         }
     }
 
     // Get style variant for checkIn
-    const getVariant = () => {
-        if (!isAvailable() && !checkIn) return variants.noAvailable;
-        if (!checkIn && !isPast) return variants.available;
+    const getVariant = (): 'noAvailable' | 'available' | 'completed' | 'failed' | 'inProgress' => {
+        if (!isAvailable() && !checkIn) return 'noAvailable';
+        if (!checkIn && !isPast) return 'available';
 
         switch (habit.type) {
             case 'default':
                 if (checkIn?.value) {
-                    return variants.completed;
+                    return 'completed';
                 } else {
-                    return variants.failed;
+                    return 'failed';
                 }
             case 'counter':
-                switch (habit.details?.counterType) {
-                    case 'AtLeast':
-                    case 'LessThan':
-                    case 'Exactly':
-                }
+                if (typeof checkIn?.value === 'number')
+                    switch (habit.details?.counterType) {
+                        case 'AtLeast':
+                            if (checkIn?.value >= habit?.details.amount) {
+                                return 'completed'
+                            } else if (checkIn.value > 0) {
+                                if (isPast) return 'failed';
+                                else return 'inProgress';
+                            } else return 'failed';
+                        case 'LessThan':
+                        case 'Exactly':
+                    }
+                else return 'failed';
         }
+
+        return 'noAvailable';
     }
 
 
     // Get inside content icon for checkIn
     const content = (): JSX.Element => {
-        if (checkIn) {
-            switch (habit.type) {
-                case 'default':
-                    if (checkIn?.value) {
-                        return <Check strokeWidth={4} size={20} />
-                    } else {
-                        return <X strokeWidth={4} size={20} />
-                    }
-            }
+        switch (getVariant()) {
+            case 'completed':
+                return <Check strokeWidth={4} size={20} />
+            case 'failed':
+                return <X strokeWidth={4} size={20} />
+            case 'noAvailable':
+                return <Lock size={16} />
+            case 'inProgress':
+                return <MoreHorizontal strokeWidth={2} size={20} />
         }
 
         return <></>;
@@ -152,18 +153,18 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
         <div className="w-full flex justify-center">
             <div
                 onClick={() => isAvailable() && handleClick(date)}
-                className={`${variants.util} ${getVariant()}`}
+                className={`${variants.util} ${variants[getVariant()]}`}
             >
-                {(!isAvailable() && !checkIn) && <Lock size={16} />}
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                 >
-                    {/*content()*/}
+                    {content()}
                 </motion.div>
             </div>
             {habit.type === 'counter' && (
                 <CheckInCounterDialog
+                    key={checkIn?.id || 'counterDialog'}
                     open={dialogOpen}
                     setOpen={setDialogOpen}
                     date={date}

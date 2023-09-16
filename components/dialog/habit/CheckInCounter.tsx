@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { formatISO } from "date-fns";
 import { useState } from "react";
-import { number } from "zod";
 
 type CheckInCounterDialogProps = {
     open: boolean,
@@ -57,7 +56,10 @@ export default function CheckInCounterDialog({ open, setOpen, date, checkIn, hab
                 </div>
 
                 <div className="flex justify-between items-center">
-                    <Button variant={'outline'} size={'icon'}>
+                    <Button onClick={() => {
+                        setOpen(false);
+                        deleteCheckIn(checkIn);
+                    }} variant={'outline'} size={'icon'}>
                         <Trash2 size={20} />
                     </Button>
                     <Button onClick={handleSubmit}>Submit</Button>

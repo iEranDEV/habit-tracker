@@ -8,8 +8,6 @@ import { Timestamp } from "firebase/firestore"
 import { useContext, useState } from "react"
 import { Check, Lock, X } from 'lucide-react';
 import { motion } from "framer-motion"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 
 const variants = {

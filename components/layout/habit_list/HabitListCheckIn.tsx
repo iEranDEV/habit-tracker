@@ -29,6 +29,7 @@ type HabitListCheckInProps = {
 export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }: HabitListCheckInProps) {
 
     const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date.toDate(), date)) : undefined;
+    const isPast = startOfDay(new Date()) > date;
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
@@ -85,8 +86,11 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
             case 'default':
                 if (checkIn) {
                     if (checkIn.value === false) {
-                        // Delete checkIn
-                        deleteCheckIn(checkIn);
+                        if (isPast) {
+                            updateCheckIn(checkIn, true);
+                        } else {
+                            deleteCheckIn(checkIn);
+                        }
                     } else if (checkIn.value === true) {
                         // Change checkIn value to false
                         updateCheckIn(checkIn, false);
@@ -109,14 +113,20 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
     // Get style variant for checkIn
     const getVariant = () => {
         if (!isAvailable() && !checkIn) return variants.noAvailable;
-        if (!checkIn) return variants.available;
+        if (!checkIn && !isPast) return variants.available;
 
         switch (habit.type) {
             case 'default':
-                if (checkIn.value) {
+                if (checkIn?.value) {
                     return variants.completed;
                 } else {
                     return variants.failed;
+                }
+            case 'counter':
+                switch (habit.details?.counterType) {
+                    case 'AtLeast':
+                    case 'LessThan':
+                    case 'Exactly':
                 }
         }
     }
@@ -149,11 +159,20 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                 >
-                    {content()}
+                    {/*content()*/}
                 </motion.div>
             </div>
             {habit.type === 'counter' && (
-                <CheckInCounterDialog open={dialogOpen} setOpen={setDialogOpen} />
+                <CheckInCounterDialog
+                    open={dialogOpen}
+                    setOpen={setDialogOpen}
+                    date={date}
+                    checkIn={checkIn}
+                    habit={habit}
+                    addCheckIn={addCheckIn}
+                    deleteCheckIn={deleteCheckIn}
+                    updateCheckIn={updateCheckIn}
+                />
             )}
         </div>
     )

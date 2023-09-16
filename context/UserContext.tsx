@@ -8,18 +8,6 @@ import LoadingScreen from "@/components/layout/LoadingScreen";
 import { Category, Habit, User } from "@/types";
 import { getHabits } from "@/firebase/db/habit";
 
-const defaultUser: User = {
-    id: "",
-    name: "",
-    email: "",
-    settings: {
-        firstDayOfWeek: 1,
-        language: 'en',
-        modifyDaysPast: true,
-        modifyDaysFuture: true
-    }
-}
-
 export const UserContext = createContext({
     user: undefined as User | undefined,
     setUser: (user: User | undefined) => { },
@@ -31,7 +19,7 @@ export const UserContext = createContext({
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | undefined>(undefined);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState(Array<Category>());
     const [habits, setHabits] = useState(Array<Habit>());
 

@@ -1,17 +1,16 @@
 'use client';
 
-import { getRedirect, signIn, signInGoogle } from '@/firebase/auth';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm, DefaultValues } from 'react-hook-form';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function LoginPage() {
 
@@ -21,7 +20,6 @@ export default function LoginPage() {
         password: z.string().trim().min(1, { message: 'This field is required' }),
     })
 
-    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -30,24 +28,19 @@ export default function LoginPage() {
         }
     })
 
+    const { data: session } = useSession();
+    const router = useRouter();
+
     useEffect(() => {
-        const socialLoginHandle = async () => {
-            const result = await getRedirect();
-
-            if (result && 'success' in result && result.success) {
-                return router.push('/');
-            }
+        if (session) {
+            // User is logged in (push to /)
+            router.push('/')
         }
-
-        socialLoginHandle();
-    }, []);
+    }, [session]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await signIn(values.email, values.password);
-
-        if (result) {
-            router.push('/');
-        }
+        console.log(values);
+        // TODO: Email login
     }
 
     return (
@@ -62,7 +55,7 @@ export default function LoginPage() {
                 <div className="grid grid-cols-2 gap-2 w-full">
 
                     {/* Google */}
-                    <Button variant={'outline'} onClick={() => signInGoogle()}>
+                    <Button variant={'outline'} onClick={() => signIn('google')}>
                         <Image src={'/google.webp'} className='mr-2' height={20} width={20} alt={'Google logo'} />
                         Google
                     </Button>
@@ -86,8 +79,7 @@ export default function LoginPage() {
                 <Form {...form}>
                     <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
 
-                        {/* Email input field */}
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="email"
                             render={({ field }) => (
@@ -101,7 +93,6 @@ export default function LoginPage() {
                             )}
                         />
 
-                        {/* Password input field */}
                         <FormField
                             control={form.control}
                             name="password"
@@ -114,7 +105,7 @@ export default function LoginPage() {
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
 
                         {/* Submit button */}
                         <Button type="submit" className='w-full'>Sign in with Email</Button>

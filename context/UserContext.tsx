@@ -1,13 +1,9 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { getUser } from "@/firebase/db/user";
-import { getCategories } from "@/firebase/db/category";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import { Category, Habit, User } from "@/types";
-import { getHabits } from "@/firebase/db/habit";
-import { auth } from "@/firebase/config";
-import { onAuthStateChanged } from "firebase/auth";
+import { useSession } from "next-auth/react";
 
 export const UserContext = createContext({
     loading: false,
@@ -25,28 +21,15 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     const [categories, setCategories] = useState(Array<Category>());
     const [habits, setHabits] = useState(Array<Habit>());
 
+    const { data: session } = useSession();
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (data) => {
-            setLoading(true);
-            if (data) {
-                // User is logged in (sync his data)
-                const syncData = async (id: string) => {
-                    const userDocRef = await getUser(id);
-                    const categories = await getCategories(id);
-                    const habits = await getHabits(id);
+        setLoading(true);
+        if (session) {
 
-                    setUser(userDocRef);
-                    setCategories(categories);
-                    setHabits(habits);
-                }
-
-                syncData(data.uid);
-            }
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
-    }, []);
+        }
+        setLoading(false);
+    }, [session]);
 
     return (
         <UserContext.Provider value={{ loading, user, setUser, categories, setCategories, habits, setHabits }}>
@@ -57,7 +40,8 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 
 export function ProtectedRoute({ children }: { children: JSX.Element }) {
     const { user, loading } = useContext(UserContext);
-    if (loading || (!user && window.location.pathname !== '/auth/login')) {
+
+    if (loading || !user) {
         return <LoadingScreen />;
     }
 

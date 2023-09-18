@@ -1,15 +1,15 @@
+'use client';
+
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
 import { Button, buttonVariants } from "../ui/button";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { useRouter } from "next/navigation";
-import { logOut } from "@/firebase/auth";
+import { signOut } from "next-auth/react";
 export default function Header() {
 
     const { user } = useContext(UserContext);
-    const router = useRouter();
 
     const getWelcomeText = () => {
         const date = new Date();
@@ -28,7 +28,7 @@ export default function Header() {
         <header className="pb-8 px-2 pt-6 relative w-full">
             <div className="h-full w-full flex justify-between items-center">
                 <h1 className="select-none truncate text-header">
-                    {getWelcomeText()}, {user.name}
+                    {getWelcomeText()}, {user?.name}
                 </h1>
                 <div className="flex gap-2">
                     <TooltipProvider>
@@ -49,8 +49,7 @@ export default function Header() {
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button onClick={() => {
-                                    logOut();
-                                    router.push('/auth/login')
+                                    signOut();
                                 }} variant={"outline"} size="icon">
                                     <LogOut size={20} />
                                 </Button>

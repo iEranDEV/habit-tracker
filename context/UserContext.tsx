@@ -2,46 +2,54 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import LoadingScreen from "@/components/layout/LoadingScreen";
-import { Category, Habit, User } from "@/types";
+import type { User } from '@prisma/client'
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const UserContext = createContext({
-    loading: false,
-    user: undefined as User | undefined,
-    setUser: (user: User | undefined) => { },
-    categories: Array<Category>(),
-    setCategories: (categories: Array<Category>) => { },
-    habits: Array<Habit>(),
-    setHabits: (habits: Array<Habit>) => { },
+    user: null as User | null,
 });
 
 export const UserContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | undefined>(undefined);
-    const [loading, setLoading] = useState(true);
-    const [categories, setCategories] = useState(Array<Category>());
-    const [habits, setHabits] = useState(Array<Habit>());
+    const [user, setUser] = useState<User | null>(null);
 
     const { data: session } = useSession();
 
     useEffect(() => {
-        setLoading(true);
-        if (session) {
-
+        const fetchData = async () => {
+            const data = await fetch(`http://localhost:3000/api/user`).then((res) => res.json());
+            setUser(data);
         }
-        setLoading(false);
-    }, [session]);
+
+        if (session?.user) fetchData();
+    }, [session?.user]);
 
     return (
-        <UserContext.Provider value={{ loading, user, setUser, categories, setCategories, habits, setHabits }}>
+        <UserContext.Provider value={{ user }}>
             {children}
         </UserContext.Provider>
     );
 };
 
-export function ProtectedRoute({ children }: { children: JSX.Element }) {
-    const { user, loading } = useContext(UserContext);
+const useUserContext = () => {
 
-    if (loading || !user) {
+    return useContext(UserContext);
+};
+
+export function ProtectedRoute({ children }: { children: JSX.Element }) {
+
+    const router = useRouter();
+
+    const { status } = useSession({
+        required: true,
+        onUnauthenticated() {
+            router.push('/auth/login');
+        },
+    });
+
+    const { user } = useUserContext();
+
+    if (status === 'loading' || !user) {
         return <LoadingScreen />;
     }
 

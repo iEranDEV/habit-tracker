@@ -1,30 +1,30 @@
+'use client';
+
 import Values from "values.js"
 import { Trash } from "lucide-react"
-import { Category } from "@/types"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog"
 import { Button } from "../../ui/button"
-import { deleteCategory } from "@/firebase/db/category"
-import { useContext, useState } from "react"
-import { UserContext } from "@/context/UserContext"
+import { useState } from "react"
 import { useToast } from "../../ui/use-toast"
 import EditCategoryDialog from "../../dialog/category/EditCategory"
+import type { Category } from "@prisma/client"
+import CategoryIcon from "./CategoryIcon";
+import { useRouter } from "next/navigation";
 
 interface CategoryItemProps {
     item: Category,
-    custom?: boolean,
-    icon: JSX.Element,
+    custom?: boolean
 }
 
-export default function CategoryItem({ item, custom, icon }: CategoryItemProps) {
+export default function CategoryItem({ item, custom }: CategoryItemProps) {
 
     const [open, setOpen] = useState(false);
 
-    const { categories, setCategories } = useContext(UserContext);
-
     const { toast } = useToast()
+    const router = useRouter();
 
     const deleteItem = async () => {
-        const { result, error } = await deleteCategory(item.id);
+        /*const { result, error } = await deleteCategory(item.id);
 
         if (result) {
             setOpen(false);
@@ -40,16 +40,14 @@ export default function CategoryItem({ item, custom, icon }: CategoryItemProps) 
                 title: 'An error occured!',
                 description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.Qui nisi suscipit recusandae quos placeat ipsam.'
             })
-        }
-
-
+        }*/
     }
 
     return (
         <div className="flex group justify-between items-center hover:bg-accent p-1 rounded-lg">
             <div className="flex gap-4 items-center">
                 <div className="rounded-md p-1.5" style={{ color: item.color, background: new Values(item.color).tints(10)[7].hexString() }}>
-                    {icon}
+                    <CategoryIcon name={item.icon} size={20} />
                 </div>
                 <p>{item.name}</p>
             </div>

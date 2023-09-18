@@ -1,3 +1,4 @@
+import CategoryIcon from "@/components/layout/settings/CategoryIcon";
 import { Label } from "@/components/ui/label";
 import { icons } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -31,7 +32,7 @@ interface IconPickerProps {
 
 
 export default function IconPicker({ defaultIcon }: IconPickerProps) {
-    const [icon, setIcon] = useState(defaultIcon || 'Shapes');
+    const [icon, setIcon] = useState(defaultIcon || 'shapes');
 
     const methods = useFormContext();
 
@@ -43,19 +44,15 @@ export default function IconPicker({ defaultIcon }: IconPickerProps) {
         <div className="space-y-2">
             <Label>Select icon</Label>
             <div className="grid grid-cols-12 gap-2 text-muted-foreground">
-                {iconPickerIcons.map((item) => {
-                    const Icon = icons[item as keyof typeof icons];
-
-                    return (
-                        <div
-                            onClick={() => setIcon(item)}
-                            key={item}
-                            className={`p-1 cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
-                        >
-                            <Icon />
-                        </div>
-                    )
-                })}
+                {iconPickerIcons.map((item) => (
+                    <div
+                        onClick={() => setIcon(item)}
+                        key={item}
+                        className={`p-1 cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
+                    >
+                        <CategoryIcon name={item} size={20} />
+                    </div>
+                ))}
             </div>
         </div>
     )

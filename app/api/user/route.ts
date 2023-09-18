@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json(user);
 }
 
-export async function PATCH(
+/*export async function PATCH(
     request: Request,
     { params }: { params: { id: string } }
 ) {
@@ -30,9 +30,9 @@ export async function PATCH(
     }
 
     return NextResponse.json(updated_user);
-}
+}*/
 
-export async function DELETE(
+/*export async function DELETE(
     request: Request,
     { params }: { params: { id: string } }
 ) {
@@ -50,4 +50,4 @@ export async function DELETE(
 
         return new NextResponse(error.message, { status: 500 });
     }
-}
+}*/

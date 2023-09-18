@@ -1,8 +1,8 @@
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { Category } from "@/types";
 import EditCategoryForm from "@/components/forms/EditCategoryForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Category } from "@prisma/client";
 
 interface EditCategoryDialogProps {
     category: Category,

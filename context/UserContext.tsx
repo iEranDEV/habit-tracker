@@ -17,7 +17,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(`http://localhost:3000/api/user`).then((res) => res.json());
+            const data = await fetch(`http://localhost:3000/api/user`).then(r => r.json());
             setUser(data);
         }
 
@@ -31,10 +31,7 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     );
 };
 
-const useUserContext = () => {
-
-    return useContext(UserContext);
-};
+export const useUserContext = () => useContext(UserContext);
 
 export function ProtectedRoute({ children }: { children: JSX.Element }) {
 

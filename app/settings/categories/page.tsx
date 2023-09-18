@@ -1,17 +1,19 @@
 'use client';
 
-import CategoryItem from "@/components/layout/settings/CategoryItem";
-import NewCategoryDialog from "@/components/dialog/category/NewCategory";
 import { Separator } from "@/components/ui/separator";
-import { UserContext } from "@/context/UserContext";
-import { Shapes, icons } from "lucide-react";
-import { useContext } from "react";
+import { Shapes } from "lucide-react";
+import CategoryItem from "@/components/layout/settings/CategoryItem";
+import { Category } from "@prisma/client";
+import useSWR from 'swr';
+
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export default function SettingsCategories() {
 
-    const { categories } = useContext(UserContext);
+    const { data: categories, isLoading } = useSWR('http://localhost:3000/api/category', fetcher);
+    console.log(categories);
 
-    const customCategories = categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime());
+    if (isLoading) return <p>Loading</p>
 
     return (
         <div className="space-y-6">
@@ -23,13 +25,9 @@ export default function SettingsCategories() {
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {categories.filter((item) => item.createdBy === '').map((item) => {
-                    const Icon = icons[item.icon as keyof typeof icons];
-
-                    return (
-                        <CategoryItem key={item.id} item={item} icon={<Icon size={20} />} />
-                    )
-                })}
+                {categories && categories.map((item: Category) => (
+                    <CategoryItem key={item.id} item={item} />
+                ))}
             </div>
 
             <div className="flex justify-between items-end">
@@ -39,17 +37,13 @@ export default function SettingsCategories() {
                         Manage your categories.
                     </p>
                 </div>
-                <NewCategoryDialog />
+                {/* <NewCategoryDialog /> */}
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {customCategories.length > 0 ? customCategories.map((item) => {
-                    const Icon = icons[item.icon as keyof typeof icons];
-
-                    return (
-                        <CategoryItem key={item.id} item={item} custom icon={<Icon size={20} />} />
-                    )
-                }) : (
+                {categories ? categories.map((item: Category) => (
+                    <CategoryItem key={item.id} item={item} custom />
+                )) : (
                     <div className="w-full col-span-2 flex items-center flex-col text-sm text-muted-foreground">
                         <Shapes size={20} />
                         <span>There are no custom categories</span>

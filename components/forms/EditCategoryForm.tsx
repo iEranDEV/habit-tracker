@@ -7,12 +7,9 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { useContext } from "react";
-import { UserContext } from "@/context/UserContext";
-import { updateCategory } from "@/firebase/db/category";
-import { Category } from "@/types";
 import ColorPicker from "./utils/ColorPicker";
 import IconPicker from "./utils/IconPicker";
+import { Category } from "@prisma/client";
 
 interface EditCategoryFormProps {
     setOpen: Function,
@@ -20,8 +17,6 @@ interface EditCategoryFormProps {
 }
 
 export default function EditCategoryForm({ setOpen, category }: EditCategoryFormProps) {
-
-    const { categories, setCategories } = useContext(UserContext);
 
     const formSchema = z.object({
         name: z.string().trim().min(1, { message: 'This field is required' }),
@@ -39,7 +34,7 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await updateCategory(category.id, {
+        /*const { result, error } = await updateCategory(category.id, {
             id: category.id,
             createdBy: category.createdBy,
             name: values.name,
@@ -51,7 +46,7 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
         if (result) {
             setOpen(false);
             setCategories([...categories.filter((item) => item.id !== category.id), result]);
-        }
+        }*/
     }
 
     return (

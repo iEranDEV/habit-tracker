@@ -10,13 +10,13 @@ interface IconProps extends LucideProps {
 const Icon = memo(({ name, ...props }: IconProps) => {
     const LucideIcon = dynamic(dynamicIconImports[name as keyof typeof dynamicIconImports], {
         loading: () => (
-            <div className='animate-spin'>
-                <Loader2 size={20} />
+            <div className='flex justify-center items-center'>
+                <Loader2 size={20} className='animate-spin margin-0' />
             </div>
         )
     })
 
-    return <LucideIcon {...props} />;
+    return <LucideIcon {...props} size={20} />;
 });
 
 export default Icon;

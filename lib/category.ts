@@ -16,9 +16,22 @@ export const getCategoriesByUser = async (id: string) => {
             userId: id
         },
         orderBy: {
-            createdAt: 'asc'
+            createdAt: 'desc'
         }
     })
 
     return categories;
+}
+
+export const createCategory = async (name: string, color: string, icon: string, userID: string) => {
+    const category = await prisma.category.create({
+        data: {
+            name: name,
+            color: color,
+            icon: icon,
+            userId: userID
+        }
+    });
+
+    return category;
 }

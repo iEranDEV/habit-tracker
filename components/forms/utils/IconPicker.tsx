@@ -1,28 +1,27 @@
 import CategoryIcon from "@/components/layout/settings/CategoryIcon";
 import { Label } from "@/components/ui/label";
-import { icons } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 const iconPickerIcons = [
-    'Ban',
-    'Shapes',
-    'Wallet',
-    'HeartPulse',
-    'Home',
-    'Leaf',
-    'MessagesSquare',
-    'Bike',
-    'GraduationCap',
-    'Briefcase',
-    'PersonStanding',
-    'Dumbbell',
-    'Cross',
-    'Droplet',
-    'Smile',
-    'CigaretteOff',
-    'UtensilsCrossed',
-    'BookMarked',
+    'ban',
+    'shapes',
+    'wallet',
+    'heart-pulse',
+    'home',
+    'leaf',
+    'messages-square',
+    'bike',
+    'graduation-cap',
+    'briefcase',
+    'person-standing',
+    'dumbbell',
+    'cross',
+    'droplet',
+    'smile',
+    'cigarette-off',
+    'utensils-crossed',
+    'book-marked',
 
 ]
 
@@ -48,9 +47,9 @@ export default function IconPicker({ defaultIcon }: IconPickerProps) {
                     <div
                         onClick={() => setIcon(item)}
                         key={item}
-                        className={`p-1 cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
+                        className={`p-1 flex justify-center items-center cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
                     >
-                        <CategoryIcon name={item} size={20} />
+                        <CategoryIcon name={item} />
                     </div>
                 ))}
             </div>

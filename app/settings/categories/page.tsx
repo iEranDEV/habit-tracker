@@ -1,19 +1,16 @@
-'use client';
-
 import { Separator } from "@/components/ui/separator";
 import { Shapes } from "lucide-react";
 import CategoryItem from "@/components/layout/settings/CategoryItem";
 import { Category } from "@prisma/client";
-import useSWR from 'swr';
+import { getCategoriesByUser } from "@/lib/category";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/app/api/auth/[...nextauth]/route";
+import NewCategoryDialog from "@/components/dialog/category/NewCategory";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+export default async function SettingsCategories() {
 
-export default function SettingsCategories() {
-
-    const { data: categories, isLoading } = useSWR('http://localhost:3000/api/category', fetcher);
-    console.log(categories);
-
-    if (isLoading) return <p>Loading</p>
+    const session = await getServerSession(authOption);
+    const categories = await getCategoriesByUser(session?.user.id);
 
     return (
         <div className="space-y-6">
@@ -37,7 +34,7 @@ export default function SettingsCategories() {
                         Manage your categories.
                     </p>
                 </div>
-                {/* <NewCategoryDialog /> */}
+                <NewCategoryDialog />
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">

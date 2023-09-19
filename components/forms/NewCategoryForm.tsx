@@ -7,11 +7,9 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { useContext } from "react";
-import { UserContext } from "@/context/UserContext";
-import { addCategory } from "@/firebase/db/category";
 import ColorPicker from "./utils/ColorPicker";
 import IconPicker from "./utils/IconPicker";
+import { useRouter } from "next/navigation";
 
 interface NewCategoryFormProps {
     setOpen: Function
@@ -19,7 +17,7 @@ interface NewCategoryFormProps {
 
 export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
 
-    const { user, categories, setCategories } = useContext(UserContext);
+    const router = useRouter();
 
     const formSchema = z.object({
         name: z.string().trim().min(1, { message: 'This field is required' }),
@@ -32,16 +30,24 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
         defaultValues: {
             name: "",
             color: "#ef4444",
-            icon: "Shapes"
+            icon: "shapes"
         }
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await addCategory(values.name, values.color, values.icon, user.id);
+        const response = await fetch('http://localhost:3000/api/category', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: values.name,
+                color: values.color,
+                icon: values.icon
+            })
+        });
+        const data = await response.json();
 
-        if (result) {
+        if (data) {
             setOpen(false);
-            setCategories([...categories, result]);
+            router.refresh();
         }
     }
 

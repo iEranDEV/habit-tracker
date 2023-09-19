@@ -12,6 +12,8 @@ export default async function SettingsCategories() {
     const session = await getServerSession(authOption);
     const categories = await getCategoriesByUser(session?.user.id);
 
+    const customCategories = categories.filter((item) => item.userId !== null);
+
     return (
         <div className="space-y-6">
             <div>
@@ -22,7 +24,7 @@ export default async function SettingsCategories() {
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {categories && categories.map((item: Category) => (
+                {categories.filter((item) => item.userId === null).map((item: Category) => (
                     <CategoryItem key={item.id} item={item} />
                 ))}
             </div>
@@ -38,7 +40,7 @@ export default async function SettingsCategories() {
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">
-                {categories ? categories.map((item: Category) => (
+                {customCategories.length > 0 ? customCategories.map((item: Category) => (
                     <CategoryItem key={item.id} item={item} custom />
                 )) : (
                     <div className="w-full col-span-2 flex items-center flex-col text-sm text-muted-foreground">

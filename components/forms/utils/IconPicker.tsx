@@ -47,7 +47,7 @@ export default function IconPicker({ defaultIcon }: IconPickerProps) {
                     <div
                         onClick={() => setIcon(item)}
                         key={item}
-                        className={`p-1 flex justify-center items-center cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
+                        className={`p-1 h-7 w-7 flex justify-center items-center cursor-pointer transition-all rounded-md ${icon === item ? 'bg-primary text-primary-foreground' : 'bg-background hover:bg-accent'}`}
                     >
                         <CategoryIcon name={item} />
                     </div>

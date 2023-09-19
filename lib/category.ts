@@ -1,3 +1,4 @@
+import { is } from "date-fns/locale";
 import prisma from "./db"
 
 export const getCategoryByID = async (id: string) => {
@@ -12,11 +13,18 @@ export const getCategoryByID = async (id: string) => {
 
 export const getCategoriesByUser = async (id: string) => {
     const categories = await prisma.category.findMany({
-        where: {
-            userId: id
-        },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: 'asc'
+        },
+        where: {
+            OR: [
+                {
+                    userId: null
+                },
+                {
+                    userId: id
+                }
+            ]
         }
     })
 

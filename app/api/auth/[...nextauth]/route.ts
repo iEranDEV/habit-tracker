@@ -3,8 +3,26 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/lib/db";
 
+const prismaAdapter = PrismaAdapter(prisma);
+
+// @ts-ignore
+prismaAdapter.createUser = (data: User) => {
+    return prisma.user.create({
+        data: {
+            email: data.email,
+            name: data.name,
+            settings: {
+                firstDayOfWeek: 1,
+                language: 'en',
+                modifyDaysPast: true,
+                modifyDaysFuture: true
+            }
+        },
+    });
+};
+
 export const authOption: AuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    adapter: prismaAdapter,
     providers: [
         GoogleProvider({
             clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
@@ -16,7 +34,6 @@ export const authOption: AuthOptions = {
 
             if (session.user) {
                 session.user.id = user.id;
-                delete session.user.image;
             }
 
             return session

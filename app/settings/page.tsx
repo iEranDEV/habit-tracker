@@ -12,7 +12,7 @@ export default function GeneralSettingsPage() {
                 </p>
             </div>
             <Separator />
-            <GeneralSettingsForm />
+            {/* <GeneralSettingsForm /> */}
         </div>
     )
 }

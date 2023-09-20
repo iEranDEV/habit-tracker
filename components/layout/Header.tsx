@@ -25,7 +25,7 @@ export default function Header() {
     }
 
     return (
-        <header className="pb-8 px-2 pt-6 relative w-full">
+        <header className="pb-8 px-2 relative w-full">
             <div className="h-full w-full flex justify-between items-center">
                 <h1 className="select-none truncate text-header">
                     {getWelcomeText()}, {user?.name}

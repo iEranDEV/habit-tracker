@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <ProtectedRoute>
             <div className="w-full flex justify-center">
-                <div className="w-full max-w-[1024px] py-10 text-neutral-700">
+                <div className="w-full max-w-[1024px] pt-2 md:pt-10 text-neutral-700">
                     <Header />
 
                     {/* 

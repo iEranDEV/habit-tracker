@@ -20,11 +20,11 @@ export function SidebarNavItem({ item, child }: SidebarNavItemProps) {
 
     const className = cn(
         buttonVariants({ variant: "ghost" }),
-        `${child && '!ml-6'} flex justify-between items-center`
+        `${child && '!ml-6'} flex justify-between items-center cursor-pointer select-none`
     )
 
     return (
-        <>
+        <div className="relative">
             {item.children ? (
                 <div
                     className={className}
@@ -60,8 +60,8 @@ export function SidebarNavItem({ item, child }: SidebarNavItemProps) {
             )}
 
             {(item.showCurrent && item.href === pathname) && (
-                <motion.div layout layoutId="navBar" className="absolute right-0 top-1/2 -translate-y-1/2 bg-red-500 h-2 w-2"></motion.div>
+                <motion.div layout layoutId="navBar" className="absolute -right-1 top-2 rounded-full bg-primary h-6 w-2"></motion.div>
             )}
-        </>
+        </div>
     )
 }

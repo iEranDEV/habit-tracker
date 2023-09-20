@@ -65,11 +65,11 @@ export default function SettingsLayout({ children }: { children: JSX.Element }) 
 
     return (
         <div className="space-y-6 pb-16 rleative">
-            <div className="space-y-6 sticky bg-background top-0 pt-10 px-10">
-                <div className="flex justify-between items-center">
-                    <div className="space-y-0.5">
-                        <h1 className="text-header">Settings</h1>
-                        <p className="text-muted-foreground">
+            <div className="space-y-6 sticky bg-background top-0 pt-4 md:pt-10 px-4 md:px-10">
+                <div className="flex justify-between">
+                    <div className="space-y-0.5 grow-0">
+                        <h1 className="text-4xl font-handwrite">Settings</h1>
+                        <p className="text-muted-foreground text-sm">
                             Manage your account settings and set e-mail preferences.
                         </p>
                     </div>

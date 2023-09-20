@@ -12,7 +12,7 @@ import IconPicker from "./utils/IconPicker";
 import { useRouter } from "next/navigation";
 
 interface NewCategoryFormProps {
-    setOpen: Function
+    setOpen?: Function
 }
 
 export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
@@ -46,7 +46,7 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
         const data = await response.json();
 
         if (data) {
-            setOpen(false);
+            setOpen && setOpen(false);
             router.refresh();
         }
     }

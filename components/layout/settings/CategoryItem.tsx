@@ -1,7 +1,7 @@
 'use client';
 
 import Values from "values.js"
-import { Trash } from "lucide-react"
+import { MoreHorizontal, PenLine, Trash, Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog"
 import { Button } from "../../ui/button"
 import { useState } from "react"
@@ -10,6 +10,7 @@ import EditCategoryDialog from "../../dialog/category/EditCategory"
 import type { Category } from "@prisma/client"
 import CategoryIcon from "./CategoryIcon";
 import { useRouter } from "next/navigation";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface CategoryItemProps {
     item: Category,
@@ -18,7 +19,8 @@ interface CategoryItemProps {
 
 export default function CategoryItem({ item, custom }: CategoryItemProps) {
 
-    const [open, setOpen] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
 
     const { toast } = useToast()
     const router = useRouter();
@@ -53,14 +55,30 @@ export default function CategoryItem({ item, custom }: CategoryItemProps) {
             </div>
 
             {custom && (
-                <div className="hidden group-hover:flex items-center gap-1">
+                <div className="h-full flex justify-center items-center mr-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger className="text-muted-foreground focus:outline-none">
+                            <MoreHorizontal size={20} />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem onClick={() => setEditModal(!editModal)}>
+                                    <PenLine size={16} className="mr-2" />
+                                    Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setDeleteModal(!deleteModal)}>
+                                    <Trash2 size={16} className="mr-2" />
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* Edit category */}
                     <EditCategoryDialog category={item} />
-                    <AlertDialog open={open} onOpenChange={setOpen}>
-                        <AlertDialogTrigger>
-                            <div className="hover:bg-background rounded-md h-8 w-8 hover:text-primary p-2 cursor-pointer">
-                                <Trash size={16} />
-                            </div>
-                        </AlertDialogTrigger>
+
+                    {/* Delete category */}
+                    <AlertDialog open={deleteModal} onOpenChange={setDeleteModal}>
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

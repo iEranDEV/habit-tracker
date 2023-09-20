@@ -1,40 +1,63 @@
 import { Separator } from "@/components/ui/separator"
-import { ChevronLeft, CopyCheck, Settings, Shapes, Star, User } from "lucide-react"
+import { ChevronLeft, CopyCheck, List, Plus, Settings, Shapes, Star, User } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
-import SidebarNav from "@/components/layout/settings/SidebarNav"
+import SidebarNav from "@/components/layout/settings/nav/SidebarNav"
+import { NavItem } from "@/types"
 
-const sidebarNavItems = [
+
+
+const sidebarNavItems: NavItem[] = [
     {
         title: "Back to home page",
         href: "/",
-        icon: <ChevronLeft strokeWidth={1.5} size={20} />
+        showCurrent: false,
+        icon: <ChevronLeft size={20} />
     },
     {
         title: "General",
         href: "/settings",
-        icon: <Settings strokeWidth={1.5} size={20} />
+        showCurrent: true,
+        icon: <Settings size={20} />
     },
     {
         title: "Account",
         href: "/settings/account",
-        icon: <User strokeWidth={1.5} size={20} />
+        showCurrent: true,
+        icon: <User size={20} />
     },
     {
         title: 'Habits',
         href: '/settings/habits',
-        icon: <CopyCheck strokeWidth={1.5} size={20} />
+        showCurrent: false,
+        icon: <CopyCheck size={20} />
     },
     {
         title: "Categories",
         href: "/settings/categories",
-        icon: <Shapes strokeWidth={1.5} size={20} />
+        showCurrent: false,
+        icon: <Shapes size={20} />,
+        children: [
+            {
+                title: "Categories list",
+                href: "/settings/categories",
+                showCurrent: true,
+                icon: <List size={20} />
+            },
+            {
+                title: "Create new category",
+                href: "/settings/categories/new",
+                showCurrent: true,
+                icon: <Plus size={20} />
+            }
+        ]
     },
     {
         title: "Premium",
         href: "/settings/premium",
-        icon: <Star strokeWidth={1.5} size={20} />
+        showCurrent: true,
+        icon: <Star size={20} />
     },
 ]
 

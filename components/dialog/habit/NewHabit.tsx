@@ -1,8 +1,9 @@
+'use client';
+
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Plus } from "lucide-react";
-import NewHabitForm from "@/components/forms/new_habit/NewHabitForm";
 
 export default function NewHabitDialog() {
     const [open, setOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function NewHabitDialog() {
                     <DialogDescription>Submit form below to create new habit</DialogDescription>
                 </DialogHeader>
 
-                <NewHabitForm setOpen={setOpen} />
+                {/* <NewHabitForm setOpen={setOpen} /> */}
 
             </DialogContent>
         </Dialog>

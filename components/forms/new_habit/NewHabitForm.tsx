@@ -4,8 +4,6 @@ import NewHabitTypeForm from "./NewHabitType";
 import NewHabitDetailsForm from "./NewHabitDetails";
 import { Habit } from "@/types";
 import NewHabitTimeForm from "./NewHabitTime";
-import { Timestamp } from "firebase/firestore";
-import { addHabit } from "@/firebase/db/habit";
 import { UserContext } from "@/context/UserContext";
 
 const defaultHabit: Habit = {

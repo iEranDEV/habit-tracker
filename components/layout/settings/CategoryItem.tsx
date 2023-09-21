@@ -1,7 +1,7 @@
 'use client';
 
 import Values from "values.js"
-import { MoreHorizontal, PenLine, Trash, Trash2 } from "lucide-react"
+import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../ui/alert-dialog"
 import { Button } from "../../ui/button"
 import { useState } from "react"
@@ -10,7 +10,7 @@ import EditCategoryDialog from "../../dialog/category/EditCategory"
 import type { Category } from "@prisma/client"
 import CategoryIcon from "./CategoryIcon";
 import { useRouter } from "next/navigation";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface CategoryItemProps {
     item: Category,

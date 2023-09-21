@@ -12,51 +12,31 @@ const sidebarNavItems: NavItem[] = [
     {
         title: "Back to home page",
         href: "/",
-        showCurrent: false,
         icon: <ChevronLeft size={20} />
     },
     {
         title: "General",
         href: "/settings",
-        showCurrent: true,
         icon: <Settings size={20} />
     },
     {
         title: "Account",
         href: "/settings/account",
-        showCurrent: true,
         icon: <User size={20} />
     },
     {
         title: 'Habits',
         href: '/settings/habits',
-        showCurrent: false,
-        icon: <CopyCheck size={20} />
+        icon: <CopyCheck size={20} />,
     },
     {
         title: "Categories",
         href: "/settings/categories",
-        showCurrent: false,
         icon: <Shapes size={20} />,
-        children: [
-            {
-                title: "Categories list",
-                href: "/settings/categories",
-                showCurrent: true,
-                icon: <List size={20} />
-            },
-            {
-                title: "Create new category",
-                href: "/settings/categories/new",
-                showCurrent: true,
-                icon: <Plus size={20} />
-            }
-        ]
     },
     {
         title: "Premium",
         href: "/settings/premium",
-        showCurrent: true,
         icon: <Star size={20} />
     },
 ]

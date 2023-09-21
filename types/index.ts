@@ -4,9 +4,7 @@ import React from "react";
 export interface NavItem {
     title: string,
     href: string,
-    showCurrent?: boolean,
     icon: React.ReactNode,
-    children?: NavItem[]
 }
 
 export interface Category {

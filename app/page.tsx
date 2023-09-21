@@ -1,10 +1,5 @@
-import { CalendarContextProvider } from "@/context/CalendarContext";
 import Header from "@/components/layout/Header";
-import ControlPanel from "@/components/layout/ControlPanel";
-import HabitList from "@/components/layout/habit_list/HabitList";
 import { ProtectedRoute } from "@/context/UserContext";
-import { useSession } from "next-auth/react";
-
 export default function Home() {
 
     return (

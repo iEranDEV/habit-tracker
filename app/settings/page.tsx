@@ -1,4 +1,3 @@
-import GeneralSettingsForm from "@/components/forms/GeneralSettingsForm";
 import { Separator } from "@/components/ui/separator";
 
 export default function GeneralSettingsPage() {

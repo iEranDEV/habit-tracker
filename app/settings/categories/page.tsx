@@ -1,12 +1,11 @@
 import { Separator } from "@/components/ui/separator";
-import { Plus, Shapes } from "lucide-react";
+import { Shapes } from "lucide-react";
 import CategoryItem from "@/components/layout/settings/CategoryItem";
 import { Category } from "@prisma/client";
 import { getCategoriesByUser } from "@/lib/category";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import NewCategoryDialog from "@/components/dialog/category/NewCategory";
 
 export default async function SettingsCategories() {
 
@@ -37,10 +36,7 @@ export default async function SettingsCategories() {
                         Manage your categories.
                     </p>
                 </div>
-                <Link href={'categories/new'} className={buttonVariants({ variant: 'default' })}>
-                    <Plus className="mr-2" />
-                    Add new category
-                </Link>
+                <NewCategoryDialog />
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-2">

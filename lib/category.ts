@@ -43,3 +43,13 @@ export const createCategory = async (name: string, color: string, icon: string, 
 
     return category;
 }
+
+export const deleteCategory = async (id: string) => {
+    const category = await prisma.category.delete({
+        where: {
+            id: id
+        }
+    })
+
+    return category;
+}

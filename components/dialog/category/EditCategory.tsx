@@ -1,14 +1,14 @@
-import { useState } from "react";
 import EditCategoryForm from "@/components/forms/EditCategoryForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Category } from "@prisma/client";
 
 interface EditCategoryDialogProps {
-    category: Category,
+    item: Category,
+    open: boolean,
+    setOpen: (open: boolean) => void
 }
 
-export default function EditCategoryDialog({ category }: EditCategoryDialogProps) {
-    const [open, setOpen] = useState(false);
+export default function EditCategoryDialog({ item, open, setOpen }: EditCategoryDialogProps) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -18,7 +18,7 @@ export default function EditCategoryDialog({ category }: EditCategoryDialogProps
                     <DialogDescription>Submit form below to create new category</DialogDescription>
                 </DialogHeader>
 
-                <EditCategoryForm setOpen={setOpen} category={category} />
+                <EditCategoryForm setOpen={setOpen} category={item} />
             </DialogContent>
         </Dialog>
     )

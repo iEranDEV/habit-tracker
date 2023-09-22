@@ -10,12 +10,15 @@ import ColorPicker from "../utils/ColorPicker";
 import IconPicker from "../utils/IconPicker";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 interface NewCategoryFormProps {
     setOpen?: Function
 }
 
 export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
+    const [loading, setLoading] = useState(false);
 
     const router = useRouter();
 
@@ -35,6 +38,7 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setLoading(true);
         const response = await fetch('http://localhost:3000/api/category', {
             method: 'POST',
             body: JSON.stringify({
@@ -49,6 +53,7 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
             setOpen && setOpen(false);
             router.refresh();
         }
+        setLoading(false);
     }
 
     return (
@@ -84,7 +89,13 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
 
                 {/* Footer */}
                 <DialogFooter>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <span>Submit</span>
+                        )}
+                    </Button>
                 </DialogFooter>
 
             </form>

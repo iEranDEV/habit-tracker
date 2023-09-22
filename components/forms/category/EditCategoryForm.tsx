@@ -10,6 +10,9 @@ import { Button } from "../../ui/button";
 import ColorPicker from "../utils/ColorPicker";
 import IconPicker from "../utils/IconPicker";
 import { Category } from "@prisma/client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 interface EditCategoryFormProps {
     setOpen: Function,
@@ -17,6 +20,9 @@ interface EditCategoryFormProps {
 }
 
 export default function EditCategoryForm({ setOpen, category }: EditCategoryFormProps) {
+    const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
 
     const formSchema = z.object({
         name: z.string().trim().min(1, { message: 'This field is required' }),
@@ -34,19 +40,22 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        /*const { result, error } = await updateCategory(category.id, {
-            id: category.id,
-            createdBy: category.createdBy,
-            name: values.name,
-            color: values.color,
-            icon: values.icon,
-            createdAt: category.createdAt
+        setLoading(true);
+        const response = await fetch(`http://localhost:3000/api/category/${category.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                name: values.name,
+                color: values.color,
+                icon: values.icon
+            })
         });
+        const data = await response.json();
 
-        if (result) {
-            setOpen(false);
-            setCategories([...categories.filter((item) => item.id !== category.id), result]);
-        }*/
+        if (data) {
+            setOpen && setOpen(false);
+            router.refresh();
+        }
+        setLoading(false);
     }
 
     return (
@@ -82,7 +91,13 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
 
                 {/* Footer */}
                 <DialogFooter>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <span>Submit</span>
+                        )}
+                    </Button>
                 </DialogFooter>
 
             </form>

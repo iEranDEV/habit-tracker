@@ -1,4 +1,3 @@
-import { is } from "date-fns/locale";
 import prisma from "./db"
 
 export const getCategoryByID = async (id: string) => {

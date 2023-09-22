@@ -26,8 +26,6 @@ export default function DeleteCategoryDialog({ item, open, setOpen }: DeleteCate
             method: 'DELETE'
         })
         const data = await response.json();
-
-        console.log(data);
         if (data) {
             router.refresh();
             toast({

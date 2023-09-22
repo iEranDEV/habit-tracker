@@ -12,20 +12,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export default function NewHabitDetailsForm() {
 
-    const { data, setData, stage, setStage } = useContext(NewHabitFormContext);
+    const ctx = useContext(NewHabitFormContext);
+    if (!ctx) return null;
+    const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({
         name: z.string(),
         description: z.string(),
         details: z.object({
-            'default': {},
-            'counter': {
+            'DEFAULT': {},
+            'COUNTER': {
                 amount: z.number(),
                 counterType: z.string(),
                 unit: z.string().optional()
             },
-            'timer': {},
-            'checklist': {}
+            'TIMER': {},
+            'CHECKLIST': {}
         }[data.type!]).optional()
     });
 
@@ -35,20 +37,20 @@ export default function NewHabitDetailsForm() {
             name: data.name || '',
             description: data.description || '',
             details: {
-                'default': {},
-                'counter': {
+                'DEFAULT': {},
+                'COUNTER': {
                     amount: data.details?.amount || '',
-                    counterType: data.details?.counterType || 'AtLeast',
+                    counterType: data.details?.counterType || 'AT_LEAST',
                     unit: data.details?.unit || ''
                 },
-                'timer': {},
-                'checklist': {}
+                'TIMER': {},
+                'CHECKLIST': {}
             }[data.type!]
         }
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        setData({ ...data, ...values });
+        setData({ ...data, ...values } as any);
         setStage(stage + 1);
     }
 
@@ -97,7 +99,7 @@ export default function NewHabitDetailsForm() {
                 />
 
                 {/* Counter type */}
-                {data.type === 'counter' && (
+                {data.type === 'COUNTER' && (
                     <div className="space-y-2">
                         <Label>Enter habit details</Label>
                         <div className="grid grid-cols-4 gap-2">

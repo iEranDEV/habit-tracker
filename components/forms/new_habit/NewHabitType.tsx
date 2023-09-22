@@ -7,7 +7,7 @@ import { NewHabitFormContext } from "./NewHabitForm";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
-import { HabitType } from "@/types";
+import { HabitType } from "@prisma/client";
 
 type HabitTypeItem = {
     id: HabitType,
@@ -18,31 +18,33 @@ type HabitTypeItem = {
 
 const types = [
     {
-        id: 'default',
+        id: 'DEFAULT',
         icon: <CopyCheck size={20} />,
         name: 'Yes or no',
         disabled: false
     }, {
-        id: 'counter',
+        id: 'COUNTER',
         icon: <Calculator size={20} />,
         name: 'Counter',
         disabled: false
     }, {
-        id: 'timer',
+        id: 'TIMER',
         icon: <Timer size={20} />,
         name: 'Timer',
         disabled: true
     }, {
-        id: 'checklist',
+        id: 'CHECKLIST',
         icon: <ListTodo size={20} />,
         name: 'Checklist',
         disabled: true
     }
-] as Array<HabitTypeItem>
+] as HabitTypeItem[]
 
 export default function NewHabitTypeForm() {
 
-    const { data, setData, stage, setStage } = useContext(NewHabitFormContext);
+    const ctx = useContext(NewHabitFormContext);
+    if (!ctx) return null;
+    const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({
         type: z.string()
@@ -51,14 +53,14 @@ export default function NewHabitTypeForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            type: data.type || 'default'
+            type: data.type || 'DEFAULT'
         }
     });
 
-    const [selected, setSelected] = useState(data.type || 'default');
+    const [selected, setSelected] = useState(data.type || 'DEFAULT');
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        setData({ ...data, ...values })
+        setData({ ...data, ...values } as any);
         setStage(stage + 1);
     }
 

@@ -2,10 +2,8 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { UserContext } from "@/context/UserContext";
-import { Category } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, icons } from "lucide-react";
+import { Check } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Values from "values.js";
@@ -13,20 +11,12 @@ import { NewHabitFormContext } from "./NewHabitForm";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const selectedElement = (
-    <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0 }}
-        className="p-1 bg-primary rounded-md text-primary-foreground"
-    >
-        <Check size={16} />
-    </motion.div>
-)
+import CategoryIcon from "@/components/layout/settings/CategoryIcon";
+import { useSession } from "next-auth/react";
+import { Category } from "@prisma/client";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function NewHabitCategoryFormItem({ item, selected, setSelected }: { item: Category, selected: string, setSelected: Function }) {
-    const Icon = icons[item.icon as keyof typeof icons];
 
     return (
         <div
@@ -35,34 +25,60 @@ function NewHabitCategoryFormItem({ item, selected, setSelected }: { item: Categ
         >
             <div className="flex gap-4 items-center">
                 <div className="rounded-md p-1.5" style={{ color: item.color, background: new Values(item.color).tints(10)[7].hexString() }}>
-                    <Icon size={20} />
+                    <CategoryIcon name={item.icon} />
                 </div>
                 <p>{item.name}</p>
             </div>
 
             <AnimatePresence>
-                {selected === item.id && selectedElement}
+                {selected === item.id && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        className="p-1 bg-primary rounded-md text-primary-foreground"
+                    >
+                        <Check size={16} />
+                    </motion.div>
+                )}
             </AnimatePresence>
         </div>
     )
 }
 
 export default function NewHabitCategoryForm() {
+    const [categories, setCategories] = useState(Array<Category>());
+    const [loading, setLoading] = useState(false);
+    const { data: session } = useSession();
 
-    const { data, setData, stage, setStage } = useContext(NewHabitFormContext);
+    const ctx = useContext(NewHabitFormContext);
+    if (!ctx) return null;
+    const { data, setData, stage, setStage } = ctx;
+
+    const [selected, setSelected] = useState(data.categoryId || '65095e1364a380fd978471f4');
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            setLoading(true);
+            const result = await fetch('http://localhost:3000/api/category');
+            const json = await result.json();
+            setCategories(json);
+            setLoading(false);
+        }
+
+        fetchCategories();
+    }, []);
 
     const formSchema = z.object({
-        category: z.string()
+        categoryId: z.string()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            category: data.category || 'default_other'
+            categoryId: data.categoryId || '65095e1364a380fd978471f4'
         }
     });
-
-    const [selected, setSelected] = useState(data.category || 'default_other')
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setData({ ...data, ...values });
@@ -71,13 +87,25 @@ export default function NewHabitCategoryForm() {
 
     useEffect(() => {
         if (selected) {
-            form.setValue('category', selected);
+            form.setValue('categoryId', selected);
         }
     }, [selected, form])
 
-    const { categories } = useContext(UserContext);
+    const customCategories = categories.filter((item) => item.userId !== null);
 
-    const customCategories = categories.filter((item) => item.createdBy !== '').sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime());
+    if (loading) return (
+        <div className="space-y-6">
+            <Label>Select category</Label>
+            <div className="grid grid-cols-2 gap-2">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <Skeleton key={i} className="h-10 w-full" />
+                ))}
+            </div>
+            <div className="h-10">
+
+            </div>
+        </div>
+    )
 
     return (
         <Form {...form}>
@@ -91,7 +119,7 @@ export default function NewHabitCategoryForm() {
                 <div className="space-y-2" >
                     <Label>Select category</Label>
                     <div className="grid grid-cols-2 gap-2">
-                        {categories.filter((item) => item.createdBy === '').map((item) => (
+                        {categories.filter((item) => item.userId === null).map((item) => (
                             <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
                         ))}
                     </div>

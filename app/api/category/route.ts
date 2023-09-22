@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { createCategory } from "@/lib/category";
+import { createCategory, getCategoriesByUser } from "@/lib/category";
 import { NextResponse } from "next/server";
 import { authOption } from "../auth/[...nextauth]/route";
 
@@ -17,4 +17,13 @@ export async function PUT(request: Request) {
     const session = await getServerSession(authOption);
     const userId = session?.user.id;
     const { id, name, color, icon } = await request.json();
+}
+
+export async function GET() {
+    const session = await getServerSession(authOption);
+    const id = session?.user.id;
+
+    const categories = await getCategoriesByUser(id);
+
+    return NextResponse.json(categories);
 }

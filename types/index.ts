@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore"
 import React from "react";
 
 export interface NavItem {
@@ -13,7 +12,6 @@ export interface Category {
     color: string,
     icon: string,
     createdBy: string,
-    createdAt: Timestamp
 }
 
 export type HabitType = 'default' | 'counter' | 'checklist' | 'timer';
@@ -30,11 +28,8 @@ export interface Habit {
     type: HabitType,
     description: string,
     category: string,
-    createdAt: Timestamp,
     createdBy: string,
     frequency: Array<number>,
-    startDate: Timestamp,
-    endDate: Timestamp | undefined,
     details: HabitDetails
 }
 
@@ -54,7 +49,6 @@ export interface User {
 
 export interface CheckIn {
     id: string,
-    date: Timestamp,
     habit: string,
     value: boolean | number,
 }

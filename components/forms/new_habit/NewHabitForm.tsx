@@ -1,32 +1,19 @@
-import { createContext, useContext, useState } from "react";
+'use client';
+
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import NewHabitCategoryForm from "./NewHabitCategory";
 import NewHabitTypeForm from "./NewHabitType";
 import NewHabitDetailsForm from "./NewHabitDetails";
-import { Habit } from "@/types";
 import NewHabitTimeForm from "./NewHabitTime";
-import { UserContext } from "@/context/UserContext";
+import { $Enums, Habit, Prisma } from "@prisma/client";
 
-const defaultHabit: Habit = {
-    id: '',
-    name: '',
-    type: 'default',
-    description: '',
-    category: 'default_other',
-    createdAt: Timestamp.now(),
-    frequency: [],
-    startDate: Timestamp.fromDate(new Date()),
-    endDate: undefined,
-    details: undefined,
-    createdBy: ''
-};
-
-export const NewHabitFormContext = createContext({
-    stage: 0,
-    setStage: (stage: number) => { },
-    data: defaultHabit,
-    setData: (data: any) => { },
-    submit: (habit: Habit) => { }
-});
+export const NewHabitFormContext = createContext<{
+    stage: number,
+    setStage: Dispatch<SetStateAction<number>>,
+    data: Partial<Habit>,
+    setData: Dispatch<SetStateAction<Partial<Habit>>>,
+    submit: Function
+} | undefined>(undefined);
 
 type NewHabitFormProps = {
     setOpen: Function
@@ -35,20 +22,22 @@ type NewHabitFormProps = {
 export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
     const [stage, setStage] = useState(0);
 
-    const { user, habits, setHabits } = useContext(UserContext);
-
-    const [data, setData] = useState<Habit>({ ...defaultHabit, createdBy: user.id });
+    const [data, setData] = useState<Partial<Habit>>({});
 
     const submit = async (habit: Habit) => {
-        setData(habit);
+        /*setData(habit);
 
         const { result, error } = await addHabit(habit);
 
         if (result) {
             setHabits([...habits, result]);
             setOpen(false);
-        }
+        }*/
     }
+
+    {/* 1: <NewHabitTypeForm />,
+                        2: <NewHabitDetailsForm />,
+                        3: <NewHabitTimeForm /> */}
 
     return (
         <NewHabitFormContext.Provider value={{ stage, setStage, data, setData, submit }}>
@@ -59,7 +48,6 @@ export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
                         0: <NewHabitCategoryForm />,
                         1: <NewHabitTypeForm />,
                         2: <NewHabitDetailsForm />,
-                        3: <NewHabitTimeForm />
                     }[stage] || <p>loading</p>
                 }
 

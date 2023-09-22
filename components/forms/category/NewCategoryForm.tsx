@@ -1,22 +1,23 @@
 'use client';
 
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
 import { useForm } from "react-hook-form";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogFooter } from "../ui/dialog";
-import { Button } from "../ui/button";
-import ColorPicker from "./utils/ColorPicker";
-import IconPicker from "./utils/IconPicker";
-import { Category } from "@prisma/client";
+import { useRouter } from "next/navigation";
+import ColorPicker from "../utils/ColorPicker";
+import IconPicker from "../utils/IconPicker";
+import { DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-interface EditCategoryFormProps {
-    setOpen: Function,
-    category: Category
+interface NewCategoryFormProps {
+    setOpen?: Function
 }
 
-export default function EditCategoryForm({ setOpen, category }: EditCategoryFormProps) {
+export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
+
+    const router = useRouter();
 
     const formSchema = z.object({
         name: z.string().trim().min(1, { message: 'This field is required' }),
@@ -27,26 +28,27 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: category.name,
-            color: category.color,
-            icon: category.icon
+            name: "",
+            color: "#ef4444",
+            icon: "shapes"
         }
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        /*const { result, error } = await updateCategory(category.id, {
-            id: category.id,
-            createdBy: category.createdBy,
-            name: values.name,
-            color: values.color,
-            icon: values.icon,
-            createdAt: category.createdAt
+        const response = await fetch('http://localhost:3000/api/category', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: values.name,
+                color: values.color,
+                icon: values.icon
+            })
         });
+        const data = await response.json();
 
-        if (result) {
-            setOpen(false);
-            setCategories([...categories.filter((item) => item.id !== category.id), result]);
-        }*/
+        if (data) {
+            setOpen && setOpen(false);
+            router.refresh();
+        }
     }
 
     return (
@@ -75,10 +77,10 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
                 />
 
                 {/* Color picker */}
-                <ColorPicker defaultColor={category.color} />
+                <ColorPicker />
 
                 {/* Icon picker */}
-                <IconPicker defaultIcon={category.icon} />
+                <IconPicker />
 
                 {/* Footer */}
                 <DialogFooter>

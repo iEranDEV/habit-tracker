@@ -1,4 +1,4 @@
-import EditCategoryForm from "@/components/forms/EditCategoryForm";
+import EditCategoryForm from "@/components/forms/category/EditCategoryForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Category } from "@prisma/client";
 

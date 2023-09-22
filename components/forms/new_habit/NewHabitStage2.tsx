@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Calculator, CopyCheck, ListTodo, Timer } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitForm";
+import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";

@@ -85,8 +85,8 @@ model Category {
 
 type HabitDetails {
     amount      Int?
-    counterType CounterType
-    unit        String
+    counterType CounterType?
+    unit        String?
 }
 
 model Habit {

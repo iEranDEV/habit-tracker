@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Plus } from "lucide-react";
-import NewHabitForm from "@/components/forms/new_habit/NewHabitForm";
+import NewHabitForm from "@/components/forms/new_habit/NewHabitFormWrapper";
 
 export default function NewHabitDialog() {
     const [open, setOpen] = useState(false);

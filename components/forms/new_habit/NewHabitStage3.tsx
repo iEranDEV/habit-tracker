@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitForm";
+import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";

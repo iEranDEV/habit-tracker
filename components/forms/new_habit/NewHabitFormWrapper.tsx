@@ -1,18 +1,17 @@
 'use client';
 
-import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
-import NewHabitCategoryForm from "./NewHabitCategory";
-import NewHabitTypeForm from "./NewHabitType";
-import NewHabitDetailsForm from "./NewHabitDetails";
-import NewHabitTimeForm from "./NewHabitTime";
-import { $Enums, Habit, Prisma } from "@prisma/client";
+import { Dispatch, SetStateAction, createContext, useState } from "react";
+import NewHabitCategoryForm from "./NewHabitStage1";
+import NewHabitTypeForm from "./NewHabitStage2";
+import NewHabitDetailsForm from "./NewHabitStage3";
+import NewHabitTimeForm from "./NewHabitStage4";
+import { Habit } from "@prisma/client";
 
 export const NewHabitFormContext = createContext<{
     stage: number,
     setStage: Dispatch<SetStateAction<number>>,
     data: Partial<Habit>,
     setData: Dispatch<SetStateAction<Partial<Habit>>>,
-    submit: Function
 } | undefined>(undefined);
 
 type NewHabitFormProps = {
@@ -21,26 +20,10 @@ type NewHabitFormProps = {
 
 export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
     const [stage, setStage] = useState(0);
-
     const [data, setData] = useState<Partial<Habit>>({});
 
-    const submit = async (habit: Habit) => {
-        /*setData(habit);
-
-        const { result, error } = await addHabit(habit);
-
-        if (result) {
-            setHabits([...habits, result]);
-            setOpen(false);
-        }*/
-    }
-
-    {/* 1: <NewHabitTypeForm />,
-                        2: <NewHabitDetailsForm />,
-                        3: <NewHabitTimeForm /> */}
-
     return (
-        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData, submit }}>
+        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData }}>
             <div className="relative">
 
                 {
@@ -48,6 +31,7 @@ export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
                         0: <NewHabitCategoryForm />,
                         1: <NewHabitTypeForm />,
                         2: <NewHabitDetailsForm />,
+                        3: <NewHabitTimeForm setOpen={setOpen} />
                     }[stage] || <p>loading</p>
                 }
 

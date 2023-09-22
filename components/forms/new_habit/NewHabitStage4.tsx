@@ -1,21 +1,27 @@
 import { Button } from "@/components/ui/button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitForm";
+import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FrequencyPicker from "@/components/forms/utils/FrequencyPicker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { endOfDay, format, startOfDay } from "date-fns";
+import { CalendarIcon, Loader2 } from "lucide-react";
+import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { Timestamp } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
-export default function NewHabitTimeForm() {
+export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
 
-    const { submit, data, setData, stage, setStage } = useContext(NewHabitFormContext);
+    const [loading, setLoading] = useState(false);
+
+    const ctx = useContext(NewHabitFormContext);
+    if (!ctx) return null;
+    const { data, setData, stage, setStage } = ctx;
+
+    const router = useRouter();
 
     const formSchema = z.object({
         frequency: z.array(z.number()),
@@ -33,12 +39,21 @@ export default function NewHabitTimeForm() {
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        submit({
-            ...data,
-            frequency: values.frequency,
-            startDate: Timestamp.fromDate(startOfDay(values.startDate)),
-            endDate: values.endDate ? Timestamp.fromDate(endOfDay(values.endDate)) : undefined
+        setLoading(true);
+
+        const habit = { ...data, ...values }
+        const response = await fetch('http://localhost:3000/api/habit', {
+            method: 'POST',
+            body: JSON.stringify(habit)
         });
+        const responseData = await response.json();
+
+        if (data) {
+            responseData && setOpen(false);
+            router.refresh();
+        }
+
+        setLoading(false);
     }
 
     return (
@@ -139,7 +154,13 @@ export default function NewHabitTimeForm() {
                     }}>
                         Go back
                     </Button>
-                    <Button type="submit">Create habit</Button>
+                    <Button type="submit">
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <span>Create habit</span>
+                        )}
+                    </Button>
                 </div>
 
             </form>

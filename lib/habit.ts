@@ -18,3 +18,13 @@ export const createHabit = async (habit: Habit, userId: string) => {
 
     return response;
 }
+
+export const getHabitsByUser = async (userId: string) => {
+    const habits = await prisma.habit.findMany({
+        where: {
+            userId: userId
+        }
+    });
+
+    return habits;
+}

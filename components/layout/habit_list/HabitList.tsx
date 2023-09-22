@@ -1,15 +1,15 @@
-import { CalendarContext } from "@/context/CalendarContext";
-import { UserContext } from "@/context/UserContext"
-import { useContext } from "react"
 import HabitListHeader from "./HabitListHeader";
 import { Separator } from "@/components/ui/separator";
 import HabitListItem from "./HabitListItem";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getServerSession } from "next-auth";
+import { authOption } from "@/app/api/auth/[...nextauth]/route";
+import { getHabitsByUser } from "@/lib/habit";
 
-export default function HabitList() {
+export default async function HabitList() {
 
-    const { habits } = useContext(UserContext);
-    const { viewMode } = useContext(CalendarContext);
+    const session = await getServerSession(authOption);
+    const habits = await getHabitsByUser(session?.user.id);
 
     return (
         <div className="space-y-4">
@@ -19,26 +19,17 @@ export default function HabitList() {
                 <TooltipProvider>
                     {habits.length > 0 ? (
                         <>
-                            {habits.sort((a, b) => a.createdAt.toDate().getTime() - b.createdAt.toDate().getTime()).map((item) => (
-                                <HabitListItem key={item.id} habit={item} />
+                            {habits.map((item) => (
+                                <>
+                                    {/* <HabitListItem key={item.id} habit={item} /> */}
+                                    <p key={item.id}>{item.id}</p>
+                                </>
                             ))}
                         </>
                     ) : (
                         <div className="bg-muted">no habits</div>
                     )}
                 </TooltipProvider>
-                {/*
-                <div className="grid grid-cols-10 gap-2">
-                    <div className="col-span-2">test</div>
-                    <div className="col-span-8">
-                        <div className="grid grid-cols-[repeat(31,_minmax(0,_1fr))] gap-1">
-                            {Array.from({ length: 31 }).map((_, i) => (
-                                <div key={i} className="w-full aspect-square bg-red-500"></div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                */}
             </div>
         </div>
     )

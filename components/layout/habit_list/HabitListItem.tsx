@@ -1,7 +1,6 @@
 import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { CalendarContext } from "@/context/CalendarContext";
 import { UserContext } from "@/context/UserContext";
-import { addCheckInDB, deleteCheckInDB, getCheckInsBetweenDates, updateCheckInDB } from "@/firebase/db/checkin";
 import { isSameDate } from "@/lib/date";
 import { CheckIn, Habit } from "@/types";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";

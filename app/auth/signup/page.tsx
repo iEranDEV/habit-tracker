@@ -3,8 +3,6 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { getRedirect, signInGoogle, signUp } from '@/firebase/auth';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
 
 export default function SignupPage() {
 
@@ -37,24 +36,17 @@ export default function SignupPage() {
         },
     })
 
-    useEffect(() => {
-        const socialLoginHandle = async () => {
-            const result = await getRedirect();
-
-            if (result && 'success' in result && result.success) {
-                return router.push('/');
-            }
-        }
-
-        socialLoginHandle();
-    }, []);
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await signUp(values.name, values.email, values.password);
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values),
+        })
 
-        if (result) {
-            router.push('/');
-        }
+        const data = await response.json();
+        console.log(data)
     }
 
     return (
@@ -69,29 +61,14 @@ export default function SignupPage() {
                 <div className="grid grid-cols-2 gap-2 w-full">
 
                     {/* Google */}
-                    <Button
-                        variant={'outline'}
-                        onClick={() => signInGoogle()}
-                    >
-                        <Image
-                            src={'/google.webp'}
-                            className='mr-2'
-                            height={20}
-                            width={20}
-                            alt={'Google logo'}
-                        />
+                    <Button variant={'outline'} onClick={() => signIn('google')}>
+                        <Image src={'/google.webp'} className='mr-2' height={20} width={20} alt={'Google logo'} />
                         Google
                     </Button>
 
                     {/* Facebook */}
-                    <Button variant={'outline'}>
-                        <Image
-                            src={'/facebook.png'}
-                            className='mr-2'
-                            height={20}
-                            width={20}
-                            alt={'Google logo'}
-                        />
+                    <Button variant={'outline'} disabled>
+                        <Image src={'/facebook.png'} className='mr-2' height={20} width={20} alt={'Google logo'} />
                         Facebook
                     </Button>
 

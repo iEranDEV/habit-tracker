@@ -16,12 +16,12 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
     const { data: session } = useSession();
 
     useEffect(() => {
-        const fetchData = async () => {
+        /*const fetchData = async () => {
             const data = await fetch(`http://localhost:3000/api/user`).then(r => r.json());
             setUser(data);
         }
 
-        if (session?.user) fetchData();
+        if (session?.user) fetchData();*/
     }, [session?.user]);
 
     return (
@@ -44,9 +44,7 @@ export function ProtectedRoute({ children }: { children: JSX.Element }) {
         },
     });
 
-    const { user } = useUserContext();
-
-    if (status === 'loading' || !user) {
+    if (status === 'loading') {
         return <LoadingScreen />;
     }
 

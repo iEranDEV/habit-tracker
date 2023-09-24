@@ -21,8 +21,7 @@ export default async function HabitList() {
                         <>
                             {habits.map((item) => (
                                 <>
-                                    {/* <HabitListItem key={item.id} habit={item} /> */}
-                                    <p key={item.id}>{item.id}</p>
+                                    <HabitListItem key={item.id} habit={item} />
                                 </>
                             ))}
                         </>

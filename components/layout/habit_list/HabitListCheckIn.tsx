@@ -1,14 +1,13 @@
 import { CalendarContext } from "@/context/CalendarContext"
-import { UserContext } from "@/context/UserContext"
-import { addCheckInDB, deleteCheckInDB, updateCheckInDB } from "@/firebase/db/checkin"
+import { useUserContext } from "@/context/UserContext"
 import { isSameDate, weekdays } from "@/lib/date"
-import { CheckIn, Habit } from "@/types"
 import { startOfDay } from "date-fns"
-import { Timestamp } from "firebase/firestore"
 import { useContext, useState } from "react"
 import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
+import { HabitWithCategory } from "@/types"
+import { CheckIn } from "@prisma/client"
 
 const variants = {
     'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
@@ -21,26 +20,26 @@ const variants = {
 
 type HabitListCheckInProps = {
     date: Date,
-    habit: Habit,
+    habit: HabitWithCategory,
     checkIns: CheckIn[] | CheckIn | undefined,
     setCheckIns: Function
 }
 
 export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }: HabitListCheckInProps) {
 
-    const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date.toDate(), date)) : undefined;
+    const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date, date)) : undefined;
     const isPast = startOfDay(new Date()) > date;
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
-    const { user, categories } = useContext(UserContext);
+    const { user } = useUserContext();
 
     // Check if user can change checkIn value this day
     const isAvailable = () => {
         return (
             habit.frequency.includes(weekdays.indexOf(date.getDay())) &&
-            (habit.endDate ? habit.endDate?.toDate() >= date : true) &&
-            habit.startDate.toDate() <= date &&
+            (habit.endDate ? habit.endDate >= date : true) &&
+            startOfDay(habit.startDate) <= startOfDay(date) &&
             (user?.settings.modifyDaysPast ? true : (startOfDay(new Date()) > date ? false : true)) &&
             (user?.settings.modifyDaysFuture ? true : (startOfDay(new Date()) < date ? false : true))
         )
@@ -48,7 +47,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
 
     // Create new checkIn
     const addCheckIn = async (val: boolean | number, date: Date) => {
-        const { result, error } = await addCheckInDB({
+        /*const { result, error } = await addCheckInDB({
             id: '',
             date: Timestamp.fromDate(startOfDay(date)),
             habit: habit.id,
@@ -58,30 +57,30 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
         if (result) {
             if (viewMode === 'day') setCheckIns(result);
             else if (Array.isArray(checkIns)) setCheckIns([...checkIns, result]);
-        }
+        }*/
     }
 
     // Remove existing checkIn
     const deleteCheckIn = async (checkIn: CheckIn) => {
-        const { result, error } = await deleteCheckInDB(checkIn);
+        /*const { result, error } = await deleteCheckInDB(checkIn);
         if (result && checkIns) {
             if (Array.isArray(checkIns)) setCheckIns([...checkIns.filter((item) => item.id !== checkIn.id)]);
             else setCheckIns(undefined);
-        }
+        }*/
     }
 
     // Update existing checkIn
     const updateCheckIn = async (checkIn: CheckIn, val: boolean | number) => {
-        const { result, error } = await updateCheckInDB(checkIn, val);
+        /*const { result, error } = await updateCheckInDB(checkIn, val);
         if (result && checkIns) {
             if (Array.isArray(checkIns)) setCheckIns([...checkIns.filter((item) => item.id !== checkIn.id), result]);
             else setCheckIns(result);
-        }
+        }*/
     }
 
     // Handle user click event
     const handleClick = (date: Date) => {
-
+        /*
         switch (habit.type) {
             case 'default':
                 if (checkIn) {
@@ -99,6 +98,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                 setDialogOpen(true);
                 break;
         }
+        */
     }
 
     // Get style variant for checkIn
@@ -107,24 +107,24 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
         if (!checkIn && !isPast) return 'available';
 
         switch (habit.type) {
-            case 'default':
+            case 'DEFAULT':
                 if (checkIn?.value) {
                     return 'completed';
                 } else {
                     return 'failed';
                 }
-            case 'counter':
+            case 'COUNTER':
                 if (typeof checkIn?.value === 'number')
                     switch (habit.details?.counterType) {
-                        case 'AtLeast':
-                            if (checkIn?.value >= habit?.details.amount) {
+                        case 'AT_LEAST':
+                            if (checkIn?.value >= habit?.details.amount!) {
                                 return 'completed'
                             } else if (checkIn.value > 0) {
                                 if (isPast) return 'failed';
                                 else return 'inProgress';
                             } else return 'failed';
-                        case 'LessThan':
-                        case 'Exactly':
+                        case 'LESS_THAN':
+                        case 'EXACTLY':
                     }
                 else return 'failed';
         }
@@ -162,7 +162,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                     {content()}
                 </motion.div>
             </div>
-            {habit.type === 'counter' && (
+            {habit.type === 'COUNTER' && (
                 <CheckInCounterDialog
                     key={checkIn?.id || 'counterDialog'}
                     open={dialogOpen}

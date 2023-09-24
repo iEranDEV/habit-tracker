@@ -4,6 +4,7 @@ import HabitList from "@/components/layout/habit_list/HabitList";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import { ProtectedRoute } from "@/context/UserContext";
 import { Suspense } from "react";
+
 export default function Home() {
 
     return (

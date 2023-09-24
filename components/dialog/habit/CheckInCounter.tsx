@@ -1,16 +1,17 @@
-import { CheckIn, Habit } from "@/types";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { formatISO } from "date-fns";
 import { useState } from "react";
+import { HabitWithCategory } from "@/types";
+import { CheckIn } from "@prisma/client";
 
 type CheckInCounterDialogProps = {
     open: boolean,
     setOpen: (open: boolean) => void,
     date: Date,
     checkIn: CheckIn | undefined,
-    habit: Habit,
+    habit: HabitWithCategory,
     addCheckIn: Function,
     deleteCheckIn: Function,
     updateCheckIn: Function

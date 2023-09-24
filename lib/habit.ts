@@ -23,6 +23,9 @@ export const getHabitsByUser = async (userId: string) => {
     const habits = await prisma.habit.findMany({
         where: {
             userId: userId
+        },
+        include: {
+            category: true,
         }
     });
 

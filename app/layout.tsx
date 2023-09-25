@@ -1,9 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
-import { UserContextProvider } from '@/context/UserContext';
 import { Toaster } from '@/components/ui/toaster';
 import { NextAuthProvider } from '@/context/AuthSessionProvider';
+import { SettingsContextProvider } from '@/context/UserContext';
 
 const font = Nunito({ subsets: ['latin'] })
 
@@ -21,9 +21,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={font.className}>
                 <NextAuthProvider>
-                    <UserContextProvider>
+                    <SettingsContextProvider>
                         {children}
-                    </UserContextProvider>
+                    </SettingsContextProvider>
                 </NextAuthProvider>
                 <Toaster />
             </body>

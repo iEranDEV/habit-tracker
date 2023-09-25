@@ -7,11 +7,28 @@ import bcrypt from 'bcrypt';
 
 const prismaAdapter = PrismaAdapter(prisma);
 
+// @ts-ignore
+prismaAdapter.createUser = (data: User) => {
+    return prisma.user.create({
+        data: {
+            email: data.email,
+            name: data.name,
+            settings: {
+                create: [
+                    {
+                        firstDayOfWeek: 1,
+                        language: 'en',
+                        modifyDaysPast: true,
+                        modifyDaysFuture: true,
+                    }
+                ]
+            }
+        },
+    });
+};
+
 export const authOption: AuthOptions = {
     adapter: prismaAdapter,
-    pages: {
-        signIn: '/auth/login'
-    },
     providers: [
         GoogleProvider({
             clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
@@ -24,8 +41,6 @@ export const authOption: AuthOptions = {
                 password: { label: 'Password', type: 'password' }
             },
             async authorize(credentials) {
-
-                console.log(credentials);
 
                 const user = await prisma.user.findUnique({
                     where: {
@@ -44,33 +59,31 @@ export const authOption: AuthOptions = {
                     return null;
                 }
 
-                console.log(user);
-
                 return user;
             }
         })
     ],
     session: {
         strategy: 'jwt'
-    }, /*
-        callbacks: {
-            async jwt({ token, user, account }) {
-                if (account) {
-                    token.accessToken = account.access_token
-                    token.id = user?.id
-                }
-                return token
-            },
-            async session({ session, user }) {
+    }, callbacks: {
+        async jwt({ token, user, account }) {
 
-                if (session.user) {
-                    session.user.id = user.id;
-                }
-
-                return session
+            if (account) {
+                token.accessToken = account.access_token;
+                token.id = user?.id;
             }
+
+            return token
+        },
+        async session({ session, token }) {
+
+            if (session.user) {
+                session.user.id = token.id;
+            }
+
+            return session
         }
-    */
+    }
 }
 
 const handler = NextAuth(authOption);

@@ -1,5 +1,4 @@
 import { CalendarContext } from "@/context/CalendarContext"
-import { useUserContext } from "@/context/UserContext"
 import { isSameDate, weekdays } from "@/lib/date"
 import { startOfDay } from "date-fns"
 import { useContext, useState } from "react"
@@ -8,6 +7,7 @@ import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 import { HabitWithCategory } from "@/types"
 import { CheckIn } from "@prisma/client"
+import { useUserSettings } from "@/context/UserContext";
 
 const variants = {
     'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
@@ -32,7 +32,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
-    const { user } = useUserContext();
+    const { settings } = useUserSettings();
 
     // Check if user can change checkIn value this day
     const isAvailable = () => {
@@ -40,8 +40,8 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
             habit.frequency.includes(weekdays.indexOf(date.getDay())) &&
             (habit.endDate ? habit.endDate >= date : true) &&
             startOfDay(habit.startDate) <= startOfDay(date) &&
-            (user?.settings.modifyDaysPast ? true : (startOfDay(new Date()) > date ? false : true)) &&
-            (user?.settings.modifyDaysFuture ? true : (startOfDay(new Date()) < date ? false : true))
+            (settings?.modifyDaysPast ? true : (startOfDay(new Date()) > date ? false : true)) &&
+            (settings?.modifyDaysFuture ? true : (startOfDay(new Date()) < date ? false : true))
         )
     }
 

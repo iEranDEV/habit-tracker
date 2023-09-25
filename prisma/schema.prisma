@@ -52,7 +52,7 @@ model Session {
 
 model UserSettings {
     id               String  @id @default(auto()) @map("_id") @db.ObjectId
-    userId           String? @db.ObjectId
+    userId           String  @unique @db.ObjectId
     firstDayOfWeek   Int     @default(1)
     language         String  @default("en")
     modifyDaysPast   Boolean @default(true)
@@ -62,14 +62,15 @@ model UserSettings {
 }
 
 model User {
-    id         String     @id @default(auto()) @map("_id") @db.ObjectId
-    name       String?
-    email      String?    @unique
-    accounts   Account[]
-    sessions   Session[]
-    categories Category[]
-    habits     Habit[]
-    password   String?
+    id             String     @id @default(auto()) @map("_id") @db.ObjectId
+    name           String?
+    email          String?    @unique
+    accounts       Account[]
+    sessions       Session[]
+    categories     Category[]
+    habits         Habit[]
+    password       String?
+    userSettingsId String     @db.ObjectId
 
     @@map("users")
 }

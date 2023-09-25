@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 
 export async function POST(request: Request) {
     const body = await request.json();
-    console.log(body);
     const { name, email, password } = body;
 
     if (!name || !email || !password) {
@@ -27,8 +26,18 @@ export async function POST(request: Request) {
         data: {
             name,
             email,
-            password: hashedPassword
-        } as any
+            password: hashedPassword,
+            settings: {
+                create: [
+                    {
+                        firstDayOfWeek: 1,
+                        language: 'en',
+                        modifyDaysPast: true,
+                        modifyDaysFuture: true,
+                    }
+                ]
+            }
+        }
     })
 
     return NextResponse.json(user);

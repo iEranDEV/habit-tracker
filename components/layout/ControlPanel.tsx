@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import NewHabitDialog from "../dialog/habit/NewHabit";
-import { UserContext } from "@/context/UserContext";
+import { useUserSettings } from "@/context/UserContext";
 
 const viewOptions = [
     {
@@ -27,10 +27,9 @@ const viewOptions = [
 ]
 
 export default function ControlPanel() {
-    const calendarContext = useContext(CalendarContext);
 
-    const { user } = useContext(UserContext);
-    const { selectedDate, setSelectedDate } = calendarContext;
+    const { settings } = useUserSettings();
+    const { viewMode, setViewMode, selectedDate, setSelectedDate } = useContext(CalendarContext);
 
     return (
         <div className="w-full py-2 px-2 lg:px-0 flex flex-col gap-2 md:gap-0 md:flex-row justify-between items-center">
@@ -82,7 +81,7 @@ export default function ControlPanel() {
                                         mode="single"
                                         required
                                         selected={selectedDate}
-                                        weekStartsOn={user?.settings.firstDayOfWeek as 0 | 1}
+                                        weekStartsOn={settings?.firstDayOfWeek as 0 | 1 | undefined}
                                         onSelect={(date: Date | undefined) => date && setSelectedDate(date)}
                                         initialFocus
                                     />
@@ -94,7 +93,7 @@ export default function ControlPanel() {
 
                 {/* Selected date / week */}
                 <div className="flex text-lg font-semibold gap-2 items-center">
-                    {calendarContext.viewMode === 'week' ? (
+                    {viewMode === 'week' ? (
                         <>
                             {(() => {
                                 const { weekStart, weekEnd } = getWeek(selectedDate);
@@ -125,7 +124,7 @@ export default function ControlPanel() {
 
             {/* View mode, new habit button */}
             <div className="w-full md:w-auto flex items-center gap-2">
-                <Select onValueChange={(value: 'day' | 'week' | 'month') => calendarContext.setViewMode(value)} defaultValue={calendarContext.viewMode}>
+                <Select onValueChange={(value: 'day' | 'week' | 'month') => setViewMode(value)} defaultValue={viewMode}>
                     <SelectTrigger className="w-[120px]">
                         <SelectValue placeholder="Select view mode" />
                     </SelectTrigger>

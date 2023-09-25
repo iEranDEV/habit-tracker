@@ -1,15 +1,15 @@
 'use client';
 
 import { useContext } from "react";
-import { UserContext } from "@/context/UserContext";
 import { Button, buttonVariants } from "../ui/button";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 export default function Header() {
 
-    const { user } = useContext(UserContext);
+    const { data: session } = useSession();
+    const user = session?.user;
 
     const getWelcomeText = () => {
         const date = new Date();

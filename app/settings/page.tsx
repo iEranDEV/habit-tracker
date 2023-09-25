@@ -1,3 +1,4 @@
+import GeneralSettingsForm from "@/components/forms/GeneralSettingsForm";
 import { Separator } from "@/components/ui/separator";
 
 export default function GeneralSettingsPage() {
@@ -11,7 +12,7 @@ export default function GeneralSettingsPage() {
                 </p>
             </div>
             <Separator />
-            {/* <GeneralSettingsForm /> */}
+            <GeneralSettingsForm />
         </div>
     )
 }

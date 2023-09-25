@@ -3,20 +3,33 @@
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import { UserSettings } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 
 export const UserContext = createContext<{
-    settings: UserSettings | undefined
+    settings: UserSettings | undefined,
+    updateSettings: Function
 }>({
-    settings: undefined
+    settings: undefined,
+    updateSettings: () => { }
 });
 
 export const SettingsContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [settings, setSettings] = useState<UserSettings | undefined>(undefined);
 
     const { data: session } = useSession();
+
+    const updateSettings = async (data: Partial<UserSettings>) => {
+        const response = await fetch(`http://localhost:3000/api/settings`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        })
+        const json = await response.json();
+        if (json) setSettings(json);
+
+        return json;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +41,7 @@ export const SettingsContextProvider = ({ children }: { children: React.ReactNod
     }, [session?.user]);
 
     return (
-        <UserContext.Provider value={{ settings }}>
+        <UserContext.Provider value={{ settings, updateSettings }}>
             {children}
         </UserContext.Provider>
     );
@@ -36,9 +49,12 @@ export const SettingsContextProvider = ({ children }: { children: React.ReactNod
 
 export const useUserSettings = () => useContext(UserContext);
 
-export function ProtectedRoute({ children }: { children: JSX.Element }) {
+export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
+    const pathname = usePathname();
     const router = useRouter();
+
+    const { settings } = useUserSettings();
 
     const { status } = useSession({
         required: true,
@@ -47,7 +63,7 @@ export function ProtectedRoute({ children }: { children: JSX.Element }) {
         },
     });
 
-    if (status === 'loading') {
+    if (status === 'loading' || !settings) {
         return <LoadingScreen />;
     }
 

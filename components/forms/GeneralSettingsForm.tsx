@@ -9,14 +9,15 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Switch } from "../ui/switch";
-import { updateUser } from "@/firebase/db/user";
-import { useContext } from "react";
-import { UserContext } from "@/context/UserContext";
+import { useUserSettings } from "@/context/UserContext";
 import { toast } from "../ui/use-toast";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function GeneralSettingsForm() {
 
-    const { user, setUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
+    const { settings, updateSettings } = useUserSettings();
 
     const formSchema = z.object({
         firstDayOfWeek: z.number(),
@@ -28,23 +29,24 @@ export default function GeneralSettingsForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            firstDayOfWeek: user?.settings.firstDayOfWeek,
-            language: user?.settings.language,
-            modifyDaysPast: user?.settings.modifyDaysPast,
-            modifyDaysFuture: user?.settings.modifyDaysFuture
+            firstDayOfWeek: settings?.firstDayOfWeek,
+            language: settings?.language,
+            modifyDaysPast: settings?.modifyDaysPast,
+            modifyDaysFuture: settings?.modifyDaysFuture
         }
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { result, error } = await updateUser(user!, values);
+        setLoading(true);
+        const result = await updateSettings(values);
 
         if (result) {
-            setUser(result);
             toast({
                 title: "Updated settings",
                 description: "Successfully updated settings",
             })
         }
+        setLoading(false);
     }
 
     return (
@@ -164,7 +166,13 @@ export default function GeneralSettingsForm() {
 
                 {/* Footer */}
                 <DialogFooter>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={loading}>
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <span>Submit</span>
+                        )}
+                    </Button>
                 </DialogFooter>
 
             </form>

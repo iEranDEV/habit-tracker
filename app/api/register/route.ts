@@ -27,15 +27,13 @@ export async function POST(request: Request) {
             name,
             email,
             password: hashedPassword,
-            settings: {
-                create: [
-                    {
-                        firstDayOfWeek: 1,
-                        language: 'en',
-                        modifyDaysPast: true,
-                        modifyDaysFuture: true,
-                    }
-                ]
+            userSettings: {
+                create: {
+                    firstDayOfWeek: 1,
+                    language: 'en',
+                    modifyDaysPast: true,
+                    modifyDaysFuture: true,
+                }
             }
         }
     })

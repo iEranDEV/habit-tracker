@@ -27,6 +27,6 @@ export default function Home() {
                     </CalendarContextProvider>
                 </div>
             </div>
-        </ProtectedRoute >
+        </ProtectedRoute>
     )
 }

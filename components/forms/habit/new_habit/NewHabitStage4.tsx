@@ -12,6 +12,7 @@ import { CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useRouter } from "next/navigation";
+import { useUserSettings } from "@/context/UserContext";
 
 export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
 
@@ -22,6 +23,7 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
     const { data, setData, stage, setStage } = ctx;
 
     const router = useRouter();
+    const { settings } = useUserSettings();
 
     const formSchema = z.object({
         frequency: z.array(z.number()),
@@ -98,6 +100,7 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
+                                            weekStartsOn={settings?.firstDayOfWeek as 0 | 1 | undefined}
                                             initialFocus
                                             required
                                         />
@@ -137,6 +140,7 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
                                             mode="single"
                                             selected={field.value}
                                             onSelect={field.onChange}
+                                            weekStartsOn={settings?.firstDayOfWeek as 0 | 1 | undefined}
                                             initialFocus
                                         />
                                     </PopoverContent>
@@ -154,7 +158,7 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
                     }}>
                         Go back
                     </Button>
-                    <Button type="submit">
+                    <Button type="submit" disabled={loading}>
                         {loading ? (
                             <Loader2 size={20} className="animate-spin" />
                         ) : (

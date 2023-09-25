@@ -89,7 +89,7 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
 
                 {/* Footer */}
                 <DialogFooter>
-                    <Button type="submit">
+                    <Button type="submit" disabled={loading}>
                         {loading ? (
                             <Loader2 size={20} className="animate-spin" />
                         ) : (

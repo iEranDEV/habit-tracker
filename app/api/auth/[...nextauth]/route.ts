@@ -13,15 +13,13 @@ prismaAdapter.createUser = (data: User) => {
         data: {
             email: data.email,
             name: data.name,
-            settings: {
-                create: [
-                    {
-                        firstDayOfWeek: 1,
-                        language: 'en',
-                        modifyDaysPast: true,
-                        modifyDaysFuture: true,
-                    }
-                ]
+            userSettings: {
+                create: {
+                    firstDayOfWeek: 1,
+                    language: 'en',
+                    modifyDaysPast: true,
+                    modifyDaysFuture: true,
+                }
             }
         },
     });

@@ -8,12 +8,12 @@ import { addDays, endOfWeek, startOfWeek } from "date-fns";
 import { useContext, useEffect, useState } from "react";
 import Values from "values.js";
 import { CheckIn } from "@prisma/client";
-import { HabitWithCategory } from "@/types";
+import { HabitWithData } from "@/types";
 import CategoryIcon from "../settings/CategoryIcon";
 import HabitListCheckIn from "./HabitListCheckIn";
 
 type HabitListItemProps = {
-    habit: HabitWithCategory
+    habit: HabitWithData
 }
 
 export default function HabitListItem({ habit }: HabitListItemProps) {

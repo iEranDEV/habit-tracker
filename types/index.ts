@@ -7,6 +7,9 @@ export interface NavItem {
     icon: React.ReactNode,
 }
 
-export type HabitWithCategory = Prisma.HabitGetPayload<{
-    include: { category: true }
+export type HabitWithData = Prisma.HabitGetPayload<{
+    include: {
+        category: true,
+        checkIns: true
+    }
 }>

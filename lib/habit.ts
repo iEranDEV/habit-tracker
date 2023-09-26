@@ -26,6 +26,7 @@ export const getHabitsByUser = async (userId: string) => {
         },
         include: {
             category: true,
+            checkIns: true,
         }
     });
 

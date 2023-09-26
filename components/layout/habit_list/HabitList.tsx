@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
 import { getHabitsByUser } from "@/lib/habit";
+import { CopySlash } from "lucide-react";
 
 export default async function HabitList() {
 
@@ -26,7 +27,10 @@ export default async function HabitList() {
                             ))}
                         </>
                     ) : (
-                        <div className="bg-muted">no habits</div>
+                        <div className="py-10 flex flex-col justify-center items-center gap-4 text-muted-foreground">
+                            <CopySlash />
+                            <p>You don't have any habits yet!</p>
+                        </div>
                     )}
                 </TooltipProvider>
             </div>

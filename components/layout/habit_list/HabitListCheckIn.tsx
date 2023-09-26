@@ -5,7 +5,7 @@ import { useContext, useState } from "react"
 import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
-import { HabitWithCategory } from "@/types"
+import { HabitWithData } from "@/types"
 import { CheckIn } from "@prisma/client"
 import { useUserSettings } from "@/context/UserContext";
 
@@ -20,7 +20,7 @@ const variants = {
 
 type HabitListCheckInProps = {
     date: Date,
-    habit: HabitWithCategory,
+    habit: HabitWithData,
     checkIns: CheckIn[] | CheckIn | undefined,
     setCheckIns: Function
 }

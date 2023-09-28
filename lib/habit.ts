@@ -32,3 +32,17 @@ export const getHabitsByUser = async (userId: string) => {
 
     return habits;
 }
+
+export const getHabitById = async (id: string, include?: boolean) => {
+    const habit = await prisma.habit.findUnique({
+        where: {
+            id: id
+        },
+        include: {
+            category: include,
+            checkIns: include,
+        }
+    });
+
+    return habit;
+}

@@ -1,12 +1,11 @@
-import { CalendarContext } from "@/context/CalendarContext"
-import { isSameDate, weekdays } from "@/lib/date"
-import { startOfDay } from "date-fns"
-import { useContext, useState } from "react"
+import { weekdays } from "@/lib/date"
+import { parseISO, startOfDay } from "date-fns"
+import { useState } from "react"
 import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 import { HabitWithData } from "@/types"
-import { CheckIn } from "@prisma/client"
+import { CheckIn, CheckInDetails } from "@prisma/client"
 import { useUserSettings } from "@/context/UserContext";
 
 const variants = {
@@ -21,17 +20,19 @@ const variants = {
 type HabitListCheckInProps = {
     date: Date,
     habit: HabitWithData,
-    checkIns: CheckIn[] | CheckIn | undefined,
-    setCheckIns: Function
+    setCheckIns: Function,
+    checkIns: CheckIn[],
+    checkIn: CheckIn | undefined,
 }
 
-export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }: HabitListCheckInProps) {
+export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, checkIn }: HabitListCheckInProps) {
 
-    const checkIn = Array.isArray(checkIns) ? checkIns.find((item) => isSameDate(item.date, date)) : undefined;
+    const details = checkIn?.details;
+
+    const [loading, setLoading] = useState(false);
     const isPast = startOfDay(new Date()) > date;
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    const { viewMode, selectedDate } = useContext(CalendarContext);
     const { settings } = useUserSettings();
 
     // Check if user can change checkIn value this day
@@ -45,60 +46,58 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
         )
     }
 
-    // Create new checkIn
-    const addCheckIn = async (val: boolean | number, date: Date) => {
-        /*const { result, error } = await addCheckInDB({
-            id: '',
-            date: Timestamp.fromDate(startOfDay(date)),
-            habit: habit.id,
-            value: val
-        });
+    const fetchCheckIn = async (details: Partial<CheckInDetails>) => {
+        setLoading(true);
+        const response = await fetch(`/api/checkin`, {
+            method: 'POST',
+            body: JSON.stringify({
+                habitId: habit.id,
+                date: date,
+                details: details
+            })
+        })
 
-        if (result) {
-            if (viewMode === 'day') setCheckIns(result);
-            else if (Array.isArray(checkIns)) setCheckIns([...checkIns, result]);
-        }*/
-    }
+        if (!response.ok) return;
+        const json = await response.json();
+        const type = json.type;
+        const data = { ...json.data, date: parseISO(json.data.date) };
 
-    // Remove existing checkIn
-    const deleteCheckIn = async (checkIn: CheckIn) => {
-        /*const { result, error } = await deleteCheckInDB(checkIn);
-        if (result && checkIns) {
-            if (Array.isArray(checkIns)) setCheckIns([...checkIns.filter((item) => item.id !== checkIn.id)]);
-            else setCheckIns(undefined);
-        }*/
-    }
-
-    // Update existing checkIn
-    const updateCheckIn = async (checkIn: CheckIn, val: boolean | number) => {
-        /*const { result, error } = await updateCheckInDB(checkIn, val);
-        if (result && checkIns) {
-            if (Array.isArray(checkIns)) setCheckIns([...checkIns.filter((item) => item.id !== checkIn.id), result]);
-            else setCheckIns(result);
-        }*/
+        switch (type) {
+            case 'DELETE':
+                setCheckIns([...checkIns.filter((item) => item.id !== data.id)]);
+                break;
+            case 'UPDATE':
+                setCheckIns([...checkIns.filter((item) => item.id !== data.id), data]);
+                break;
+            case 'CREATE':
+                setCheckIns([...checkIns, data]);
+                break;
+        }
+        setLoading(false);
     }
 
     // Handle user click event
-    const handleClick = (date: Date) => {
-        /*
+    const handleClick = async () => {
+        if (!isAvailable()) return;
+        if (loading) return;
+
         switch (habit.type) {
-            case 'default':
-                if (checkIn) {
-                    if (checkIn.value === false) {
-                        if (isPast) updateCheckIn(checkIn, true);
-                        else deleteCheckIn(checkIn);
+            case 'DEFAULT':
+                if (details) {
+                    if (details?.value === false) {
+                        if (isPast) fetchCheckIn({ value: true });
+                        else fetchCheckIn({});
                     } else {
-                        updateCheckIn(checkIn, false);
+                        fetchCheckIn({ value: false });
                     }
                 } else {
-                    addCheckIn(true, date);
+                    fetchCheckIn({ value: true })
                 }
                 break;
-            case 'counter':
+            case 'COUNTER':
                 setDialogOpen(true);
                 break;
         }
-        */
     }
 
     // Get style variant for checkIn
@@ -108,18 +107,18 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
 
         switch (habit.type) {
             case 'DEFAULT':
-                if (checkIn?.value) {
+                if (details?.value) {
                     return 'completed';
                 } else {
                     return 'failed';
                 }
             case 'COUNTER':
-                if (typeof checkIn?.value === 'number')
+                if (typeof details?.value === 'number')
                     switch (habit.details?.counterType) {
                         case 'AT_LEAST':
-                            if (checkIn?.value >= habit?.details.amount!) {
+                            if (details?.value >= habit?.details.amount!) {
                                 return 'completed'
-                            } else if (checkIn.value > 0) {
+                            } else if (details?.value > 0) {
                                 if (isPast) return 'failed';
                                 else return 'inProgress';
                             } else return 'failed';
@@ -132,37 +131,26 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
         return 'noAvailable';
     }
 
-
-    // Get inside content icon for checkIn
-    const content = (): JSX.Element => {
-        switch (getVariant()) {
-            case 'completed':
-                return <Check strokeWidth={4} size={20} />
-            case 'failed':
-                return <X strokeWidth={4} size={20} />
-            case 'noAvailable':
-                return <Lock size={16} />
-            case 'inProgress':
-                return <MoreHorizontal strokeWidth={2} size={20} />
-        }
-
-        return <></>;
-    }
-
     return (
         <div className="w-full flex justify-center">
             <div
-                onClick={() => isAvailable() && handleClick(date)}
-                className={`${variants.util} ${variants[getVariant()]}`}
+                onClick={handleClick}
+                className={`${variants.util} ${variants[getVariant()]} ${loading && '!cursor-progress'}`}
             >
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                 >
-                    {content()}
+                    {{
+                        'completed': <Check strokeWidth={4} size={20} />,
+                        'failed': <X strokeWidth={4} size={20} />,
+                        'noAvailable': <Lock size={16} />,
+                        'inProgress': <MoreHorizontal strokeWidth={2} size={20} />,
+                        'available': null
+                    }[getVariant()]}
                 </motion.div>
             </div>
-            {habit.type === 'COUNTER' && (
+            {/*habit.type === 'COUNTER' && (
                 <CheckInCounterDialog
                     key={checkIn?.id || 'counterDialog'}
                     open={dialogOpen}
@@ -174,7 +162,7 @@ export default function HabitListCheckIn({ date, habit, checkIns, setCheckIns }:
                     deleteCheckIn={deleteCheckIn}
                     updateCheckIn={updateCheckIn}
                 />
-            )}
+            )*/}
         </div>
     )
 }

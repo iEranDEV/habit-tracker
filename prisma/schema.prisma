@@ -114,12 +114,17 @@ model Habit {
     @@map("habits")
 }
 
+type CheckInDetails {
+    amount Int?
+    value  Boolean?
+}
+
 model CheckIn {
-    id      String   @id @default(auto()) @map("_id") @db.ObjectId
+    id      String          @id @default(auto()) @map("_id") @db.ObjectId
     date    DateTime
-    habitId String   @db.ObjectId
-    habit   Habit    @relation(fields: [habitId], references: [id])
-    value   String
+    habitId String          @db.ObjectId
+    habit   Habit           @relation(fields: [habitId], references: [id])
+    details CheckInDetails?
 
     @@map("checkins")
 }

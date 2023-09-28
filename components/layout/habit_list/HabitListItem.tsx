@@ -4,10 +4,9 @@ import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { CalendarContext } from "@/context/CalendarContext";
 import { useUserSettings } from "@/context/UserContext";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { addDays, endOfWeek, startOfWeek } from "date-fns";
-import { useContext, useEffect, useState } from "react";
+import { addDays, isSameDay, startOfWeek } from "date-fns";
+import { useContext, useState } from "react";
 import Values from "values.js";
-import { CheckIn } from "@prisma/client";
 import { HabitWithData } from "@/types";
 import CategoryIcon from "../settings/CategoryIcon";
 import HabitListCheckIn from "./HabitListCheckIn";
@@ -17,32 +16,12 @@ type HabitListItemProps = {
 }
 
 export default function HabitListItem({ habit }: HabitListItemProps) {
-    const [checkIns, setCheckIns] = useState<Array<CheckIn> | CheckIn | undefined>(undefined);
+    const [checkIns, setCheckIns] = useState([...habit.checkIns]);
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
     const { settings } = useUserSettings();
 
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
-
-    useEffect(() => {
-
-        const syncCheckIns = async () => {
-            // Check value of checkIns depending on current view mode
-            if (viewMode === 'day') {
-                setCheckIns(undefined);
-            }
-            else if (viewMode === 'week') {
-                const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
-                const weekEnd = endOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
-                /*
-                const temp = await getCheckInsBetweenDates(habit.id, weekStart, weekEnd)
-                setCheckIns(temp);
-                */
-            }
-        }
-
-        syncCheckIns();
-    }, [viewMode, selectedDate]);
 
     const category = habit.category;
 
@@ -71,8 +50,9 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                         <HabitListCheckIn
                             key={i}
                             habit={habit}
-                            checkIns={checkIns}
                             setCheckIns={setCheckIns}
+                            checkIns={checkIns}
+                            checkIn={checkIns.find((item) => isSameDay(item.date, addDays(weekStart, i)))}
                             date={addDays(weekStart, i)}
                         />
                     ))}

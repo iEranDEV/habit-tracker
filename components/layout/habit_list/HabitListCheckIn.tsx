@@ -113,19 +113,21 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
                     return 'failed';
                 }
             case 'COUNTER':
-                if (typeof details?.value === 'number')
+                if (details?.amount) {
                     switch (habit.details?.counterType) {
                         case 'AT_LEAST':
-                            if (details?.value >= habit?.details.amount!) {
+                            if (details?.amount >= habit?.details.amount!) {
                                 return 'completed'
-                            } else if (details?.value > 0) {
+                            } else if (details?.amount > 0) {
                                 if (isPast) return 'failed';
                                 else return 'inProgress';
                             } else return 'failed';
                         case 'LESS_THAN':
                         case 'EXACTLY':
                     }
-                else return 'failed';
+                } else {
+                    return 'failed';
+                }
         }
 
         return 'noAvailable';
@@ -135,7 +137,7 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
         <div className="w-full flex justify-center">
             <div
                 onClick={handleClick}
-                className={`${variants.util} ${variants[getVariant()]} ${loading && '!cursor-progress'}`}
+                className={`${variants.util} ${variants[getVariant()]}`}
             >
                 <motion.div
                     initial={{ scale: 0, opacity: 0 }}
@@ -150,19 +152,18 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
                     }[getVariant()]}
                 </motion.div>
             </div>
-            {/*habit.type === 'COUNTER' && (
+            {habit.type === 'COUNTER' && (
                 <CheckInCounterDialog
                     key={checkIn?.id || 'counterDialog'}
                     open={dialogOpen}
                     setOpen={setDialogOpen}
                     date={date}
                     checkIn={checkIn}
+                    loading={loading}
                     habit={habit}
-                    addCheckIn={addCheckIn}
-                    deleteCheckIn={deleteCheckIn}
-                    updateCheckIn={updateCheckIn}
+                    fetchCheckIn={fetchCheckIn}
                 />
-            )*/}
+            )}
         </div>
     )
 }

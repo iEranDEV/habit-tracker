@@ -1,33 +1,27 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Loader2, Minus, Plus, Trash2 } from "lucide-react";
 import { formatISO } from "date-fns";
 import { useState } from "react";
-import { HabitWithCategory } from "@/types";
 import { CheckIn } from "@prisma/client";
+import { HabitWithData } from "@/types";
 
 type CheckInCounterDialogProps = {
     open: boolean,
     setOpen: (open: boolean) => void,
     date: Date,
     checkIn: CheckIn | undefined,
-    habit: HabitWithCategory,
-    addCheckIn: Function,
-    deleteCheckIn: Function,
-    updateCheckIn: Function
+    habit: HabitWithData,
+    loading: boolean,
+    fetchCheckIn: Function,
 }
 
-export default function CheckInCounterDialog({ open, setOpen, date, checkIn, habit, addCheckIn, deleteCheckIn, updateCheckIn }: CheckInCounterDialogProps) {
+export default function CheckInCounterDialog({ open, setOpen, date, checkIn, habit, loading, fetchCheckIn }: CheckInCounterDialogProps) {
 
-    const [value, setValue] = useState<number>(typeof checkIn?.value === "number" ? checkIn?.value : 0);
+    const [value, setValue] = useState(checkIn?.details?.amount || 0);
 
-    const handleSubmit = () => {
-        if (checkIn) {
-            updateCheckIn(checkIn, value);
-        } else {
-            addCheckIn(value, date);
-        }
-
+    const handleSubmit = async () => {
+        await fetchCheckIn({ amount: value });
         setOpen(false);
     }
 
@@ -57,13 +51,19 @@ export default function CheckInCounterDialog({ open, setOpen, date, checkIn, hab
                 </div>
 
                 <div className="flex justify-between items-center">
-                    <Button onClick={() => {
+                    <Button onClick={async () => {
+                        await fetchCheckIn({});
                         setOpen(false);
-                        deleteCheckIn(checkIn);
-                    }} variant={'outline'} size={'icon'}>
+                    }} variant={'outline'} size={'icon'} disabled={loading}>
                         <Trash2 size={20} />
                     </Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleSubmit} disabled={loading}>
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <span>Submit</span>
+                        )}
+                    </Button>
                 </div>
 
             </DialogContent>

@@ -1,7 +1,7 @@
 import { weekdays } from "@/lib/date"
 import { parseISO, startOfDay } from "date-fns"
 import { useContext, useState } from "react"
-import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
+import { Check, Loader2, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 import { HabitWithData } from "@/types"
@@ -147,28 +147,34 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                     >
-                        {{
-                            'completed': <Check strokeWidth={4} size={20} />,
-                            'failed': <X strokeWidth={4} size={20} />,
-                            'noAvailable': <Lock size={16} />,
-                            'inProgress': <MoreHorizontal strokeWidth={2} size={20} />,
-                            'available': null
-                        }[getVariant()]}
+                        {loading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (<>
+                            {{
+                                'completed': <Check strokeWidth={4} size={20} />,
+                                'failed': <X strokeWidth={4} size={20} />,
+                                'noAvailable': <Lock size={16} />,
+                                'inProgress': <MoreHorizontal strokeWidth={2} size={20} />,
+                                'available': null
+                            }[getVariant()]}
+                        </>)}
                     </motion.div>
                 )}
             </div>
-            {habit.type === 'COUNTER' && (
-                <CheckInCounterDialog
-                    key={checkIn?.id || 'counterDialog'}
-                    open={dialogOpen}
-                    setOpen={setDialogOpen}
-                    date={date}
-                    checkIn={checkIn}
-                    loading={loading}
-                    habit={habit}
-                    fetchCheckIn={fetchCheckIn}
-                />
-            )}
-        </div>
+            {
+                habit.type === 'COUNTER' && (
+                    <CheckInCounterDialog
+                        key={checkIn?.id || 'counterDialog'}
+                        open={dialogOpen}
+                        setOpen={setDialogOpen}
+                        date={date}
+                        checkIn={checkIn}
+                        loading={loading}
+                        habit={habit}
+                        fetchCheckIn={fetchCheckIn}
+                    />
+                )
+            }
+        </div >
     )
 }

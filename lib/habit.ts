@@ -20,6 +20,8 @@ export const createHabit = async (habit: Habit, userId: string) => {
 }
 
 export const getHabitsByUser = async (userId: string) => {
+    if (!userId) return [];
+
     const habits = await prisma.habit.findMany({
         where: {
             userId: userId

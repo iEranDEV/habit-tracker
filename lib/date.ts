@@ -15,38 +15,6 @@ export const getMonthShort = (month: number) => {
     return MONTHS_SHORT[month];
 }
 
-export const getWeek = (date: Date) => {
-    const day = weekdays.indexOf(date.getDay());
-
-    const firstDate = date.getDate() - day;
-    const lastDate = date.getDate() + (6 - day);
-
-    let weekStart = new Date(date.getFullYear(), date.getMonth(), firstDate);
-    let weekEnd = new Date(date.getFullYear(), date.getMonth(), lastDate);
-
-    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-
-    if (firstDate <= 0) {
-        weekStart.setMonth(weekStart.getMonth() - 1);
-
-        if (weekStart.getMonth() < 0) {
-            weekStart.setMonth(11);
-            weekStart.setFullYear(weekStart.getFullYear() - 1);
-        }
-    }
-
-    if (lastDate > daysInMonth) {
-        weekEnd.setMonth(weekEnd.getMonth() + 1);
-
-        if (weekEnd.getMonth() > 11) {
-            weekEnd.setMonth(0);
-            weekEnd.setFullYear(weekEnd.getFullYear() + 1)
-        }
-    }
-
-    return { weekStart, weekEnd };
-}
-
 export const formatShortDate = (date: Date) => {
     return `${date.getDate()} ${getMonthShort(date.getMonth())}`
 }

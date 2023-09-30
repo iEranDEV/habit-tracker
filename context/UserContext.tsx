@@ -21,7 +21,7 @@ export const SettingsContextProvider = ({ children }: { children: React.ReactNod
     const { data: session } = useSession();
 
     const updateSettings = async (data: Partial<UserSettings>) => {
-        const response = await fetch(`http://localhost:3000/api/settings`, {
+        const response = await fetch(`/api/settings`, {
             method: 'PUT',
             body: JSON.stringify(data)
         })
@@ -33,7 +33,7 @@ export const SettingsContextProvider = ({ children }: { children: React.ReactNod
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(`http://localhost:3000/api/settings`).then(r => r.json());
+            const data = await fetch(`/api/settings`).then(r => r.json());
             setSettings(data);
         }
 

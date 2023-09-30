@@ -3,7 +3,7 @@
 import { CalendarIcon, ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
 import { useContext } from 'react';
 import { CalendarContext } from "@/context/CalendarContext";
-import { formatShortDate, getWeek } from "@/lib/date";
+import { formatShortDate } from "@/lib/date";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../ui/button";
@@ -12,6 +12,7 @@ import { Calendar } from "../ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import NewHabitDialog from "../dialog/habit/NewHabit";
 import { useUserSettings } from "@/context/UserContext";
+import { endOfWeek, startOfWeek } from "date-fns";
 
 const viewOptions = [
     {
@@ -93,32 +94,34 @@ export default function ControlPanel() {
 
                 {/* Selected date / week */}
                 <div className="flex text-lg font-semibold gap-2 items-center">
-                    {viewMode === 'week' ? (
-                        <>
-                            {(() => {
-                                const { weekStart, weekEnd } = getWeek(selectedDate);
+                    {{
+                        'day': (
+                            <p>
+                                {formatShortDate(selectedDate)}
+                            </p>
+                        ),
+                        'week': (
+                            <>
+                                {(() => {
+                                    const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
+                                    const weekEnd = endOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
 
-                                return (
-                                    <motion.p
-                                        initial={{ y: -20 }}
-                                        animate={{ y: 0 }}
-                                        className="flex items-center gap-2"
-                                    >
-                                        <span>{formatShortDate(weekStart)}</span>
-                                        <MoveRight />
-                                        <span>{formatShortDate(weekEnd)}</span>
-                                    </motion.p>
-                                )
-                            })()}
-                        </>
-                    ) : (
-                        <motion.span
-                            initial={{ y: -20 }}
-                            animate={{ y: 0 }}
-                        >
-                            {formatShortDate(selectedDate)}
-                        </motion.span>
-                    )}
+                                    return (
+                                        <motion.p
+                                            initial={{ y: -20 }}
+                                            animate={{ y: 0 }}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <span>{formatShortDate(weekStart)}</span>
+                                            <MoveRight />
+                                            <span>{formatShortDate(weekEnd)}</span>
+                                        </motion.p>
+                                    )
+                                })()}
+                            </>
+                        ),
+                        'month': <p>month</p>
+                    }[viewMode]}
                 </div>
             </div>
 

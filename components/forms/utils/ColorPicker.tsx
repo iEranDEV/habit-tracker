@@ -34,7 +34,7 @@ export default function ColorPicker({ defaultColor }: ColorPickerProps) {
 
     useEffect(() => {
         methods.setValue('color', color);
-    }, [color]);
+    }, [color, methods]);
 
     return (
         <div className="space-y-2">

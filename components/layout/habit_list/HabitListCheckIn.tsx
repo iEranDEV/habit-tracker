@@ -1,15 +1,16 @@
 import { weekdays } from "@/lib/date"
 import { parseISO, startOfDay } from "date-fns"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Check, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
 import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
 import { HabitWithData } from "@/types"
 import { CheckIn, CheckInDetails } from "@prisma/client"
 import { useUserSettings } from "@/context/UserContext";
+import { CalendarContext } from "@/context/CalendarContext";
 
 const variants = {
-    'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg',
+    'util': 'w-10 h-10 flex justify-center items-center rounded-md transition-bg hover:scale-110 transition-transform',
     'available': 'bg-muted cursor-pointer',
     'noAvailable': 'bg-border text-neutral-400',
     'inProgress': 'bg-orange-200 text-orange-400 cursor-pointer',
@@ -34,6 +35,8 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const { settings } = useUserSettings();
+
+    const { viewMode } = useContext(CalendarContext);
 
     // Check if user can change checkIn value this day
     const isAvailable = () => {
@@ -134,23 +137,25 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
     }
 
     return (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center items-center">
             <div
                 onClick={handleClick}
-                className={`${variants.util} ${variants[getVariant()]}`}
+                className={`${variants.util} ${variants[getVariant()]} ${viewMode === 'month' && '!h-5 !w-5 aspect-square'}`}
             >
-                <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                >
-                    {{
-                        'completed': <Check strokeWidth={4} size={20} />,
-                        'failed': <X strokeWidth={4} size={20} />,
-                        'noAvailable': <Lock size={16} />,
-                        'inProgress': <MoreHorizontal strokeWidth={2} size={20} />,
-                        'available': null
-                    }[getVariant()]}
-                </motion.div>
+                {viewMode !== 'month' && (
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                    >
+                        {{
+                            'completed': <Check strokeWidth={4} size={20} />,
+                            'failed': <X strokeWidth={4} size={20} />,
+                            'noAvailable': <Lock size={16} />,
+                            'inProgress': <MoreHorizontal strokeWidth={2} size={20} />,
+                            'available': null
+                        }[getVariant()]}
+                    </motion.div>
+                )}
             </div>
             {habit.type === 'COUNTER' && (
                 <CheckInCounterDialog

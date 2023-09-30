@@ -51,12 +51,6 @@ export default function NewHabitCategoryForm() {
     const [loading, setLoading] = useState(false);
     const { data: session } = useSession();
 
-    const ctx = useContext(NewHabitFormContext);
-    if (!ctx) return null;
-    const { data, setData, stage, setStage } = ctx;
-
-    const [selected, setSelected] = useState(data.categoryId || '65095e1364a380fd978471f4');
-
     useEffect(() => {
         const fetchCategories = async () => {
             setLoading(true);
@@ -68,6 +62,11 @@ export default function NewHabitCategoryForm() {
 
         fetchCategories();
     }, []);
+
+    const ctx = useContext(NewHabitFormContext);
+    const { data, setData, stage, setStage } = ctx;
+
+    const [selected, setSelected] = useState(data.categoryId || '65095e1364a380fd978471f4');
 
     const formSchema = z.object({
         categoryId: z.string()

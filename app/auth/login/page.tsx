@@ -38,7 +38,7 @@ export default function LoginPage() {
             // User is logged in (push to /)
             router.push('/')
         }
-    }, [session]);
+    }, [session, router]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const result = await signIn('credentials', {

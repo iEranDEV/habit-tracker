@@ -19,7 +19,6 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
     const [loading, setLoading] = useState(false);
 
     const ctx = useContext(NewHabitFormContext);
-    if (!ctx) return null;
     const { data, setData, stage, setStage } = ctx;
 
     const router = useRouter();

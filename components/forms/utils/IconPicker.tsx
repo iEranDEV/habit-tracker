@@ -37,7 +37,7 @@ export default function IconPicker({ defaultIcon }: IconPickerProps) {
 
     useEffect(() => {
         methods.setValue('icon', icon);
-    }, [icon]);
+    }, [icon, methods]);
 
     return (
         <div className="space-y-2">

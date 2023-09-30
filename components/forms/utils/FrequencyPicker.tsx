@@ -12,7 +12,7 @@ export default function FrequencyPicker() {
 
     useEffect(() => {
         methods.setValue('frequency', frequency);
-    }, [frequency]);
+    }, [frequency, methods]);
 
     const checkWeekdays = () => {
         const weekdays = [0, 1, 2, 3, 4];

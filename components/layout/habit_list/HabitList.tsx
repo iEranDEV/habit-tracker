@@ -29,7 +29,7 @@ export default async function HabitList() {
                     ) : (
                         <div className="py-10 flex flex-col justify-center items-center gap-4 text-muted-foreground">
                             <CopySlash />
-                            <p>You don't have any habits yet!</p>
+                            <p>You don&apos;t have any habits yet!</p>
                         </div>
                     )}
                 </TooltipProvider>

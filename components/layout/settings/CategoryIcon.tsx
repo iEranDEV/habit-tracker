@@ -19,4 +19,6 @@ const Icon = memo(({ name, ...props }: IconProps) => {
     return <LucideIcon {...props} size={20} />;
 });
 
+Icon.displayName = 'CategoryIcon'
+
 export default Icon;

@@ -13,7 +13,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function NewHabitDetailsForm() {
 
     const ctx = useContext(NewHabitFormContext);
-    if (!ctx) return null;
     const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({

@@ -4,7 +4,7 @@ import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { CalendarContext } from "@/context/CalendarContext";
 import { useUserSettings } from "@/context/UserContext";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { addDays, isSameDay, startOfWeek } from "date-fns";
+import { addDays, endOfMonth, isSameDay, startOfMonth, startOfWeek } from "date-fns";
 import { useContext, useState } from "react";
 import Values from "values.js";
 import { HabitWithData } from "@/types";
@@ -22,6 +22,7 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
     const { settings } = useUserSettings();
 
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
+    const monthStart = startOfMonth(selectedDate);
 
     const category = habit.category;
 
@@ -57,7 +58,18 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                         />
                     ))}
                 </>),
-                'month': <p>to do (month)</p>
+                'month': (<div className="col-span-8 grid grid-cols-31 gap-1">
+                    {Array.from({ length: endOfMonth(monthStart).getDate() }).map((_, i) => (
+                        <HabitListCheckIn
+                            key={i}
+                            habit={habit}
+                            setCheckIns={setCheckIns}
+                            checkIns={checkIns}
+                            checkIn={checkIns.find((item) => isSameDay(item.date, addDays(monthStart, i)))}
+                            date={addDays(monthStart, i)}
+                        />
+                    ))}
+                </div>)
             }[viewMode]}
         </div>
     )

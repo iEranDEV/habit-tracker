@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 import NewHabitCategoryForm from "./NewHabitStage1";
 import NewHabitTypeForm from "./NewHabitStage2";
 import NewHabitDetailsForm from "./NewHabitStage3";
@@ -9,10 +9,15 @@ import { Habit } from "@prisma/client";
 
 export const NewHabitFormContext = createContext<{
     stage: number,
-    setStage: Dispatch<SetStateAction<number>>,
+    setStage: Function,
     data: Partial<Habit>,
-    setData: Dispatch<SetStateAction<Partial<Habit>>>,
-} | undefined>(undefined);
+    setData: Function,
+}>({
+    stage: 0,
+    setStage: (stage: number) => { },
+    data: {},
+    setData: (data: Partial<Habit>) => { }
+});
 
 type NewHabitFormProps = {
     setOpen: Function
@@ -21,6 +26,8 @@ type NewHabitFormProps = {
 export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
     const [stage, setStage] = useState(0);
     const [data, setData] = useState<Partial<Habit>>({});
+
+    const ctx = useContext(NewHabitFormContext);
 
     return (
         <NewHabitFormContext.Provider value={{ stage, setStage, data, setData }}>

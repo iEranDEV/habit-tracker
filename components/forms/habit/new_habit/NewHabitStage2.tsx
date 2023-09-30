@@ -43,7 +43,6 @@ const types = [
 export default function NewHabitTypeForm() {
 
     const ctx = useContext(NewHabitFormContext);
-    if (!ctx) return null;
     const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({

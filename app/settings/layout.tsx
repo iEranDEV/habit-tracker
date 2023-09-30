@@ -21,11 +21,6 @@ const sidebarNavItems: NavItem[] = [
         icon: <Settings size={20} />
     },
     {
-        title: "Account",
-        href: "/settings/account",
-        icon: <User size={20} />
-    },
-    {
         title: 'Habits',
         href: '/settings/habits',
         icon: <CopyCheck size={20} />,
@@ -34,11 +29,6 @@ const sidebarNavItems: NavItem[] = [
         title: "Categories",
         href: "/settings/categories",
         icon: <Shapes size={20} />,
-    },
-    {
-        title: "Premium",
-        href: "/settings/premium",
-        icon: <Star size={20} />
     },
 ]
 

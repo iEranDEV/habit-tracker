@@ -14,9 +14,9 @@ export default function Home() {
                     <Header />
 
                     <CalendarContextProvider>
-                        <div className="w-full flex">
-                            <div className="basis-full space-y-4 lg:basis-full flex flex-col">
-                                <div className="w-full sticky top-0">
+                        <div className="w-full flex bg-background">
+                            <div className="basis-full lg:basis-full flex flex-col">
+                                <div className="w-full sticky top-0 z-50">
                                     <ControlPanel />
                                 </div>
                                 <Suspense fallback={<p>Loading</p>}>

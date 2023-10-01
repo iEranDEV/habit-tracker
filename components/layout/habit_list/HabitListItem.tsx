@@ -27,10 +27,10 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
     const category = habit.category;
 
     return (
-        <div className="grid grid-cols-10 gap-2">
+        <div className="flex sm:grid flex-col grid-cols-9 gap-2 max-sm:pb-2">
 
             {/* Habit name */}
-            <div className="flex gap-2 items-center col-span-2">
+            <div className="flex gap-2 items-center col-span-2 max-sm:px-2">
                 <div className="rounded-md p-1.5" style={{ color: category.color, background: new Values(category?.color).tints(10)[7].hexString() }}>
                     <CategoryIcon name={category.icon} />
                 </div>
@@ -46,7 +46,7 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
 
             {{
                 'day': <p>to do</p>,
-                'week': (<>
+                'week': (<div className="col-span-7 grid grid-cols-7 gap-1">
                     {Array.from({ length: 7 }).map((_, i) => (
                         <HabitListCheckIn
                             key={i}
@@ -57,8 +57,8 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                             date={addDays(weekStart, i)}
                         />
                     ))}
-                </>),
-                'month': (<div className="col-span-8 grid grid-cols-31 gap-1">
+                </div>),
+                'month': (<div className="col-span-7 grid grid-cols-31 gap-1">
                     {Array.from({ length: endOfMonth(monthStart).getDate() }).map((_, i) => (
                         <HabitListCheckIn
                             key={i}

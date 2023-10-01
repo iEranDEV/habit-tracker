@@ -33,7 +33,7 @@ export default function ControlPanel() {
     const { viewMode, setViewMode, selectedDate, setSelectedDate } = useContext(CalendarContext);
 
     return (
-        <div className="w-full py-2 px-2 lg:px-0 flex flex-col gap-2 md:gap-0 md:flex-row justify-between items-center">
+        <div className="bg-background z-50 w-full py-2 px-2 lg:px-0 flex flex-col gap-2 md:gap-0 md:flex-row justify-between items-center">
 
             {/* Date & control buttons */}
             <div className="flex items-center w-full lg:w-auto gap-2">

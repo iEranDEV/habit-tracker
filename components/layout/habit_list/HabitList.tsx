@@ -1,5 +1,4 @@
 import HabitListHeader from "./HabitListHeader";
-import { Separator } from "@/components/ui/separator";
 import HabitListItem from "./HabitListItem";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getServerSession } from "next-auth";
@@ -13,10 +12,9 @@ export default async function HabitList() {
     const habits = await getHabitsByUser(session?.user.id);
 
     return (
-        <div className="space-y-4">
+        <div>
             <HabitListHeader />
-            <Separator />
-            <div className="space-y-2">
+            <div className="space-y-2 mt-4">
                 <TooltipProvider>
                     {habits.length > 0 ? (
                         <>

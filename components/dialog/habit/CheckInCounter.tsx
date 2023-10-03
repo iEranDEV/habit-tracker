@@ -20,6 +20,10 @@ export default function CheckInCounterDialog({ open, setOpen, date, checkIn, hab
 
     const [value, setValue] = useState(checkIn?.details?.amount || 0);
 
+    const handleChange = (val: number) => {
+        if (val >= 0) setValue(val);
+    }
+
     const handleSubmit = async () => {
         await fetchCheckIn({ amount: value });
         setOpen(false);
@@ -35,16 +39,16 @@ export default function CheckInCounterDialog({ open, setOpen, date, checkIn, hab
 
                 <div className="flex justify-center">
                     <div className="w-1/2 my-8 flex justify-between">
-                        <Button onClick={() => setValue(value - 1)} variant={'outline'} size={'icon'}>
+                        <Button onClick={() => handleChange(value - 1)} variant={'outline'} size={'icon'}>
                             <Minus size={20} />
                         </Button>
                         <input
                             className="w-[100px] text-4xl truncate text-center"
                             type="text"
                             value={value}
-                            onChange={(e) => setValue(Number(e.target.value))}
+                            onChange={(e) => handleChange(Number(e.target.value))}
                         />
-                        <Button onClick={() => setValue(value + 1)} variant={'outline'} size={'icon'}>
+                        <Button onClick={() => handleChange(value + 1)} variant={'outline'} size={'icon'}>
                             <Plus size={20} />
                         </Button>
                     </div>

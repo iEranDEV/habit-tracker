@@ -126,7 +126,19 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
                                 else return 'inProgress';
                             } else return 'failed';
                         case 'LESS_THAN':
+                            if (details?.amount < habit?.details.amount!) {
+                                return 'completed'
+                            } else if (details?.amount > 0) {
+                                if (isPast) return 'failed';
+                                else return 'inProgress';
+                            } else return 'failed';
                         case 'EXACTLY':
+                            if (details?.amount === habit?.details.amount!) {
+                                return 'completed'
+                            } else if (details?.amount > 0) {
+                                if (isPast) return 'failed';
+                                else return 'inProgress';
+                            } else return 'failed';
                     }
                 } else {
                     return 'failed';

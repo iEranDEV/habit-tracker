@@ -104,19 +104,19 @@ export default function NewHabitDetailsForm() {
                         <div className="grid grid-cols-4 gap-2">
                             <FormField
                                 control={form.control}
-                                name="details.type"
+                                name="details.counterType"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <Select onValueChange={field.onChange} defaultValue={'AtLeast'}>
+                                        <Select onValueChange={field.onChange} defaultValue="AT_LEAST">
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value='AtLeast'>At least</SelectItem>
-                                                <SelectItem value='LessThan'>Less than</SelectItem>
-                                                <SelectItem value='Exactly'>Exactly</SelectItem>
+                                                <SelectItem value='AT_LEAST'>At least</SelectItem>
+                                                <SelectItem value='LESS_THAN'>Less than</SelectItem>
+                                                <SelectItem value='EXACTLY'>Exactly</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormItem>

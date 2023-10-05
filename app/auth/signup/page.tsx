@@ -11,8 +11,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function SignupPage() {
+
+    const [loading, setLoading] = useState(false);
 
     // Form schema
     const formSchema = z.object({
@@ -37,16 +41,23 @@ export default function SignupPage() {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setLoading(true);
         const response = await fetch('/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(values),
-        })
-
-        const data = await response.json();
-        console.log(data)
+        });
+        setLoading(false);
+        if (response.ok) {
+            await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect: true,
+                callbackUrl: "/",
+            })
+        }
     }
 
     return (
@@ -150,11 +161,12 @@ export default function SignupPage() {
                         />
 
                         {/* Submit button */}
-                        <Button
-                            type="submit"
-                            className='w-full'
-                        >
-                            Sign up with Email
+                        <Button type="submit" className='w-full'>
+                            {loading ? (
+                                <Loader2 size={20} className='animate-spin' />
+                            ) : (
+                                <span>Sign up with Email</span>
+                            )}
                         </Button>
                     </form>
                 </Form>

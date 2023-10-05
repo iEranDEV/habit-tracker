@@ -26,6 +26,10 @@ prismaAdapter.createUser = (data: User) => {
 };
 
 export const authOption: AuthOptions = {
+    pages: {
+        'signIn': '/auth/login'
+    },
+    debug: true,
     adapter: prismaAdapter,
     providers: [
         GoogleProvider({
@@ -62,7 +66,8 @@ export const authOption: AuthOptions = {
         })
     ],
     session: {
-        strategy: 'jwt'
+        strategy: 'jwt',
+        maxAge: 60 * 60 * 24,
     }, callbacks: {
         async jwt({ token, user, account }) {
 

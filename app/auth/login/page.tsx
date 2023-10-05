@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -12,14 +12,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from 'zod';
 import { signIn, useSession } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
 
 
 export default function LoginPage() {
 
+    const [loading, setLoading] = useState(false);
+
     // Form schema
     const formSchema = z.object({
         email: z.string().email(),
-        password: z.string().trim().min(1, { message: 'This field is required' }),
+        password: z.string().trim().min(6, { message: 'Password should be at least 6 characters' }),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -41,11 +44,13 @@ export default function LoginPage() {
     }, [session, router]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const result = await signIn('credentials', {
+        setLoading(true);
+        const response = await signIn('credentials', {
             ...values,
-            redirect: false
+            redirect: true,
+            callbackUrl: '/'
         });
-        router.push('/');
+        setLoading(false);
     }
 
     return (
@@ -113,7 +118,13 @@ export default function LoginPage() {
                         />
 
                         {/* Submit button */}
-                        <Button type="submit" className='w-full'>Sign in with Email</Button>
+                        <Button type="submit" className='w-full'>
+                            {loading ? (
+                                <Loader2 size={20} className='animate-spin' />
+                            ) : (
+                                <span>Sign in with Email</span>
+                            )}
+                        </Button>
                     </form>
                 </Form>
 
@@ -125,6 +136,6 @@ export default function LoginPage() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

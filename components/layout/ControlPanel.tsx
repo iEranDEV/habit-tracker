@@ -12,7 +12,7 @@ import { Calendar } from "../ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
 import NewHabitDialog from "../dialog/habit/NewHabit";
 import { useUserSettings } from "@/context/UserContext";
-import { endOfWeek, startOfWeek } from "date-fns";
+import { addDays, addMonths, addWeeks, endOfWeek, startOfWeek, subDays, subMonths, subWeeks } from "date-fns";
 
 const viewOptions = [
     {
@@ -32,6 +32,28 @@ export default function ControlPanel() {
     const { settings } = useUserSettings();
     const { viewMode, setViewMode, selectedDate, setSelectedDate } = useContext(CalendarContext);
 
+    const nextSelectedDate = () => {
+        switch (viewMode) {
+            case 'day':
+                return setSelectedDate(addDays(selectedDate, 1));
+            case 'week':
+                return setSelectedDate(addWeeks(selectedDate, 1));
+            case 'month':
+                return setSelectedDate(addMonths(selectedDate, 1));
+        }
+    }
+
+    const previousSelectedDate = () => {
+        switch (viewMode) {
+            case 'day':
+                return setSelectedDate(subDays(selectedDate, 1));
+            case 'week':
+                return setSelectedDate(subWeeks(selectedDate, 1));
+            case 'month':
+                return setSelectedDate(subMonths(selectedDate, 1));
+        }
+    }
+
     return (
         <div className="bg-background z-50 w-full py-2 px-2 lg:px-0 flex flex-col gap-2 md:gap-0 md:flex-row justify-between items-center">
 
@@ -43,7 +65,7 @@ export default function ControlPanel() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant="outline" size="icon">
+                                <Button variant="outline" size="icon" onClick={previousSelectedDate} >
                                     <ChevronLeft size={20} />
                                 </Button>
                             </TooltipTrigger>
@@ -55,7 +77,7 @@ export default function ControlPanel() {
                         {/* Next day / week */}
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Button variant="outline" size="icon">
+                                <Button variant="outline" size="icon" onClick={nextSelectedDate}>
                                     <ChevronRight size={20} />
                                 </Button>
                             </TooltipTrigger>
@@ -80,6 +102,7 @@ export default function ControlPanel() {
                                 <PopoverContent className="w-auto p-0">
                                     <Calendar
                                         mode="single"
+                                        defaultMonth={selectedDate}
                                         required
                                         selected={selectedDate}
                                         weekStartsOn={settings?.firstDayOfWeek as 0 | 1 | undefined}

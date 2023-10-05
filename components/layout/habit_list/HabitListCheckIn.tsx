@@ -105,7 +105,10 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
 
     // Get style variant for checkIn
     const getVariant = (): 'noAvailable' | 'available' | 'completed' | 'failed' | 'inProgress' => {
-        if (!isAvailable() && !checkIn) return 'noAvailable';
+        if (!isAvailable() && !checkIn) {
+            if (isPast && startOfDay(habit.startDate) <= startOfDay(date)) return 'failed';
+            return 'noAvailable';
+        }
         if (!checkIn && !isPast) return 'available';
 
         switch (habit.type) {

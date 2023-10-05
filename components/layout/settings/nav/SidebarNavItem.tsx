@@ -1,5 +1,3 @@
-'use client';
-
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types"
@@ -33,7 +31,7 @@ export function SidebarNavItem({ item, child }: SidebarNavItemProps) {
             </Link>
 
             {(item.href === pathname) && (
-                <motion.div layout layoutId="navBar" className="absolute -right-1 top-2 rounded-full bg-primary h-6 w-2"></motion.div>
+                <motion.div layout layoutId="navBar" className="max-md:hidden absolute -right-1 top-2 rounded-full bg-primary h-6 w-2"></motion.div>
             )}
         </div>
     )

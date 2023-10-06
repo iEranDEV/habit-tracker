@@ -8,6 +8,7 @@ import CategoryIcon from "./CategoryIcon";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import DeleteCategoryDialog from "@/components/dialog/category/DeleteCategory";
 import { useState } from "react";
+import Dropdown from "@/components/Dropdown";
 
 interface CategoryItemProps {
     item: Category,
@@ -29,23 +30,28 @@ export default function CategoryItem({ item, custom }: CategoryItemProps) {
 
             {custom && (
                 <div className="h-full flex justify-center items-center mr-2">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="text-muted-foreground focus:outline-none">
+
+                    <Dropdown
+                        type="Category"
+                        header={<div className="flex gap-4 items-center">
+                            <div className="rounded-md p-1.5" style={{ color: item.color, background: new Values(item.color).tints(10)[7].hexString() }}>
+                                <CategoryIcon name={item.icon} size={20} />
+                            </div>
+                            <p>{item.name}</p>
+                        </div>}
+                        toggler={<div className="text-muted-foreground focus:outline-none">
                             <MoreHorizontal size={20} />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuGroup>
-                                <DropdownMenuItem onClick={() => setEditDialog(true)}>
-                                    <PenLine size={16} className="mr-2" />
-                                    Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setDeleteDialog(true)}>
-                                    <Trash2 size={16} className="mr-2" />
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                        </div>}
+                        options={[
+                            <div className="flex items-center" onClick={() => setEditDialog(true)}>
+                                <PenLine size={16} className="mr-2" />
+                                Edit
+                            </div>,
+                            <div className="flex items-center" onClick={() => setDeleteDialog(true)}>
+                                <Trash2 size={16} className="mr-2" />
+                                Delete
+                            </div>
+                        ]} />
 
                     <EditCategoryDialog item={item} open={editDialog} setOpen={setEditDialog} />
                     <DeleteCategoryDialog item={item} open={deleteDialog} setOpen={setDeleteDialog} />

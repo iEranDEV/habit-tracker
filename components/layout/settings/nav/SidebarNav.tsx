@@ -17,7 +17,7 @@ export default function SidebarNav({ items }: SidebarNavProps) {
 
     return (
         <nav className="overflow-hidden">
-            <Button variant={'outline'} size={'icon'} className="fixed md:hidden top-4 right-4 z-[51]" onClick={() => setExpanded(!expanded)}>
+            <Button variant={'outline'} size={'icon'} className="fixed md:hidden top-4 right-4 z-50" onClick={() => setExpanded(!expanded)}>
                 {expanded ? (
                     <X size={20} />
                 ) : (
@@ -44,7 +44,7 @@ export default function SidebarNav({ items }: SidebarNavProps) {
             </motion.div>
 
             {expanded && (
-                <div className="bg-background/80 md:hidden backdrop-blur-sm fixed left-0 top-0 w-screen h-screen z-10"></div>
+                <div className="bg-background/80 md:hidden backdrop-blur-sm fixed left-0 top-0 w-[100lvw] h-[100lvh] z-10"></div>
             )}
         </nav>
     )

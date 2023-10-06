@@ -39,7 +39,7 @@ export default async function SettingsCategories() {
                 <NewCategoryDialog />
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {customCategories.length > 0 ? customCategories.map((item: Category) => (
                     <CategoryItem key={item.id} item={item} custom />
                 )) : (

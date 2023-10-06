@@ -13,9 +13,11 @@ export default function NewCategoryDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>
-                    <Plus className="mr-2" />
-                    Create new category
+                <Button className="max-md:!h-10 max-md:!w-10 max-md:!p-0">
+                    <Plus size={20} />
+                    <span className="ml-2 max-md:hidden">
+                        Create new category
+                    </span>
                 </Button>
             </DialogTrigger>
             <DialogContent>

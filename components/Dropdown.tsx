@@ -50,7 +50,6 @@ export default function Dropdown({ options, toggler, header, type }: DropdownPro
                                 initial={{ y: '100%' }}
                                 animate={{ y: 0 }}
                                 exit={{ y: '100%' }}
-                                transition={{ type: 'tween' }}
                                 className="fixed z-50 flex flex-col space-y-4 rounded-lg border border-border bg-background left-0 bottom-0 w-[100lvw] px-4 py-10"
                             >
                                 {type && <p className="text-center font-semibold">{type}</p>}

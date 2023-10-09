@@ -130,9 +130,9 @@ export default function NewHabitCategoryForm() {
                     </div>
                 </div >
 
-                <DialogFooter >
+                <div className="flex justify-end">
                     <Button type="submit">Continue</Button>
-                </DialogFooter >
+                </div>
 
             </form>
 

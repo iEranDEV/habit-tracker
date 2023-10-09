@@ -5,7 +5,6 @@ import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
 import EditCategoryDialog from "../../dialog/category/EditCategory"
 import type { Category } from "@prisma/client"
 import CategoryIcon from "./CategoryIcon";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import DeleteCategoryDialog from "@/components/dialog/category/DeleteCategory";
 import { useState } from "react";
 import Dropdown from "@/components/Dropdown";

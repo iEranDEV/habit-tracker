@@ -23,7 +23,7 @@ export default function FrequencyPicker() {
     return (
         <div className="space-y-2">
             <Label>Select habit frequency</Label>
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2">
                 {Array.from({ length: 7 }).map((_, i) => (
                     <Toggle
                         pressed={frequency.includes(i)}

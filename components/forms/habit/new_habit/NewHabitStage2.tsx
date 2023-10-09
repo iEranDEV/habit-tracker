@@ -102,7 +102,7 @@ export default function NewHabitTypeForm() {
                         Go back
                     </Button>
                     <Button type="submit">Continue</Button>
-                </div >
+                </div>
 
             </form>
 

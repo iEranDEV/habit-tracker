@@ -33,9 +33,9 @@ export default function NewHabitTimeForm({ setOpen, edit }: { setOpen: Function,
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            frequency: [0, 1, 2, 3, 4, 5, 6],
-            startDate: new Date(),
-            endDate: undefined
+            frequency: data.frequency || [0, 1, 2, 3, 4, 5, 6],
+            startDate: data.startDate || new Date(),
+            endDate: data.endDate || undefined
         }
     });
 
@@ -104,11 +104,11 @@ export default function NewHabitTimeForm({ setOpen, edit }: { setOpen: Function,
                                     <PopoverContent className="w-auto p-0" align="start">
                                         <Calendar
                                             mode="single"
-                                            selected={field.value}
                                             onSelect={field.onChange}
                                             weekStartsOn={settings?.firstDayOfWeek as 0 | 1 | undefined}
                                             initialFocus
                                             required
+                                            selected={field.value}
                                         />
                                     </PopoverContent>
                                 </Popover>

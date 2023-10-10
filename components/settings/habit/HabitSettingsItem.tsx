@@ -1,10 +1,11 @@
 'use client';
 
-import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
+import { AreaChart, MoreHorizontal, PenLine, Trash2 } from "lucide-react"
 import { useState } from "react";
 import Dropdown from "@/components/shared/Dropdown";
 import { HabitWithData } from "@/types";
 import HabitItem from "@/components/shared/habit/HabitItem";
+import DeleteHabitDialog from "./DeleteHabitDialog";
 
 interface HabitSettingsItemProps {
     item: HabitWithData
@@ -28,6 +29,10 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
                     </div>}
                     options={[
                         <div className="flex items-center" onClick={() => setEditDialog(true)}>
+                            <AreaChart size={16} className="mr-2" />
+                            Statistics
+                        </div>,
+                        <div className="flex items-center" onClick={() => setEditDialog(true)}>
                             <PenLine size={16} className="mr-2" />
                             Edit
                         </div>,
@@ -37,10 +42,8 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
                         </div>
                     ]} />
 
-                {/*
-                    <EditCategoryDialog item={item} open={editDialog} setOpen={setEditDialog} />
-                    <DeleteCategoryDialog item={item} open={deleteDialog} setOpen={setDeleteDialog} />  
-                    */}
+                {/* <EditCategoryDialog item={item} open={editDialog} setOpen={setEditDialog} /> */}
+                <DeleteHabitDialog item={item} open={deleteDialog} setOpen={setDeleteDialog} />
             </div>
         </div>
     )

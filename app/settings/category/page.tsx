@@ -1,11 +1,11 @@
 import { Separator } from "@/components/ui/separator";
 import { Shapes } from "lucide-react";
-import CategorySettingsItem from "@/components/settings/categories/CategorySettingsItem";
+import CategorySettingsItem from "@/components/settings/category/CategorySettingsItem";
 import { Category } from "@prisma/client";
 import { getCategoriesByUser } from "@/lib/category";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
-import NewCategoryDialog from "@/components/settings/categories/NewCategoryDialog";
+import NewCategoryDialog from "@/components/settings/category/NewCategoryDialog";
 
 export default async function SettingsCategories() {
 

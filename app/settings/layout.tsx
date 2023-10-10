@@ -22,12 +22,12 @@ const sidebarNavItems: NavItem[] = [
     },
     {
         title: 'Habits',
-        href: '/settings/habits',
+        href: '/settings/habit',
         icon: <CopyCheck size={20} />,
     },
     {
         title: "Categories",
-        href: "/settings/categories",
+        href: "/settings/category",
         icon: <Shapes size={20} />,
     },
 ]

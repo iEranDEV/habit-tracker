@@ -3,7 +3,7 @@
 import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
 import EditCategoryDialog from "./EditCategoryDialog"
 import type { Category } from "@prisma/client"
-import DeleteCategoryDialog from "@/components/settings/categories/DeleteCategoryDialog";
+import DeleteCategoryDialog from "@/components/settings/category/DeleteCategoryDialog";
 import { useState } from "react";
 import Dropdown from "@/components/shared/Dropdown";
 import CategoryItem from "@/components/shared/category/CategoryItem";

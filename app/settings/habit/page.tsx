@@ -6,7 +6,7 @@ import { getHabitsByUser } from "@/lib/habit";
 import { Habit } from "@prisma/client";
 import { HabitWithData } from "@/types";
 import { Shapes } from "lucide-react";
-import HabitSettingsItem from "@/components/settings/habits/HabitSettingsItem";
+import HabitSettingsItem from "@/components/settings/habit/HabitSettingsItem";
 
 export default async function SettingsHabits() {
 

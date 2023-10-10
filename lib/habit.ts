@@ -59,3 +59,14 @@ export const updateHabit = async (id: string, data: any) => {
 
     return habit;
 }
+
+export const deleteHabit = async (id: string) => {
+    const habit = await prisma.habit.delete({
+        where: {
+            id: id
+        }
+    })
+
+
+    return habit;
+}

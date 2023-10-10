@@ -122,8 +122,8 @@ type CheckInDetails {
 model CheckIn {
     id      String          @id @default(auto()) @map("_id") @db.ObjectId
     date    DateTime
-    habitId String          @db.ObjectId
-    habit   Habit           @relation(fields: [habitId], references: [id])
+    habitId String?         @db.ObjectId
+    habit   Habit?          @relation(fields: [habitId], references: [id], onDelete: Cascade)
     details CheckInDetails?
 
     @@map("checkins")

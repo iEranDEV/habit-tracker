@@ -29,7 +29,7 @@ export default function DeleteHabitDialog({ item, open, setOpen }: DeleteHabitDi
             router.refresh();
             toast({
                 title: 'Success!',
-                description: `You have successfully removed category ${item.name}!`
+                description: `You have successfully removed habit ${item.name}!`
             })
         }
         setLoading(true);
@@ -41,7 +41,7 @@ export default function DeleteHabitDialog({ item, open, setOpen }: DeleteHabitDi
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete this category and the category of all related habits will be changed to <b>Other</b>.
+                        This action cannot be undone. This will permanently delete this habit and all your progress.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

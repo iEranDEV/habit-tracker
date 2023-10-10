@@ -1,13 +1,13 @@
-'use client';
-
-import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
-import NewHabitCategoryForm from "./NewHabitStage1";
-import NewHabitTypeForm from "./NewHabitStage2";
-import NewHabitDetailsForm from "./NewHabitStage3";
-import NewHabitTimeForm from "./NewHabitStage4";
+import { createContext, useState } from "react";
 import { Habit } from "@prisma/client";
+import { HabitWithData } from "@/types";
+import NewHabitCategoryForm from "@/components/shared/habit/form/stages/HabitFormStage1";
+import NewHabitTypeForm from "@/components/shared/habit/form/stages/HabitFormStage2";
+import NewHabitDetailsForm from "@/components/shared/habit/form/stages/HabitFormStage3";
+import NewHabitTimeForm from "@/components/shared/habit/form/stages/HabitFormStage4";
+import { useRouter } from "next/navigation";
 
-export const NewHabitFormContext = createContext<{
+export const HabitFormContext = createContext<{
     stage: number,
     setStage: Function,
     data: Partial<Habit>,
@@ -19,18 +19,20 @@ export const NewHabitFormContext = createContext<{
     setData: (data: Partial<Habit>) => { }
 });
 
-type NewHabitFormProps = {
+interface HabitFormProps {
+    habit?: HabitWithData,
+    edit?: boolean,
     setOpen: Function
 }
 
-export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
+export default function HabitForm({ habit, edit, setOpen }: HabitFormProps) {
     const [stage, setStage] = useState(0);
-    const [data, setData] = useState<Partial<Habit>>({});
+    const [data, setData] = useState<Partial<Habit>>(habit || {});
 
-    const ctx = useContext(NewHabitFormContext);
+    const router = useRouter();
 
     return (
-        <NewHabitFormContext.Provider value={{ stage, setStage, data, setData }}>
+        <HabitFormContext.Provider value={{ stage, setStage, data, setData }}>
             <div className="relative">
 
                 {
@@ -38,7 +40,7 @@ export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
                         0: <NewHabitCategoryForm />,
                         1: <NewHabitTypeForm />,
                         2: <NewHabitDetailsForm />,
-                        3: <NewHabitTimeForm setOpen={setOpen} />
+                        3: <NewHabitTimeForm setOpen={setOpen} edit={edit} />
                     }[stage] || <p>loading</p>
                 }
 
@@ -52,6 +54,6 @@ export default function NewHabitForm({ setOpen }: NewHabitFormProps) {
                 </div>
 
             </div>
-        </NewHabitFormContext.Provider >
+        </HabitFormContext.Provider>
     )
 }

@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Calculator, CopyCheck, ListTodo, Timer } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitFormWrapper";
+import { HabitFormContext } from "@/components/shared/habit/form/HabitForm";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
@@ -42,7 +42,7 @@ const types = [
 
 export default function NewHabitTypeForm() {
 
-    const ctx = useContext(NewHabitFormContext);
+    const ctx = useContext(HabitFormContext);
     const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({

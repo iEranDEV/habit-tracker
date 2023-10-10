@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../ui/dialog";
 import { Button } from "../../ui/button";
 import { Plus } from "lucide-react";
-import NewHabitForm from "@/components/shared/NewHabit/NewHabitFormWrapper";
+import HabitForm from "@/components/shared/habit/form/HabitForm";
 
 export default function NewHabitDialog() {
     const [open, setOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function NewHabitDialog() {
                     <DialogDescription>Submit form below to create new habit</DialogDescription>
                 </DialogHeader>
 
-                <NewHabitForm setOpen={setOpen} />
+                <HabitForm setOpen={setOpen} />
 
             </DialogContent>
         </Dialog>

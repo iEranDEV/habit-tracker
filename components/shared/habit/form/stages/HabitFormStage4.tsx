@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,12 +12,13 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { useRouter } from "next/navigation";
 import { useUserSettings } from "@/context/UserContext";
+import { HabitFormContext } from "@/components/shared/habit/form/HabitForm";
 
-export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
+export default function NewHabitTimeForm({ setOpen, edit }: { setOpen: Function, edit: boolean | undefined }) {
 
     const [loading, setLoading] = useState(false);
 
-    const ctx = useContext(NewHabitFormContext);
+    const ctx = useContext(HabitFormContext);
     const { data, setData, stage, setStage } = ctx;
 
     const router = useRouter();
@@ -43,10 +43,17 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
         setLoading(true);
 
         const habit = { ...data, ...values }
-        const response = await fetch('http://localhost:3000/api/habit', {
-            method: 'POST',
-            body: JSON.stringify(habit)
-        });
+        const response = edit ? (
+            await fetch(`http://localhost:3000/api/habit/${habit.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({ habit })
+            })
+        ) : (
+            await fetch('http://localhost:3000/api/habit', {
+                method: 'POST',
+                body: JSON.stringify(habit)
+            })
+        )
         const responseData = await response.json();
 
         if (data) {
@@ -161,13 +168,19 @@ export default function NewHabitTimeForm({ setOpen }: { setOpen: Function }) {
                         {loading ? (
                             <Loader2 size={20} className="animate-spin" />
                         ) : (
-                            <span>Create habit</span>
+                            <>
+                                {edit ? (
+                                    <span>Edit habit</span>
+                                ) : (
+                                    <span>Create habit</span>
+                                )}
+                            </>
                         )}
                     </Button>
                 </div>
 
             </form>
 
-        </Form>
+        </Form >
     )
 }

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,10 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { HabitFormContext } from "@/components/shared/habit/form/HabitForm";
 
 export default function NewHabitDetailsForm() {
 
-    const ctx = useContext(NewHabitFormContext);
+    const ctx = useContext(HabitFormContext);
     const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({

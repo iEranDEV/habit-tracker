@@ -6,6 +6,7 @@ import Dropdown from "@/components/shared/Dropdown";
 import { HabitWithData } from "@/types";
 import HabitItem from "@/components/shared/habit/HabitItem";
 import DeleteHabitDialog from "./DeleteHabitDialog";
+import EditHabitDialog from "@/components/shared/habit/EditHabitDialog";
 
 interface HabitSettingsItemProps {
     item: HabitWithData
@@ -42,7 +43,7 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
                         </div>
                     ]} />
 
-                {/* <EditCategoryDialog item={item} open={editDialog} setOpen={setEditDialog} /> */}
+                <EditHabitDialog item={item} open={editDialog} setOpen={setEditDialog} />
                 <DeleteHabitDialog item={item} open={deleteDialog} setOpen={setDeleteDialog} />
             </div>
         </div>

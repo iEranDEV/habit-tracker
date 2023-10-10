@@ -54,7 +54,16 @@ export const updateHabit = async (id: string, data: any) => {
         where: {
             id: id
         },
-        data: { ...data }
+        data: {
+            name: data.name,
+            type: data.type,
+            description: data.description,
+            categoryId: data.categoryId,
+            frequency: data.frequency,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            details: data.details
+        }
     });
 
     return habit;

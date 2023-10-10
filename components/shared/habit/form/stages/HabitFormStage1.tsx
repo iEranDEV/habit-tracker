@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { AnimatePresence, motion } from "framer-motion";
@@ -7,7 +6,6 @@ import { Check } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Values from "values.js";
-import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +13,7 @@ import CategoryIcon from "@/components/shared/category/CategoryIcon";
 import { useSession } from "next-auth/react";
 import { Category } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { HabitFormContext } from "@/components/shared/habit/form/HabitForm";
 
 function NewHabitCategoryFormItem({ item, selected, setSelected }: { item: Category, selected: string, setSelected: Function }) {
 
@@ -63,7 +62,7 @@ export default function NewHabitCategoryForm() {
         fetchCategories();
     }, []);
 
-    const ctx = useContext(NewHabitFormContext);
+    const ctx = useContext(HabitFormContext);
     const { data, setData, stage, setStage } = ctx;
 
     const [selected, setSelected] = useState(data.categoryId || '65095e1364a380fd978471f4');

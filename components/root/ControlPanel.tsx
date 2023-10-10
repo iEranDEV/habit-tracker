@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import NewHabitDialog from "../shared/NewHabit/NewHabitDialog";
 import { useUserSettings } from "@/context/UserContext";
 import { addDays, addMonths, addWeeks, endOfWeek, startOfWeek, subDays, subMonths, subWeeks } from "date-fns";
+import Link from "next/link";
 
 const viewOptions = [
     {

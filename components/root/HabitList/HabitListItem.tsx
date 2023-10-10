@@ -6,10 +6,9 @@ import { useUserSettings } from "@/context/UserContext";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { addDays, endOfMonth, isSameDay, startOfMonth, startOfWeek } from "date-fns";
 import { useContext, useState } from "react";
-import Values from "values.js";
 import { HabitWithData } from "@/types";
-import CategoryIcon from "../../CategoryIcon";
 import HabitListCheckIn from "./HabitListCheckIn";
+import HabitItem from "@/components/shared/habit/HabitItem";
 
 type HabitListItemProps = {
     habit: HabitWithData
@@ -24,19 +23,16 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
     const monthStart = startOfMonth(selectedDate);
 
-    const category = habit.category;
-
     return (
         <div className="flex sm:grid flex-col grid-cols-9 gap-2 max-sm:pb-2">
 
             {/* Habit name */}
-            <div className="flex gap-2 items-center col-span-2 max-sm:px-2">
-                <div className="rounded-md p-1.5" style={{ color: category.color, background: new Values(category?.color).tints(10)[7].hexString() }}>
-                    <CategoryIcon name={category.icon} />
-                </div>
+            <div className="col-span-2 max-sm:px-2">
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <p className="truncate">{habit.name}</p>
+                        <div>
+                            <HabitItem habit={habit} />
+                        </div>
                     </TooltipTrigger>
                     <TooltipContent>
                         <p>{habit.name}</p>

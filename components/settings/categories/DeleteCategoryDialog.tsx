@@ -22,7 +22,7 @@ export default function DeleteCategoryDialog({ item, open, setOpen }: DeleteCate
 
     const deleteItem = async () => {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/category/${item.id}`, {
+        const response = await fetch(`/api/category/${item.id}`, {
             method: 'DELETE'
         })
         const data = await response.json();
@@ -47,7 +47,7 @@ export default function DeleteCategoryDialog({ item, open, setOpen }: DeleteCate
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <Button onClick={deleteItem}>
+                    <Button onClick={deleteItem} disabled={loading}>
                         {loading ? (
                             <Loader2 size={20} className="animate-spin" />
                         ) : (

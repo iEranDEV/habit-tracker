@@ -1,43 +1,32 @@
 'use client';
 
-import Values from "values.js"
 import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
-import EditCategoryDialog from "./EditCategory"
+import EditCategoryDialog from "./EditCategoryDialog"
 import type { Category } from "@prisma/client"
-import CategoryIcon from "../../CategoryIcon";
-import DeleteCategoryDialog from "@/components/settings/categories/DeleteCategory";
+import DeleteCategoryDialog from "@/components/settings/categories/DeleteCategoryDialog";
 import { useState } from "react";
-import Dropdown from "@/components/Dropdown";
+import Dropdown from "@/components/shared/Dropdown";
+import CategoryItem from "@/components/shared/category/CategoryItem";
 
-interface CategoryItemProps {
+interface CategorySettingsItemProps {
     item: Category,
     custom?: boolean
 }
 
-export default function CategoryItem({ item, custom }: CategoryItemProps) {
+export default function CategorySettingsItem({ item, custom }: CategorySettingsItemProps) {
     const [editDialog, setEditDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(false);
 
     return (
         <div className="flex group justify-between items-center hover:bg-accent p-1 rounded-lg">
-            <div className="flex gap-4 items-center">
-                <div className="rounded-md p-1.5" style={{ color: item.color, background: new Values(item.color).tints(10)[7].hexString() }}>
-                    <CategoryIcon name={item.icon} size={20} />
-                </div>
-                <p>{item.name}</p>
-            </div>
+            <CategoryItem category={item} />
 
             {custom && (
                 <div className="h-full flex justify-center items-center mr-2">
 
                     <Dropdown
                         type="Category"
-                        header={<div className="flex gap-4 items-center">
-                            <div className="rounded-md p-1.5" style={{ color: item.color, background: new Values(item.color).tints(10)[7].hexString() }}>
-                                <CategoryIcon name={item.icon} size={20} />
-                            </div>
-                            <p>{item.name}</p>
-                        </div>}
+                        header={<CategoryItem category={item} />}
                         toggler={<div className="text-muted-foreground focus:outline-none">
                             <MoreHorizontal size={20} />
                         </div>}

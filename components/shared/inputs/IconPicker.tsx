@@ -1,4 +1,4 @@
-import CategoryIcon from "@/components/CategoryIcon";
+import CategoryIcon from "@/components/shared/category/CategoryIcon";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";

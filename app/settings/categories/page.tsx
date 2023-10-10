@@ -1,11 +1,11 @@
 import { Separator } from "@/components/ui/separator";
 import { Shapes } from "lucide-react";
-import CategoryItem from "@/components/settings/categories/CategoryItem";
+import CategorySettingsItem from "@/components/settings/categories/CategorySettingsItem";
 import { Category } from "@prisma/client";
 import { getCategoriesByUser } from "@/lib/category";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
-import NewCategoryDialog from "@/components/settings/categories/NewCategory";
+import NewCategoryDialog from "@/components/settings/categories/NewCategoryDialog";
 
 export default async function SettingsCategories() {
 
@@ -15,7 +15,7 @@ export default async function SettingsCategories() {
     const customCategories = categories.filter((item) => item.userId !== null);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6" >
             <div>
                 <h3 className="text-lg font-medium">Built-in categories</h3>
                 <p className="text-sm text-muted-foreground">
@@ -25,7 +25,7 @@ export default async function SettingsCategories() {
             <Separator />
             <div className="grid grid-cols-2 gap-2">
                 {categories.filter((item) => item.userId === null).map((item: Category) => (
-                    <CategoryItem key={item.id} item={item} />
+                    <CategorySettingsItem key={item.id} item={item} />
                 ))}
             </div>
 
@@ -41,7 +41,7 @@ export default async function SettingsCategories() {
             <Separator />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {customCategories.length > 0 ? customCategories.map((item: Category) => (
-                    <CategoryItem key={item.id} item={item} custom />
+                    <CategorySettingsItem key={item.id} item={item} custom />
                 )) : (
                     <div className="w-full col-span-2 flex items-center flex-col text-sm text-muted-foreground">
                         <Shapes size={20} />

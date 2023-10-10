@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface DropdownProps {

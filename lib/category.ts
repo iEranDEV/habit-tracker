@@ -44,11 +44,21 @@ export const createCategory = async (name: string, color: string, icon: string, 
 }
 
 export const deleteCategory = async (id: string) => {
+    await prisma.habit.updateMany({
+        where: {
+            categoryId: id
+        },
+        data: {
+            categoryId: '65095e1364a380fd978471f4'
+        }
+    })
+
     const category = await prisma.category.delete({
         where: {
             id: id
         }
     })
+
 
     return category;
 }

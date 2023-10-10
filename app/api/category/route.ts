@@ -13,12 +13,6 @@ export async function POST(request: Request) {
     return NextResponse.json(category);
 }
 
-export async function PUT(request: Request) {
-    const session = await getServerSession(authOption);
-    const userId = session?.user.id;
-    const { id, name, color, icon } = await request.json();
-}
-
 export async function GET() {
     const session = await getServerSession(authOption);
     const id = session?.user.id;

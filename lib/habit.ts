@@ -48,3 +48,14 @@ export const getHabitById = async (id: string, include?: boolean) => {
 
     return habit;
 }
+
+export const updateHabit = async (id: string, data: any) => {
+    const habit = await prisma.habit.update({
+        where: {
+            id: id
+        },
+        data: { ...data }
+    });
+
+    return habit;
+}

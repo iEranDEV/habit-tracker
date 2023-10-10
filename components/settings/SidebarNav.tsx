@@ -5,7 +5,6 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
@@ -58,7 +57,6 @@ type SidebarNavItemProps = {
 }
 
 export function SidebarNavItem({ item, child }: SidebarNavItemProps) {
-    const pathname = usePathname();
 
     const className = cn(
         buttonVariants({ variant: "ghost" }),
@@ -76,10 +74,6 @@ export function SidebarNavItem({ item, child }: SidebarNavItemProps) {
                     <span className="ml-2">{item.title}</span>
                 </div>
             </Link>
-
-            {(item.href === pathname) && (
-                <motion.div layout layoutId="navBar" className="max-md:hidden absolute -right-1 top-2 rounded-full bg-primary h-6 w-2"></motion.div>
-            )}
         </div>
     )
 }

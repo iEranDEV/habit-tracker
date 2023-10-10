@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
-import NewHabitDialog from "../dialog/habit/NewHabit";
+import NewHabitDialog from "../shared/NewHabit/NewHabitDialog";
 import { useUserSettings } from "@/context/UserContext";
 import { addDays, addMonths, addWeeks, endOfWeek, startOfWeek, subDays, subMonths, subWeeks } from "date-fns";
 

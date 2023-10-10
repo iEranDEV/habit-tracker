@@ -11,7 +11,7 @@ import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form } from "@/components/ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CategoryIcon from "@/components/layout/settings/CategoryIcon";
+import CategoryIcon from "@/components/CategoryIcon";
 import { useSession } from "next-auth/react";
 import { Category } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";

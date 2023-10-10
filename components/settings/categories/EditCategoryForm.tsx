@@ -7,8 +7,8 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogFooter } from "../../ui/dialog";
 import { Button } from "../../ui/button";
-import ColorPicker from "../utils/ColorPicker";
-import IconPicker from "../utils/IconPicker";
+import ColorPicker from "../../shared/inputs/ColorPicker";
+import IconPicker from "../../shared/inputs/IconPicker";
 import { Category } from "@prisma/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

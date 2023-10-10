@@ -1,6 +1,6 @@
-import ControlPanel from "@/components/layout/ControlPanel";
-import Header from "@/components/layout/Header";
-import HabitList from "@/components/layout/habit_list/HabitList";
+import ControlPanel from "@/components/root/ControlPanel";
+import Header from "@/components/root/Header";
+import HabitList from "@/components/root/HabitList/HabitList";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import { ProtectedRoute } from "@/context/UserContext";
 import { Suspense } from "react";

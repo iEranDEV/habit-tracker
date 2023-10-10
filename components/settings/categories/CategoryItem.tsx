@@ -2,10 +2,10 @@
 
 import Values from "values.js"
 import { MoreHorizontal, PenLine, Trash2 } from "lucide-react"
-import EditCategoryDialog from "../../dialog/category/EditCategory"
+import EditCategoryDialog from "./EditCategory"
 import type { Category } from "@prisma/client"
-import CategoryIcon from "./CategoryIcon";
-import DeleteCategoryDialog from "@/components/dialog/category/DeleteCategory";
+import CategoryIcon from "../../CategoryIcon";
+import DeleteCategoryDialog from "@/components/settings/categories/DeleteCategory";
 import { useState } from "react";
 import Dropdown from "@/components/Dropdown";
 

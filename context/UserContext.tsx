@@ -1,6 +1,6 @@
 'use client';
 
-import LoadingScreen from "@/components/layout/LoadingScreen";
+import LoadingScreen from "@/components/root/LoadingScreen";
 import { UserSettings } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";

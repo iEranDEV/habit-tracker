@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator"
-import { ChevronLeft, CopyCheck, List, Menu, Plus, Settings, Shapes, Star, User } from "lucide-react"
+import { ChevronLeft, CopyCheck, Settings, Shapes } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
-import SidebarNav from "@/components/layout/settings/nav/SidebarNav"
+import SidebarNav from "@/components/settings/SidebarNav"
 import { NavItem } from "@/types"
 import { ProtectedRoute } from "@/context/UserContext"
 

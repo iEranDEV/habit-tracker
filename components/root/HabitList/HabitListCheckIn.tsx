@@ -3,7 +3,7 @@ import { parseISO, startOfDay } from "date-fns"
 import { useContext, useState } from "react"
 import { Check, Loader2, Lock, MoreHorizontal, X } from 'lucide-react';
 import { motion } from "framer-motion"
-import CheckInCounterDialog from "@/components/dialog/habit/CheckInCounter"
+import CheckInCounterDialog from "@/components/root/HabitList/CheckInCounter"
 import { HabitWithData } from "@/types"
 import { CheckIn, CheckInDetails } from "@prisma/client"
 import { useUserSettings } from "@/context/UserContext";

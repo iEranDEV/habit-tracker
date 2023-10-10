@@ -8,7 +8,7 @@ import { addDays, endOfMonth, isSameDay, startOfMonth, startOfWeek } from "date-
 import { useContext, useState } from "react";
 import Values from "values.js";
 import { HabitWithData } from "@/types";
-import CategoryIcon from "../settings/CategoryIcon";
+import CategoryIcon from "../../CategoryIcon";
 import HabitListCheckIn from "./HabitListCheckIn";
 
 type HabitListItemProps = {

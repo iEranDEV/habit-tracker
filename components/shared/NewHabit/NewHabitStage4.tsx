@@ -5,7 +5,7 @@ import { NewHabitFormContext } from "./NewHabitFormWrapper";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FrequencyPicker from "@/components/forms/utils/FrequencyPicker";
+import FrequencyPicker from "@/components/shared/inputs/FrequencyPicker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Loader2 } from "lucide-react";

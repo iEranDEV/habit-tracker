@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/app/api/auth/[...nextauth]/route";
-import NewHabitDialog from "@/components/dialog/habit/NewHabit";
+import NewHabitDialog from "@/components/shared/NewHabit/NewHabitDialog";
 
 export default async function SettingsCategories() {
 

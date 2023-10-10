@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import ColorPicker from "../utils/ColorPicker";
-import IconPicker from "../utils/IconPicker";
+import ColorPicker from "../../shared/inputs/ColorPicker";
+import IconPicker from "../../shared/inputs/IconPicker";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";

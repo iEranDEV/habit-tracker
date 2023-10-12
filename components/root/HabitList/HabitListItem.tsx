@@ -23,6 +23,20 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: settings?.firstDayOfWeek as 0 | 1 | undefined });
     const monthStart = startOfMonth(selectedDate);
 
+    const updateCheckIns = (data: any, type: string) => {
+        switch (type) {
+            case 'DELETE':
+                setCheckIns((prev) => [...prev.filter((item) => item.id !== data.id)]);
+                break;
+            case 'UPDATE':
+                setCheckIns((prev) => [...prev.filter((item) => item.id !== data.id), data]);
+                break;
+            case 'CREATE':
+                setCheckIns((prev) => [...prev, data]);
+                break;
+        }
+    }
+
     return (
         <div className="flex sm:grid flex-col grid-cols-9 gap-2 max-sm:pb-2">
 
@@ -46,9 +60,8 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                     {Array.from({ length: 7 }).map((_, i) => (
                         <HabitListCheckIn
                             key={i}
+                            updateCheckIns={updateCheckIns}
                             habit={habit}
-                            setCheckIns={setCheckIns}
-                            checkIns={checkIns}
                             checkIn={checkIns.find((item) => isSameDay(item.date, addDays(weekStart, i)))}
                             date={addDays(weekStart, i)}
                         />
@@ -58,9 +71,8 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                     {Array.from({ length: endOfMonth(monthStart).getDate() }).map((_, i) => (
                         <HabitListCheckIn
                             key={i}
+                            updateCheckIns={updateCheckIns}
                             habit={habit}
-                            setCheckIns={setCheckIns}
-                            checkIns={checkIns}
                             checkIn={checkIns.find((item) => isSameDay(item.date, addDays(monthStart, i)))}
                             date={addDays(monthStart, i)}
                         />

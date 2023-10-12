@@ -21,12 +21,11 @@ const variants = {
 type HabitListCheckInProps = {
     date: Date,
     habit: HabitWithData,
-    setCheckIns: Function,
-    checkIns: CheckIn[],
+    updateCheckIns: Function,
     checkIn: CheckIn | undefined,
 }
 
-export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, checkIn }: HabitListCheckInProps) {
+export default function HabitListCheckIn({ date, habit, updateCheckIns, checkIn }: HabitListCheckInProps) {
 
     const details = checkIn?.details;
 
@@ -62,20 +61,12 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
 
         if (!response.ok) return;
         const json = await response.json();
+
         const type = json.type;
         const data = { ...json.data, date: parseISO(json.data.date) };
 
-        switch (type) {
-            case 'DELETE':
-                setCheckIns([...checkIns.filter((item) => item.id !== data.id)]);
-                break;
-            case 'UPDATE':
-                setCheckIns([...checkIns.filter((item) => item.id !== data.id), data]);
-                break;
-            case 'CREATE':
-                setCheckIns([...checkIns, data]);
-                break;
-        }
+        updateCheckIns(data, type);
+
         setLoading(false);
     }
 
@@ -93,9 +84,7 @@ export default function HabitListCheckIn({ date, habit, setCheckIns, checkIns, c
                     } else {
                         fetchCheckIn({ value: false });
                     }
-                } else {
-                    fetchCheckIn({ value: true })
-                }
+                } else fetchCheckIn({ value: true });
                 break;
             case 'COUNTER':
                 setDialogOpen(true);

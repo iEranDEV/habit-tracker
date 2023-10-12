@@ -3,7 +3,7 @@
 import { CalendarIcon, ChevronLeft, ChevronRight, MoveRight } from "lucide-react";
 import { useContext } from 'react';
 import { CalendarContext } from "@/context/CalendarContext";
-import { formatShortDate } from "@/lib/date";
+import { formatShortDate, getMonthFullName } from "@/lib/date";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../ui/button";
@@ -13,7 +13,6 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import NewHabitDialog from "../shared/habit/NewHabitDialog";
 import { useUserSettings } from "@/context/UserContext";
 import { addDays, addMonths, addWeeks, endOfWeek, startOfWeek, subDays, subMonths, subWeeks } from "date-fns";
-import Link from "next/link";
 
 const viewOptions = [
     {
@@ -144,7 +143,7 @@ export default function ControlPanel() {
                                 })()}
                             </>
                         ),
-                        'month': <p>month</p>
+                        'month': <p>{getMonthFullName(selectedDate.getMonth())} {selectedDate.getFullYear()}</p>
                     }[viewMode]}
                 </div>
             </div>
@@ -159,7 +158,7 @@ export default function ControlPanel() {
                         <SelectGroup>
                             <SelectLabel>Select view mode</SelectLabel>
                             {viewOptions.map((item) => (
-                                <SelectItem key={item.id} value={item.id}>{item.title}</SelectItem>
+                                <SelectItem key={item.id} value={item.id} disabled={item.id === 'day'}>{item.title}</SelectItem>
                             ))}
                         </SelectGroup>
                     </SelectContent>

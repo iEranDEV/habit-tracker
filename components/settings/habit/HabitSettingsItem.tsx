@@ -7,6 +7,7 @@ import { HabitWithData } from "@/types";
 import HabitItem from "@/components/shared/habit/HabitItem";
 import DeleteHabitDialog from "./DeleteHabitDialog";
 import EditHabitDialog from "@/components/shared/habit/EditHabitDialog";
+import HabitStatsDialog from "./stats/HabitStatsDialog";
 
 interface HabitSettingsItemProps {
     item: HabitWithData
@@ -15,6 +16,7 @@ interface HabitSettingsItemProps {
 export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
     const [editDialog, setEditDialog] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState(false);
+    const [statsDialog, setStatsDialog] = useState(false);
 
     return (
         <div className="flex group justify-between items-center hover:bg-accent p-1 rounded-lg">
@@ -29,7 +31,7 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
                         <MoreHorizontal size={20} />
                     </div>}
                     options={[
-                        <div className="flex items-center" onClick={() => setEditDialog(true)}>
+                        <div className="flex items-center" onClick={() => setStatsDialog(true)}>
                             <AreaChart size={16} className="mr-2" />
                             Statistics
                         </div>,
@@ -45,6 +47,7 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
 
                 <EditHabitDialog item={item} open={editDialog} setOpen={setEditDialog} />
                 <DeleteHabitDialog item={item} open={deleteDialog} setOpen={setDeleteDialog} />
+                <HabitStatsDialog item={item} open={statsDialog} setOpen={setStatsDialog} />
             </div>
         </div>
     )

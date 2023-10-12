@@ -4,7 +4,7 @@ import { CalendarContext } from "@/context/CalendarContext";
 import { useUserSettings } from "@/context/UserContext";
 import { WEEKDAYS_SHORT, weekdays } from "@/lib/date";
 import { Separator } from "@radix-ui/react-select";
-import { addDays, endOfMinute, endOfMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
+import { addDays, endOfMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
 import { useContext } from "react";
 
 export default function HabitListHeader() {

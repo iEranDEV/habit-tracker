@@ -1,6 +1,5 @@
 'use client';
 
-import { useContext } from "react";
 import { Button, buttonVariants } from "../ui/button";
 import { LogOut, Settings } from "lucide-react";
 import Link from "next/link";

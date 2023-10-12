@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { HabitWithData } from '@/types';
 import 'chart.js/auto';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { Bar } from "react-chartjs-2";
 
@@ -50,6 +50,12 @@ export default function StatsGraph({ item }: StatsGraphProps) {
 
     return (
         <div className='space-y-2'>
+            <div className='w-full flex justify-center'>
+                <div className="flex items-center gap-2 text-xs uppercase font-bold bg-accent rounded-lg p-2">
+                    <CalendarDays size={16} />
+                    annual statistics
+                </div>
+            </div>
             <div className='justify-between flex items-center'>
                 <Button onClick={() => setYear(year - 1)} variant={'outline'} size={'icon'}>
                     <ChevronLeft size={20} />

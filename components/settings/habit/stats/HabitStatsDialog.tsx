@@ -5,8 +5,10 @@ import StatsGraph from "./StatsGraph";
 import { Separator } from "@/components/ui/separator";
 import { CopyCheck, Flame } from "lucide-react";
 import { useMemo } from "react";
-import { CheckIn } from "@prisma/client";
-import { getMonth, getWeek, getYear } from "date-fns";
+import { CheckIn, UserSettings } from "@prisma/client";
+import { getMonth, getWeek, getYear, isSameDay, startOfDay, subDays } from "date-fns";
+import { weekdays } from "@/lib/date";
+import { useUserSettings } from "@/context/UserContext";
 
 interface HabitStatsDialogProps {
     item: HabitWithData,
@@ -14,12 +16,16 @@ interface HabitStatsDialogProps {
     setOpen: (open: boolean) => void
 }
 
-const checkDone = (habit: HabitWithData, checkIn: CheckIn) => {
+const checkDone = (habit: HabitWithData, checkIn?: CheckIn) => {
+    if (!checkIn) return false;
     switch (habit.type) {
         case 'DEFAULT':
             if (checkIn.details?.value) return true;
         case 'COUNTER':
-            if (!habit.details.amount || !checkIn.details?.amount) return false;
+            if (!habit.details.amount || !checkIn.details?.amount) {
+                console.log('test');
+                return false;
+            }
             switch (habit.details.counterType) {
                 case 'AT_LEAST':
                     if (checkIn.details?.amount >= habit.details.amount) return true;
@@ -32,14 +38,69 @@ const checkDone = (habit: HabitWithData, checkIn: CheckIn) => {
     return false;
 }
 
+const isAvailable = (habit: HabitWithData, date: Date, settings?: UserSettings) => {
+    return (
+        habit.frequency.includes(weekdays.indexOf(date.getDay())) &&
+        (habit.endDate ? habit.endDate >= date : true) &&
+        startOfDay(habit.startDate) <= startOfDay(date) &&
+        (settings?.modifyDaysPast ? true : (startOfDay(new Date()) > date ? false : true)) &&
+        (settings?.modifyDaysFuture ? true : (startOfDay(new Date()) < date ? false : true))
+    )
+}
+
 export default function HabitStatsDialog({ item, open, setOpen }: HabitStatsDialogProps) {
 
-    const stats = {
-        week: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getWeek(checkIn.date) === getWeek(new Date())).length,
-        month: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getMonth(checkIn.date) === getMonth(new Date())).length,
-        year: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getYear(checkIn.date) === getYear(new Date())).length,
-        all: item.checkIns.filter((checkIn) => checkDone(item, checkIn)).length,
+    const { settings } = useUserSettings();
+
+    const getDateRange = (): Date[] => {
+        const dateRange: Date[] = [];
+        let date = new Date();
+        while (date > item.startDate) {
+            if (isAvailable(item, date, settings)) dateRange.unshift(date);
+            date = subDays(date, 1);
+        }
+        return dateRange;
     }
+
+    const getCurrentStreak = (): number => {
+        const dateRange = getDateRange();
+        let count = 0;
+        for (let i = dateRange.length - 1; i >= 0; i--) {
+            const date = dateRange[i];
+            if (checkDone(item, item.checkIns.find((checkIn) => isSameDay(date, checkIn.date)))) count++;
+            else break;
+        }
+        return count;
+    }
+
+    const getBestStreak = () => {
+        const dateRange = getDateRange();
+        let streaks: number[] = [];
+        let currentStreak = 0;
+        dateRange.reverse().forEach((date) => {
+            if (checkDone(item, item.checkIns.find((checkIn) => isSameDay(date, checkIn.date)))) {
+                currentStreak++;
+            }
+            else {
+                streaks.push(currentStreak);
+                currentStreak = 0;
+            }
+        })
+        streaks.push(currentStreak);
+        return Math.max(...streaks);
+    }
+
+    const stats = useMemo(() => {
+        return {
+            currentStreak: getCurrentStreak(),
+            bestStreak: getBestStreak(),
+            week: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getWeek(checkIn.date) === getWeek(new Date())).length,
+            month: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getMonth(checkIn.date) === getMonth(new Date())).length,
+            year: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getYear(checkIn.date) === getYear(new Date())).length,
+            all: item.checkIns.filter((checkIn) => checkDone(item, checkIn)).length,
+        }
+    }, [item.checkIns])
+
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -63,11 +124,11 @@ export default function HabitStatsDialog({ item, open, setOpen }: HabitStatsDial
                         <div className="w-full grid grid-cols-2 divide-x divide-border">
                             <div className="flex flex-col gap-2 items-center py-2">
                                 <p className="text-sm">Current</p>
-                                <span className="text-primary font-bold text-sm uppercase">0 days</span>
+                                <span className="text-primary font-bold text-sm uppercase">{stats.currentStreak} days</span>
                             </div>
                             <div className="flex flex-col gap-2 items-center py-2">
                                 <p className="text-sm">Best</p>
-                                <span className="text-primary font-bold text-sm uppercase">0 days</span>
+                                <span className="text-primary font-bold text-sm uppercase">{stats.bestStreak} days</span>
                             </div>
                         </div>
                     </div>

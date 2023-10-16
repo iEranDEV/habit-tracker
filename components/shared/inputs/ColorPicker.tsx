@@ -41,7 +41,7 @@ export default function ColorPicker({ defaultColor }: ColorPickerProps) {
             <Label>Select color</Label>
             <div className='grid grid-cols-10 gap-2'>
                 {colors.map((item) => (
-                    <div onClick={() => setColor(item)} key={item} style={{ background: item }} className='h-10 cursor-pointer transition-all text-background w-10 rounded-md flex justify-center items-center'>
+                    <div onClick={() => setColor(item)} key={item} style={{ background: item }} className='h-full cursor-pointer transition-all text-background w-full aspect-square rounded-md flex justify-center items-center'>
                         <AnimatePresence>
                             {color === item && (
                                 <motion.div

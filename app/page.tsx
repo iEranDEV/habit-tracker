@@ -4,6 +4,8 @@ import HabitList from "@/components/root/HabitList/HabitList";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import { ProtectedRoute } from "@/context/UserContext";
 import { Suspense } from "react";
+import HabitListSkeleton from "@/components/root/HabitList/HabitListSkeleton";
+import HabitListHeader from "@/components/root/HabitList/HabitListHeader";
 
 export default function Home() {
 
@@ -19,7 +21,8 @@ export default function Home() {
                                 <div className="w-full sticky top-0 z-50">
                                     <ControlPanel />
                                 </div>
-                                <Suspense fallback={<p>Loading</p>}>
+                                <HabitListHeader />
+                                <Suspense fallback={<HabitListSkeleton />}>
                                     <HabitList />
                                 </Suspense>
                             </div>

@@ -49,6 +49,6 @@ export default async function SettingsCategories() {
                     </div>
                 )}
             </div>
-        </div >
+        </div>
     )
 }

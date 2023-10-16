@@ -99,7 +99,7 @@ export default function HabitStatsDialog({ item, open, setOpen }: HabitStatsDial
             year: item.checkIns.filter((checkIn) => checkDone(item, checkIn) && getYear(checkIn.date) === getYear(new Date())).length,
             all: item.checkIns.filter((checkIn) => checkDone(item, checkIn)).length,
         }
-    }, [item.checkIns, getBestStreak, getCurrentStreak])
+    }, [item, getBestStreak, getCurrentStreak])
 
 
     return (

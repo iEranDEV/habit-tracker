@@ -31,15 +31,15 @@ export default function HabitSettingsItem({ item }: HabitSettingsItemProps) {
                         <MoreHorizontal size={20} />
                     </div>}
                     options={[
-                        <div className="flex items-center" onClick={() => setStatsDialog(true)}>
+                        <div key={'stats'} className="flex items-center" onClick={() => setStatsDialog(true)}>
                             <AreaChart size={16} className="mr-2" />
                             Statistics
                         </div>,
-                        <div className="flex items-center" onClick={() => setEditDialog(true)}>
+                        <div key={'edit'} className="flex items-center" onClick={() => setEditDialog(true)}>
                             <PenLine size={16} className="mr-2" />
                             Edit
                         </div>,
-                        <div className="flex items-center" onClick={() => setDeleteDialog(true)}>
+                        <div key={'delete'} className="flex items-center" onClick={() => setDeleteDialog(true)}>
                             <Trash2 size={16} className="mr-2" />
                             Delete
                         </div>

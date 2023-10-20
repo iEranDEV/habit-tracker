@@ -41,7 +41,7 @@ export default function EditCategoryForm({ setOpen, category }: EditCategoryForm
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/category/${category.id}`, {
+        const response = await fetch(`/api/category/${category.id}`, {
             method: 'PUT',
             body: JSON.stringify({
                 name: values.name,

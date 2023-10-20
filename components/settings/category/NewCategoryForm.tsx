@@ -39,7 +39,7 @@ export default function NewCategoryForm({ setOpen }: NewCategoryFormProps) {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true);
-        const response = await fetch('http://localhost:3000/api/category', {
+        const response = await fetch('/api/category', {
             method: 'POST',
             body: JSON.stringify({
                 name: values.name,

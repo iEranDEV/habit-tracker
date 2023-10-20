@@ -53,7 +53,7 @@ export default function NewHabitCategoryForm() {
     useEffect(() => {
         const fetchCategories = async () => {
             setLoading(true);
-            const result = await fetch('http://localhost:3000/api/category');
+            const result = await fetch('/api/category');
             const json = await result.json();
             setCategories(json);
             setLoading(false);

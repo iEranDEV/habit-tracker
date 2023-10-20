@@ -44,12 +44,12 @@ export default function NewHabitTimeForm({ setOpen, edit }: { setOpen: Function,
 
         const habit = { ...data, ...values }
         const response = edit ? (
-            await fetch(`http://localhost:3000/api/habit/${habit.id}`, {
+            await fetch(`/api/habit/${habit.id}`, {
                 method: 'PUT',
                 body: JSON.stringify({ habit })
             })
         ) : (
-            await fetch('http://localhost:3000/api/habit', {
+            await fetch('/api/habit', {
                 method: 'POST',
                 body: JSON.stringify(habit)
             })

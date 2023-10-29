@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { Category } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HabitFormContext } from "@/components/shared/habit/form/HabitForm";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 function NewHabitCategoryFormItem({ item, selected, setSelected }: { item: Category, selected: string, setSelected: Function }) {
 
@@ -114,20 +115,20 @@ export default function NewHabitCategoryForm() {
                 className="space-y-6"
             >
 
-                <div className="space-y-2" >
+                <ScrollArea className="space-y-2 h-96">
                     <Label>Select category</Label>
                     <div className="grid grid-cols-2 gap-2">
                         {categories.filter((item) => item.userId === null).map((item) => (
                             <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
                         ))}
                     </div>
-                    {customCategories.length > 0 && <Separator />}
+                    {customCategories.length > 0 && <Separator className="my-2" />}
                     <div className="grid grid-cols-2 gap-2">
                         {customCategories.map((item) => (
                             <NewHabitCategoryFormItem key={item.id} item={item} selected={selected} setSelected={setSelected} />
                         ))}
                     </div>
-                </div >
+                </ScrollArea >
 
                 <div className="flex justify-end">
                     <Button type="submit">Continue</Button>

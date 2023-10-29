@@ -24,12 +24,12 @@ export default function Header() {
     }
 
     return (
-        <header className="pb-8 px-2 relative w-full">
-            <div className="h-full w-full flex justify-between items-center">
-                <h1 className="select-none truncate text-header">
-                    {getWelcomeText()}, {user?.name}
-                </h1>
-                <div className="flex gap-2">
+        <header className="pb-8 px-2 relative max-md:w-[100lvw] w-full">
+            <div className="max-md:space-y-2 h-full flex-col md:flex-row w-full flex max-md:items-end justify-between items-center">
+                <div className="select-none max-md:flex max-md:w-full max-md:order-2 truncate text-header">
+                    <h1>{getWelcomeText()}, {user?.name}</h1>
+                </div>
+                <div className="flex gap-2 max-md:order-1 justify-end">
                     <TooltipProvider>
 
                         {/* Settings link */}

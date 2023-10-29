@@ -91,7 +91,7 @@ export default function GeneralSettingsForm() {
                 <div className="w-full flex justify-between items-center">
                     <div className="space-y-2 flex flex-col">
                         <Label>Modify past days</Label>
-                        <span className="text-sm text-muted-foreground">Select your preferred app language.</span>
+                        <span className="text-sm text-muted-foreground">Select if you want to be able to modify past days.</span>
                     </div>
 
                     <FormField
@@ -115,7 +115,7 @@ export default function GeneralSettingsForm() {
                 <div className="w-full flex justify-between items-center">
                     <div className="space-y-2 flex flex-col">
                         <Label>Modify future days</Label>
-                        <span className="text-sm text-muted-foreground">Select your preferred app language.</span>
+                        <span className="text-sm text-muted-foreground">Select if you want to be able to modify future days.</span>
                     </div>
 
                     <FormField

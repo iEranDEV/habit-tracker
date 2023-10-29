@@ -16,8 +16,8 @@ export default function NewHabitDetailsForm() {
     const { data, setData, stage, setStage } = ctx;
 
     const formSchema = z.object({
-        name: z.string(),
-        description: z.string(),
+        name: z.string().min(3),
+        description: z.string().optional(),
         details: z.object({
             'DEFAULT': {},
             'COUNTER': {
@@ -101,7 +101,7 @@ export default function NewHabitDetailsForm() {
                 {data.type === 'COUNTER' && (
                     <div className="space-y-2">
                         <Label>Enter habit details</Label>
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                             <FormField
                                 control={form.control}
                                 name="details.counterType"

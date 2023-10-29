@@ -67,7 +67,7 @@ export default function HabitListItem({ habit }: HabitListItemProps) {
                         />
                     ))}
                 </div>),
-                'month': (<div className="col-span-7 grid grid-cols-31 gap-1">
+                'month': (<div className="max-md:flex max-md:pr-2 md:grid md:col-span-7 md:grid-cols-31 gap-1">
                     {Array.from({ length: endOfMonth(monthStart).getDate() }).map((_, i) => (
                         <HabitListCheckIn
                             key={i}

@@ -5,9 +5,27 @@ import { useUserSettings } from "@/context/UserContext";
 import { WEEKDAYS_SHORT, weekdays } from "@/lib/date";
 import { Separator } from "@radix-ui/react-select";
 import { addDays, endOfMonth, isToday, startOfMonth, startOfWeek } from "date-fns";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function HabitListHeader() {
+    const [isSticky, setIsSticky] = useState(false);
+
+    const elementRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([e]) => {
+                setIsSticky(e.intersectionRatio < 1);
+            },
+            { threshold: [1] }
+        );
+
+        elementRef.current && observer.observe(elementRef.current);
+
+        return () => {
+            elementRef.current && observer.unobserve(elementRef.current);
+        }
+    }, [elementRef])
 
     const { viewMode, selectedDate } = useContext(CalendarContext);
     const { settings } = useUserSettings();
@@ -20,7 +38,7 @@ export default function HabitListHeader() {
     });
 
     return (
-        <div className="space-y-4 sticky top-[104px] sm:top-14 bg-background pt-4">
+        <div ref={elementRef} className={`space-y-4 bg-background sticky top-[104px] sm:top-14 pt-4`}>
             <div className="grid max-sm:grid-cols-7 max-sm:px-2 grid-cols-9 gap-1 sm:gap-2">
                 <div className="flex items-end col-span-2 max-sm:hidden">
                     <p className="text-sm text-muted-foreground">Habit name</p>

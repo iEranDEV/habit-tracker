@@ -3,8 +3,6 @@ import Header from "@/components/root/Header";
 import HabitList from "@/components/root/HabitList/HabitList";
 import { CalendarContextProvider } from "@/context/CalendarContext";
 import { ProtectedRoute } from "@/context/UserContext";
-import { Suspense } from "react";
-import HabitListSkeleton from "@/components/root/HabitList/HabitListSkeleton";
 import HabitListHeader from "@/components/root/HabitList/HabitListHeader";
 
 export default function Home() {
@@ -22,9 +20,7 @@ export default function Home() {
                                     <ControlPanel />
                                 </div>
                                 <HabitListHeader />
-                                <Suspense fallback={<HabitListSkeleton />}>
-                                    <HabitList />
-                                </Suspense>
+                                <HabitList />
                             </div>
                         </div>
                     </CalendarContextProvider>
